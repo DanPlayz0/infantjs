@@ -1,27 +1,35 @@
 BabyJS {
-  Program = Statement+
-  
-  Statement = "3802" _ MethodCall
-  
-  MethodCall = "." identifier "(" ArgumentList? ")"
-  
-  ArgumentList = expression (_ "," _ expression)*
-  
-  Block = "{" Statement* "}"
-  
-  expression = term (_ ("+" | "-") _ term)*
+  Program = Statement*
 
-  term = factor (_ ("*" | "/") _ factor)*
+  Statement = PrintStmt
+            | LetStmt
+            | AssignStmt
+
+  PrintStmt = print "(" Exp ")"
+  LetStmt = let id "=" Exp
+  AssignStmt = id "=" Exp
+
+  Exp   = Exp addop Term -- binary
+        | Term
   
-  factor = number
-         | identifier
-         | "(" expression ")"   -- parens
-  
-  identifier = letter (letter | digit)*
-  
-  number = digit+
-  
-  _ = whitespace*
-  
-  whitespace = " " | "\t" | "\n" | "\r"
+  Term  = Term mulop Factor --binary
+        | Factor
+
+  Factor  = Primary "**" Factor  -- exponentiation
+          | "-" Primary          -- negation
+          | Primary
+
+  Primary = num
+          | id                   -- id
+          | "(" Exp ")"          -- parens
+
+  addop = "+" | "-"
+  mulop = "*" | "/" | "%"
+
+  num = digit+
+  let = "let" ~alnum
+  print = "print" ~alnum
+  keyword = let | print
+
+  id = ~keyword (alnum | num)+
 }

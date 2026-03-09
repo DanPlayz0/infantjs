@@ -1,0 +1,4 @@
+let x = 100 + 100
+print ( x / (2) )
+x = x - 50
+print(x)
