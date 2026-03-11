@@ -21,6 +21,13 @@ export default function interpret(match) {
     LetStmt(_let, id, _eq, expression) {
       memory.set(id.sourceString, expression.eval());
     },
+    IfStmt(_if, expression, _open, statements, _close) {
+      if (condition.eval()) {
+        for (const statement of statements.children) {
+          statement.eval();
+        }
+      }
+    },
     AssignStmt(id, _eq, expression) {
       const name = id.sourceString;
       if (!memory.has(name)) {

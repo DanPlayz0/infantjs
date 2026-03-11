@@ -4,6 +4,7 @@
   "main": "index.js",
   "type": "module",
   "scripts": {
+    "baby": "node src/baby.js",
     "test": "node --test test/**/*.test.js"
   },
   "keywords": [

@@ -8,7 +8,7 @@ const grammar = ohm.grammar(grammarSource);
 
 export default function parse(sourceCode) {
   const match = grammar.match(sourceCode);
-  if (match.failed) {
+  if (match.failed()) {
     throw new Error(`Parse error: ${match.message}`);
   }
   return match;
