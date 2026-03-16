@@ -5,7 +5,7 @@
   "type": "module",
   "scripts": {
     "baby": "node src/baby.js",
-    "test": "node --test test/**/*.test.js"
+    "test": "node --experimental-test-coverage --test test/**/*.test.js"
   },
   "keywords": [
     "compiler",

@@ -22,7 +22,7 @@ export default function interpret(match) {
       memory.set(id.sourceString, expression.eval());
     },
     IfStmt(_if, expression, _open, statements, _close) {
-      if (condition.eval()) {
+      if (expression.eval()) {
         for (const statement of statements.children) {
           statement.eval();
         }
@@ -85,9 +85,6 @@ export default function interpret(match) {
     num(_digits) {
       return Number(this.sourceString);
     },
-    id(_first, _rest) {
-      return this.sourceString;
-    }
   });
 
   semantics(match).eval();

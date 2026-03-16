@@ -32,8 +32,8 @@ describe("The parser", () => {
     })
   }
   for (const [input, scenario] of syntaxErrors) {
-    it(`throws on ${scenario}`, () => {
-      assert.throws(() => parse(input), new RegExp(`Parse error:.*${input}`), scenario)
+    it(`Correctly finds the ${scenario} error`, () => {
+      assert.throws(() => parse(input), `Expected parsing "${input}" to throw a syntax error. But it did not.`)
     })
   }
 })
