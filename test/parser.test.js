@@ -3,25 +3,25 @@ import parse from "../src/parser.js";
 import assert from "node:assert";
 
 const syntaxChecks = [
-  ['print(1)', "print statements"],
-  ["let x = 1", "let statements"],
+  ['gibberish(1)', "print statements"],
+  ["mine x = 1", "let statements"],
   ["x = 1", "assignment statements"],
-  ["if x { print(x) }", "if statements"],
-  ["if x { print(x) } let y = 2", "multiple statements"],
+  ["peekaboo x { gibberish(x) }", "if statements"],
+  ["peekaboo x { gibberish(x) } mine y = 2", "multiple statements"],
   ["", "empty program"],
-  ["let count = 3 * 22 + 1", "arithmetic expressions"],
-  // ["print(1+((2*3)) % x ** 2 ** 5)", "parenthesed expresssions"],
+  ["mine count = 3 * 22 + 1", "arithmetic expressions"],
+  // ["gibberish(1+((2*3)) % x ** 2 ** 5)", "parenthesed expresssions"],
 ];
 
 const syntaxErrors = [
-  ["print(1", "missing closing parenthesis"],
-  ["if { print(1) }", "missing condition"],
-  ["let = 1", "missing variable name"],
-  ["let 1 = 1", "invalid variable name"],
-  ["let x 1", "missing equals sign"],
-  ["print 1)", "missing opening parenthesis"],
-  ["let x = print(1)", "invalid statement"],
-  ["ifx { print(x) }", "keyword should be separated from identifier"],
+  ["gibberish(1", "missing closing parenthesis"],
+  ["peekaboo { gibberish(1) }", "missing condition"],
+  ["mine = 1", "missing variable name"],
+  ["mine 1 = 1", "invalid variable name"],
+  ["mine x 1", "missing equals sign"],
+  ["gibberish 1)", "missing opening parenthesis"],
+  ["mine x = gibberish(1)", "invalid statement"],
+  ["peekaboox { gibberish(x) }", "keyword should be separated from identifier"],
 ];
 
 describe("The parser", () => {

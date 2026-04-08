@@ -5,9 +5,9 @@ import interpret from "../src/interpreter.js";
 
 describe("interpreter", () => {
   it("evaluates a cool program", () => {
-    const sourceCode = `print(1) print(2) let x = 5 x = 2 
-    print((x+3) ** -2)
-    if x { print(x * 1 / 1 % 1) }`;
+    const sourceCode = `gibberish(1) gibberish(2) mine x = 5 x = 2 
+    gibberish((x+3) ** -2)
+    peekaboo x { gibberish(x * 1 / 1 % 1) }`;
     const match = parse(sourceCode);
     
     let output = [];
@@ -17,7 +17,7 @@ describe("interpreter", () => {
     assert.deepStrictEqual(output, [1, 2, 0.04, 0]);
   })
   it("throws an error for undefined variables", () => {
-    const sourceCode = `print(x)`;
+    const sourceCode = `gibberish(x)`;
     const match = parse(sourceCode);
     assert.throws(() => interpret(match), /Undefined variable: x/, "Expected an error for undefined variable, but it did not throw.");
   })

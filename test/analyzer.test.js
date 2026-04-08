@@ -1,0 +1,164 @@
+import { describe, it } from "node:test"
+import assert from "node:assert"
+import parse from "../src/parser.js"
+import analyze from "../src/analyzer.js"
+import * as core from "../src/core.js"
+
+const semanticChecks = [
+  ["number variable declaration", "mine x = 1"],
+  ["boolean true declaration", "mine x = gaagaa"],
+  ["boolean false declaration", "mine x = false"],
+  ["declare and print", "mine x = 1 gibberish(x)"],
+  ["number reassignment", "mine x = 1 x = 2"],
+  ["boolean reassignment", "mine x = gaagaa x = false"],
+  ["print a number literal", "gibberish(1)"],
+  ["print true", "gibberish(gaagaa)"],
+  ["print false", "gibberish(false)"],
+  ["multiplication", "gibberish(2 * 3)"],
+  ["division", "gibberish(6 / 2)"],
+  ["modulo", "gibberish(7 % 3)"],
+  ["exponentiation", "gibberish(2 ** 8)"],
+  ["negation", "gibberish(-5)"],
+  ["addition", "gibberish(1 + 2)"],
+  ["subtraction", "gibberish(5 - 3)"],
+  ["less than", "gibberish(1 < 2)"],
+  ["greater than", "gibberish(2 > 1)"],
+  ["equality", "gibberish(1 == 1)"],
+  ["inequality", "gibberish(1 != 2)"],
+  ["variable in multiplication", "mine x = 2 gibberish(x * 3)"],
+  ["variable in comparison", "mine x = 5 gibberish(x <= 10)"],
+  ["if statement with boolean literal", "if gaagaa { gibberish(1) }"],
+  ["if-else statement", "if false { gibberish(1) } else { gibberish(((0))) }"],
+  ["while statement", "while false { gibberish(1) }"],
+  ["if with comparison condition", "mine x = 1 if x < 2 { gibberish(x) }"],
+  ["while with comparison condition", "mine x = 1 while x < 10 { x = 2 }"],
+  ["multiple declarations", "mine x = 1 mine y = 2"],
+  ["variable used in while body", "mine x = 1 while false { gibberish(x) }"],
+  ["variable used in if body", "mine x = 1 if gaagaa { gibberish(x) }"],
+  ["chained comparisons", "mine x = 3 mine y = 5 gibberish(x < y)"],
+  [
+    "function declaration and call",
+    "playtime add(a: numba, b: numba) = a + b gibberish(add(5, 7))",
+  ],
+  [
+    "Can look up variable in parent scope",
+    "mine x = 1 playtime f() = x gibberish(f())",
+  ],
+  [
+    "boolean parameter and argument",
+    "playtime isTrue(x: squarehole) = x gibberish(isTrue(gaagaa))",
+  ],
+]
+
+// Programs that are syntactically correct but have semantic errors
+const semanticErrors = [
+  ["use of undeclared variable", "gibberish(x)", /Undefined variable/],
+  [
+    "redeclaration of variable",
+    "mine x = 1 mine x = 2",
+    /Variable already declared/,
+  ],
+  ["assign to undeclared variable", "x = 1", /Undefined variable/],
+  ["non-boolean condition in if", "if 1 { gibberish(1) }", /Expected a boolean/],
+  [
+    "non-boolean condition in if-else",
+    "if 1 { gibberish(1) } else { gibberish(2) }",
+    /Expected a boolean/,
+  ],
+  [
+    "non-boolean condition in while",
+    "while 1 { gibberish(1) }",
+    /Expected a boolean/,
+  ],
+  [
+    "number variable as if condition",
+    "mine x = 1 if x { gibberish(x) }",
+    /Expected a boolean/,
+  ],
+  [
+    "number variable as while condition",
+    "mine x = 1 while x { gibberish(x) }",
+    /Expected a boolean/,
+  ],
+  [
+    "type mismatch assigning boolean to number variable",
+    "mine x = 1 x = gaagaa",
+    /Type mismatch/,
+  ],
+  [
+    "type mismatch assigning number to boolean variable",
+    "mine x = gaagaa x = 1",
+    /Type mismatch/,
+  ],
+  [
+    "boolean in multiplication left operand",
+    "gibberish(gaagaa * 1)",
+    /Expected a number/,
+  ],
+  [
+    "boolean in multiplication right operand",
+    "gibberish(1 * gaagaa)",
+    /Expected a number/,
+  ],
+  ["boolean in division", "gibberish(gaagaa / 1)", /Expected a number/],
+  ["boolean in modulo", "gibberish(gaagaa % 1)", /Expected a number/],
+  ["boolean in exponentiation base", "gibberish(gaagaa ** 2)", /Expected a number/],
+  [
+    "boolean in exponentiation exponent",
+    "gibberish(2 ** gaagaa)",
+    /Expected a number/,
+  ],
+  ["boolean in negation", "gibberish(-gaagaa)", /Expected a number/],
+  ["boolean in addition left operand", "gibberish(gaagaa + 1)", /Expected a number/],
+  ["boolean in addition right operand", "gibberish(1 + gaagaa)", /Expected a number/],
+  ["boolean in subtraction", "gibberish(gaagaa - 1)", /Expected a number/],
+  ["boolean in less than", "gibberish(gaagaa < 1)", /Expected a number/],
+  ["boolean in greater than", "gibberish(1 > gaagaa)", /Expected a number/],
+  ["boolean in equality", "gibberish(gaagaa == 1)", /Expected a number/],
+  ["boolean in inequality", "gibberish(gaagaa != 1)", /Expected a number/],
+  [
+    "redeclaration in while body",
+    "mine x = 1 wawawa gaagaa { mine x = 2 }",
+    /Variable already declared/,
+  ],
+  [
+    "redeclaration in if body",
+    "mine x = 1 peekaboo gaagaa { mine x = 2 }",
+    /Variable already declared/,
+  ],
+  [
+    "undeclared variable in binary expression",
+    "gibberish(x + 1)",
+    /Undefined variable/,
+  ],
+  ["undeclared variable in comparison", "gibberish(x < 1)", /Undefined variable/],
+  [
+    "undeclared variable with multiple scopes",
+    "mine x = 3 playtime f(x: numba) = y",
+    /Undefined variable/,
+  ],
+  [
+    "wrong number of arguments in function call",
+    "playtime f() = 1 gibberish(f(1))",
+    /Expected 0 arguments/,
+  ],
+]
+
+describe("The analyzer", () => {
+  for (const [scenario, source] of semanticChecks) {
+    it(`recognizes ${scenario}`, () => {
+      assert.ok(analyze(parse(source)))
+    })
+  }
+  for (const [scenario, source, errorMessagePattern] of semanticErrors) {
+    it(`throws on ${scenario}`, () => {
+      assert.throws(() => analyze(parse(source)), errorMessagePattern)
+    })
+  }
+  it("produces the expected representation for a trivial program", () => {
+    assert.deepEqual(
+      analyze(parse("let x = 1")),
+      core.program([core.letStmt(core.variable("x", "number"), 1)]),
+    )
+  })
+})
