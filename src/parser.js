@@ -1,7 +1,7 @@
 import * as ohm from "ohm-js"
 import * as fs from "node:fs/promises"
 
-const grammarSource = await fs.readFile("./src/babyjs.ohm", "utf-8")
+const grammarSource = await fs.readFile("./src/infantjs.ohm", "utf-8")
 const grammar = ohm.grammar(grammarSource)
 
 export default function parse(sourceCode) {
