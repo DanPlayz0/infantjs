@@ -7,13 +7,13 @@ import * as core from "../src/core.js"
 const semanticChecks = [
   ["number variable declaration", "mine x = 1"],
   ["boolean true declaration", "mine x = gaagaa"],
-  ["boolean false declaration", "mine x = false"],
+  ["boolean false declaration", "mine x = googoo"],
   ["declare and print", "mine x = 1 gibberish(x)"],
   ["number reassignment", "mine x = 1 x = 2"],
-  ["boolean reassignment", "mine x = gaagaa x = false"],
+  ["boolean reassignment", "mine x = gaagaa x = googoo"],
   ["print a number literal", "gibberish(1)"],
   ["print true", "gibberish(gaagaa)"],
-  ["print false", "gibberish(false)"],
+  ["print false", "gibberish(googoo)"],
   ["multiplication", "gibberish(2 * 3)"],
   ["division", "gibberish(6 / 2)"],
   ["modulo", "gibberish(7 % 3)"],
@@ -27,14 +27,14 @@ const semanticChecks = [
   ["inequality", "gibberish(1 != 2)"],
   ["variable in multiplication", "mine x = 2 gibberish(x * 3)"],
   ["variable in comparison", "mine x = 5 gibberish(x <= 10)"],
-  ["if statement with boolean literal", "if gaagaa { gibberish(1) }"],
-  ["if-else statement", "if false { gibberish(1) } else { gibberish(((0))) }"],
-  ["while statement", "while false { gibberish(1) }"],
-  ["if with comparison condition", "mine x = 1 if x < 2 { gibberish(x) }"],
-  ["while with comparison condition", "mine x = 1 while x < 10 { x = 2 }"],
+  ["if statement with boolean literal", "peekaboo gaagaa { gibberish(1) }"],
+  ["if-else statement", "peekaboo googoo { gibberish(1) } nuhuh { gibberish(((0))) }"],
+  ["while statement", "wawawa googoo { gibberish(1) }"],
+  ["if with comparison condition", "mine x = 1 peekaboo x < 2 { gibberish(x) }"],
+  ["while with comparison condition", "mine x = 1 wawawa x < 10 { x = 2 }"],
   ["multiple declarations", "mine x = 1 mine y = 2"],
-  ["variable used in while body", "mine x = 1 while false { gibberish(x) }"],
-  ["variable used in if body", "mine x = 1 if gaagaa { gibberish(x) }"],
+  ["variable used in while body", "mine x = 1 wawawa googoo { gibberish(x) }"],
+  ["variable used in if body", "mine x = 1 peekaboo gaagaa { gibberish(x) }"],
   ["chained comparisons", "mine x = 3 mine y = 5 gibberish(x < y)"],
   [
     "function declaration and call",
@@ -59,25 +59,25 @@ const semanticErrors = [
     /Variable already declared/,
   ],
   ["assign to undeclared variable", "x = 1", /Undefined variable/],
-  ["non-boolean condition in if", "if 1 { gibberish(1) }", /Expected a boolean/],
+  ["non-boolean condition in if", "peekaboo 1 { gibberish(1) }", /Expected a boolean/],
   [
     "non-boolean condition in if-else",
-    "if 1 { gibberish(1) } else { gibberish(2) }",
+    "peekaboo 1 { gibberish(1) } nuhuh { gibberish(2) }",
     /Expected a boolean/,
   ],
   [
     "non-boolean condition in while",
-    "while 1 { gibberish(1) }",
+    "wawawa 1 { gibberish(1) }",
     /Expected a boolean/,
   ],
   [
     "number variable as if condition",
-    "mine x = 1 if x { gibberish(x) }",
+    "mine x = 1 peekaboo x { gibberish(x) }",
     /Expected a boolean/,
   ],
   [
     "number variable as while condition",
-    "mine x = 1 while x { gibberish(x) }",
+    "mine x = 1 wawawa x { gibberish(x) }",
     /Expected a boolean/,
   ],
   [
@@ -157,7 +157,7 @@ describe("The analyzer", () => {
   }
   it("produces the expected representation for a trivial program", () => {
     assert.deepEqual(
-      analyze(parse("let x = 1")),
+      analyze(parse("mine x = 1")),
       core.program([core.letStmt(core.variable("x", "number"), 1)]),
     )
   })

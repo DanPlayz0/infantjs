@@ -98,11 +98,11 @@ export default function translate(match) {
       const name = id.sourceString
       const typeName = type.sourceString
       validate(
-        ["number", "boolean"].includes(typeName),
+        ["numba", "squarehole"].includes(typeName),
         `Unknown type: ${typeName}`,
         type.source,
       )
-      const resolvedType = { number: "number", boolean: "boolean" }[typeName]
+      const resolvedType = { numba: "number", squarehole: "boolean" }[typeName]
       return { name, type: resolvedType }
     },
 
