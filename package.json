@@ -4,7 +4,7 @@
   "main": "index.js",
   "type": "module",
   "scripts": {
-    "baby": "node src/baby.js",
+    "infant": "node src/infant.js",
     "test": "node --experimental-test-coverage --test test/**/*.test.js"
   },
   "keywords": [
