@@ -1,5 +1,5 @@
 {
-  "name": "3802-lang",
+  "name": "infantjs",
   "version": "0.0.1",
   "main": "index.js",
   "type": "module",
@@ -14,7 +14,7 @@
   ],
   "author": "DanPlayz0",
   "license": "ISC",
-  "description": "A simple compiler and interpreter for the 3802 programming language",
+  "description": "A simple compiler and interpreter for the InfantJS programming language",
   "dependencies": {
     "ohm-js": "^17.5.0"
   }

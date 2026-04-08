@@ -3,7 +3,7 @@ import parse from "./parser.js";
 import * as fs from "node:fs";
 
 if (process.argv.length < 3) {
-  console.log('Usage: node baby.js <name>');
+  console.log(`Usage: ${process.argv[0]} ${process.argv[1]} <name>`);
   process.exit(1);
 }
 

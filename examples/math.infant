@@ -1,0 +1,7 @@
+mine x = 100 + 100
+gibberish ( x / (2) )
+x = x - 50
+gibberish(x)
+peekaboo x > 100 {
+  gibberish(x**3)
+}
