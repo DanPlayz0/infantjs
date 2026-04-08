@@ -5,7 +5,7 @@
   "type": "module",
   "scripts": {
     "infant": "node src/infant.js",
-    "test": "node --experimental-test-coverage --test test/**/*.test.js"
+    "test": "c8 node --test test/**/*.test.js"
   },
   "keywords": [
     "compiler",
@@ -17,5 +17,9 @@
   "description": "A simple compiler and interpreter for the InfantJS programming language",
   "dependencies": {
     "ohm-js": "^17.5.0"
+  },
+  "devDependencies": {
+    "c8": "^11.0.0",
+    "graph-stringify": "^1.1.0"
   }
 }
