@@ -15,6 +15,8 @@ InfantJS {
               | if Exp Block              --noelse
   WhileStmt   = while Exp Block
   FunDecl     = function id "(" Params ")" "=" Exp
+  RandomStmt  = random "()"
+  InputStmt   = input "()"
 
   Block       = "{" Statement* "}"
 
@@ -60,17 +62,12 @@ InfantJS {
   function    = "playtime" ~alnum
   number      = "numba" ~alnum
   boolean     = "squarehole" ~alnum
-
-  struct      = "binky" ~alnum
-  class       = "bottle" ~alnum
-  enum        = "binky" ~alnum
-  extends     = "formula"~alnum
-
-  ideas = "rockabye - crib  - twinkle twinkle -- bedtime"
-  
+  return      = "bedtime" ~alnum
+  input       = "nomnom" ~alnum
+  random      = "flippy"~alnum  
 
   keyword     = let | print | if | else | while | false | true
-              | function | number | boolean
+              | function | number | boolean | return | input
 
   id          = ~keyword letter alnum*
 
