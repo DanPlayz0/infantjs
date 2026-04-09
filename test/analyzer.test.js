@@ -20,6 +20,8 @@ const semanticChecks = [
   ["exponentiation", "gibberish(2 ** 8)"],
   ["negation", "gibberish(-5)"],
   ["addition", "gibberish(1 + 2)"],
+  ["string concatenation", 'gibberish("hello" + " world")'],
+  ["string concatenation with variable", 'mine x = "hello" gibberish(x + " world")'],
   ["subtraction", "gibberish(5 - 3)"],
   ["less than", "gibberish(1 < 2)"],
   ["greater than", "gibberish(2 > 1)"],
@@ -142,6 +144,26 @@ const semanticErrors = [
     "playtime f() = 1 gibberish(f(1))",
     /Expected 0 arguments/,
   ],
+  [
+    "type mismatch in function call argument",
+    "playtime f(x: numba) = 1 gibberish(f(gaagaa))",
+    /Type mismatch in argument 1/,
+  ],
+  [
+    "string and number addition",
+    'gibberish("hello" + 1)',
+    /cannot concatenate number with string/,
+  ],
+  [
+    "string and boolean addition",
+    'gibberish("hello" + gaagaa)',
+    /cannot concatenate boolean with string/,
+  ],
+  [
+    "string multiplication",
+    'gibberish("hello" * 3)',
+    /is not supported for strings/,
+  ]
 ]
 
 describe("The analyzer", () => {

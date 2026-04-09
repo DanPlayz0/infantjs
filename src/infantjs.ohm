@@ -7,10 +7,12 @@ InfantJS {
               | IfStmt
               | WhileStmt
               | FunDecl
+              | RandomStmt
+              | InputStmt
 
   PrintStmt   = print "(" Exp ")"
   LetStmt     = let id "=" Exp
-  AssignStmt  = Primary_id "=" Exp
+  AssignStmt  = id "=" Exp
   IfStmt      = if Exp Block else Block   --else
               | if Exp Block              --noelse
   WhileStmt   = while Exp Block
@@ -23,7 +25,7 @@ InfantJS {
   Params      = ListOf<Binding, ",">
   Binding     = id ":" Type
 
-  Type        = number | boolean
+  Type        = number | boolean | string
 
   Exp         = Condition relop Condition  -- binary
               | Condition
@@ -39,6 +41,7 @@ InfantJS {
               | Primary
 
   Primary     = num
+              | str
               | false
               | true
               | id "(" Args ")"            -- call
@@ -51,6 +54,7 @@ InfantJS {
   mulop       = "*" | "/" | "%"
 
   num         = digit+
+  str         = "\"" (~"\"" any)* "\""
 
   let         = "mine" ~alnum
   print       = "gibberish" ~alnum
@@ -62,15 +66,14 @@ InfantJS {
   function    = "playtime" ~alnum
   number      = "numba" ~alnum
   boolean     = "squarehole" ~alnum
+  string      = "babble" ~alnum
   return      = "bedtime" ~alnum
   input       = "nomnom" ~alnum
   random      = "flippy"~alnum  
 
   keyword     = let | print | if | else | while | false | true
-              | function | number | boolean | return | input
+              | function | number | boolean | string | return
 
   id          = ~keyword letter alnum*
 
-  space      += comment
-  comment     = "//" (~"\n" any)*
 }

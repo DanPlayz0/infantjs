@@ -73,6 +73,14 @@ function validateFunction(value, at) {
   )
 }
 
+function validateVariable(value, at) {
+  validate(
+    value.kind === "Variable",
+    `Expected a variable, but got ${value.kind}`,
+    at,
+  )
+}
+
 export default function translate(match) {
   let context = new Context()
 
@@ -151,7 +159,8 @@ export default function translate(match) {
     },
 
     AssignStmt(id, _eq, expression) {
-      const target = id.translate()
+      const target = context.get(id.sourceString, id.source)
+      validateVariable(target, id.source)
       const source = expression.translate()
       validateSameType(target, source, id.source)
       return core.assignStmt(target, source)
@@ -170,6 +179,19 @@ export default function translate(match) {
     Condition_binary(left, op, right) {
       const x = left.translate()
       const y = right.translate()
+      if (typeOf(x) === "string" || typeOf(y) === "string") {
+        validate(
+          op.sourceString === "+",
+          `Only + operator is supported for strings, but got ${op.sourceString}`,
+          op.source,
+        )
+        validate(
+          typeOf(x) === typeOf(y),
+          `Type mismatch: cannot concatenate ${typeOf(y)} with ${typeOf(x)}`,
+          op.source,
+        )
+        return core.binaryExp(x, "+", y, "string")
+      }
       validateNumber(x, left.source)
       validateNumber(y, right.source)
       return core.binaryExp(x, op.sourceString, y, "number")
@@ -178,6 +200,9 @@ export default function translate(match) {
     Term_binary(left, op, right) {
       const x = left.translate()
       const y = right.translate()
+      if (typeOf(x) === "string" || typeOf(y) === "string") {
+        error(`Operator ${op.sourceString} is not supported for strings`, op.source)
+      }
       validateNumber(x, left.source)
       validateNumber(y, right.source)
       return core.binaryExp(x, op.sourceString, y, "number")
@@ -228,6 +253,10 @@ export default function translate(match) {
         )
       }
       return core.functionCall(func, argValues, "number")
+    },
+
+    str(_left, _chars, _right) {
+      return String(_chars)
     },
 
     num(_digits) {

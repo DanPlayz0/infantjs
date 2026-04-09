@@ -10,6 +10,7 @@ const syntaxChecks = [
   ["peekaboo x { gibberish(x) } mine y = 2", "multiple statements"],
   ["", "empty program"],
   ["mine count = 3 * 22 + 1", "arithmetic expressions"],
+  ["gibberish(\"hello\" + \" world\")", "string concatenation"],
   // ["gibberish(1+((2*3)) % x ** 2 ** 5)", "parenthesed expresssions"],
 ];
 
