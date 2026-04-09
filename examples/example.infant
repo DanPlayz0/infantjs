@@ -1,0 +1,21 @@
+mine x = 100 + 100
+gibberish ( x / (2) )
+x = x - 50
+gibberish(x)
+peekaboo x > 100 {
+  gibberish(x**3)
+}
+
+wawawa googoo {
+  gibberish(gaagaa)
+}
+
+playtime example(x: numba, y: squarehole) {
+  peekaboo y {
+    gibberish(x**3)
+  } nuhuh {
+    gibberish(x**2)
+  }
+}
+
+example(3, googoo)

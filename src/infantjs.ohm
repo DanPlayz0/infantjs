@@ -1,4 +1,4 @@
-BabyJS {
+InfantJS {
   Program     = Statement*
 
   Statement   = PrintStmt
@@ -60,6 +60,15 @@ BabyJS {
   function    = "playtime" ~alnum
   number      = "numba" ~alnum
   boolean     = "squarehole" ~alnum
+
+  struct      = "binky" ~alnum
+  class       = "bottle" ~alnum
+  enum        = "binky" ~alnum
+  extends     = "formula"~alnum
+
+  ideas = "rockabye - crib  - twinkle twinkle -- bedtime"
+  
+
   keyword     = let | print | if | else | while | false | true
               | function | number | boolean
 
