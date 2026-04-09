@@ -50,6 +50,9 @@ const semanticChecks = [
     "boolean parameter and argument",
     "playtime isTrue(x: squarehole) = x gibberish(isTrue(gaagaa))",
   ],
+  ["print float literal", "gibberish(3.14)"],
+  ["print string literal", 'gibberish("hello world")'],
+  ["print string literal with variable", 'mine x = "hello" gibberish(x)'],
 ]
 
 // Programs that are syntactically correct but have semantic errors
@@ -163,7 +166,27 @@ const semanticErrors = [
     "string multiplication",
     'gibberish("hello" * 3)',
     /is not supported for strings/,
-  ]
+  ],
+  [
+    "string division",
+    'gibberish("hello" / 3)',
+    /is not supported for strings/,
+  ],
+  [
+    "string modulo",
+    'gibberish("hello" % 3)',
+    /is not supported for strings/,
+  ],
+  [
+    "string exponentiation",
+    'gibberish("hello" ** 3)',
+    /expected a number/i,
+  ],
+  [
+    "string negation",
+    'gibberish(-"hello")',
+    /expected a number/i,
+  ],
 ]
 
 describe("The analyzer", () => {

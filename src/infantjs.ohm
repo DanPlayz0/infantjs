@@ -17,8 +17,8 @@ InfantJS {
               | if Exp Block              --noelse
   WhileStmt   = while Exp Block
   FunDecl     = function id "(" Params ")" "=" Exp
-  RandomStmt  = random "()"
-  InputStmt   = input "()"
+  RandomStmt  = random "(" num "," num ")"
+  InputStmt   = input "(" Exp ")"
 
   Block       = "{" Statement* "}"
 
@@ -53,7 +53,7 @@ InfantJS {
   addop       = "+" | "-"
   mulop       = "*" | "/" | "%"
 
-  num         = digit+
+  num         = digit+ ("." digit+)?
   str         = "\"" (~"\"" any)* "\""
 
   let         = "mine" ~alnum

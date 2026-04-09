@@ -259,7 +259,7 @@ export default function translate(match) {
       return String(_chars)
     },
 
-    num(_digits) {
+    num(_digits, _dot, _fraction) {
       return Number(this.sourceString)
     },
 
