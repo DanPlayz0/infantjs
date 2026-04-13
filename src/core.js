@@ -93,9 +93,10 @@ export function unaryExp(operator, argument, type) {
   }
 }
 
-export function randomStmt(minimum = undefined, maximum = undefined) {
+export function randomStmt(minimum, maximum) {
   return {
     kind: "RandomStatement",
+    type: "number",
     minimum,
     maximum,
   }
@@ -105,5 +106,27 @@ export function returnStmt(value) {
   return {
     kind: "ReturnStatement",
     value,
+  }
+}
+
+export function inputStmt(prompt = undefined) {
+  return {
+    kind: "InputStatement",
+    prompt,
+    type: "string",
+  }
+}
+
+export function sleepStmt(duration) {
+  return {
+    kind: "SleepStatement",
+    duration,
+  }
+}
+export function castStmt(value, targetType) {
+  return {
+    kind: "CastStatement",
+    value,
+    type: targetType,
   }
 }

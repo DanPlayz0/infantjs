@@ -10,6 +10,10 @@ InfantJS {
               | RandomStmt
               | InputStmt
               | ReturnStmt
+              | SleepStmt
+              | CastStmt
+              // | ExportStmt
+              // | ImportStmt
 
   PrintStmt   = print "(" Exp ")"
   LetStmt     = let id "=" Exp
@@ -21,6 +25,10 @@ InfantJS {
   RandomStmt  = random "(" Factor "," Factor ")"
   InputStmt   = input "(" Exp ")"
   ReturnStmt  = return Exp
+  SleepStmt   = sleep "(" Exp ")"
+  CastStmt    = Type "(" Exp ")"
+  // ExportStmt   = export id Exp
+  // ImportStmt   = import id "from" id
 
   Block       = "{" Statement* "}"
 
@@ -31,6 +39,7 @@ InfantJS {
 
   Exp         = Condition relop Condition  -- binary
               | Condition
+              | CastStmt
 
   Condition   = Condition addop Term       -- binary
               | Term
@@ -46,6 +55,9 @@ InfantJS {
               | str
               | false
               | true
+              | InputStmt
+              | RandomStmt
+              | CastStmt
               | id "(" Args ")"            -- call
               | id                         -- id
               | "(" Exp ")"                -- parens
@@ -73,11 +85,13 @@ InfantJS {
   input       = "nomnom" ~alnum
   random      = "flippy"~alnum
   // class       = "daycare"~alnum
-  export      = "spit"~alnum
-  import      = "swallow"~alnum
+  // export      = "spit"~alnum
+  // import      = "cry"~alnum
+  sleep       = "nap"~alnum
+  
 
   keyword     = let | print | if | else | while | false | true
-              | function | number | boolean | string | return | random 
+              | function | number | boolean | string | return | input | random | sleep
               // | export | import
 
   id          = ~keyword letter alnum*

@@ -82,6 +82,17 @@ function validateVariable(value, at) {
   )
 }
 
+function resolvedType(typeName, source) {
+  validate(
+    ["numba", "squarehole", "babble"].includes(typeName),
+    `Unknown type: ${typeName}`,
+    source,
+  )
+  const resolvedType = { numba: "number", squarehole: "boolean", babble: "string" }[typeName];
+  return resolvedType
+}
+
+
 /** @param {import('ohm-js').MatchResult} match */
 export default function translate(match) {
   let context = new Context()
@@ -109,13 +120,7 @@ export default function translate(match) {
     Binding(id, _colon, type) {
       const name = id.sourceString
       const typeName = type.sourceString
-      validate(
-        ["numba", "squarehole"].includes(typeName),
-        `Unknown type: ${typeName}`,
-        type.source,
-      )
-      const resolvedType = { numba: "number", squarehole: "boolean" }[typeName]
-      return { name, type: resolvedType }
+      return { name, type: resolvedType(typeName, type.source) }
     },
 
     FunDecl(_function, id, _open, params, _close, block) {
@@ -181,6 +186,34 @@ export default function translate(match) {
     ReturnStmt(_return, expression) {
       const value = expression.translate()
       return core.returnStmt(value)
+    },
+
+    SleepStmt(_sleep, _open, expression, _close) {
+      const duration = expression.translate()
+      validateNumber(duration, expression.source)
+      return core.sleepStmt(duration)
+    },
+
+    InputStmt(_input, _open, prompt, _close) {
+      const promptValue = prompt.translate()
+      validate(promptValue === undefined || typeOf(promptValue) === "string", promptValue === undefined ? "Expected no arguments or a string argument" : `Expected a string argument, but got ${typeOf(promptValue)}`, prompt.source);
+      return core.inputStmt(promptValue)
+    },
+
+    CastStmt(type, _open, expression, _close) {
+      const value = expression.translate()
+      const typeName = type.sourceString
+      const targetType = resolvedType(typeName, type.source)
+      const valueType = typeOf(value)
+      validate(
+        (targetType === "number" && valueType === "string") ||
+          (targetType === "string" && valueType === "number") ||
+          (targetType === "boolean" && valueType === "string") ||
+          (targetType === "string" && valueType === "boolean"),
+        `Cannot cast ${valueType} to ${targetType}`,
+        type.source,
+      )
+      return core.castStmt(value, targetType)
     },
 
     Exp_binary(left, op, right) {

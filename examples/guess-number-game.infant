@@ -5,7 +5,7 @@ mine guess = 0
 gibberish("What number do you think I am thinking of?!\n")
 
 wawawa num != guess {
-    guess = nomnom("What is your guess?\n")
+    guess = numba(nomnom("What is your guess?\n"))
 
     peekaboo guess > num {
         gibberish("Too high! Try again!\n")
@@ -14,4 +14,4 @@ wawawa num != guess {
     }
 }
 
-gibberish("You won it was " + num + "!")
+gibberish("You won it was " + babble(num) + "!")

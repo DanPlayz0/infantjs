@@ -4,7 +4,7 @@
   "main": "index.js",
   "type": "module",
   "scripts": {
-    "infant": "node src/infant.js",
+    "lang": "node src/infant.js",
     "test": "c8 node --test test/**/*.test.js"
   },
   "keywords": [
