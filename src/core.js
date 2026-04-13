@@ -100,3 +100,10 @@ export function randomStmt(minimum = undefined, maximum = undefined) {
     maximum,
   }
 }
+
+export function returnStmt(value) {
+  return {
+    kind: "ReturnStatement",
+    value,
+  }
+}

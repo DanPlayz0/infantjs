@@ -9,6 +9,7 @@ InfantJS {
               | FunDecl
               | RandomStmt
               | InputStmt
+              | ReturnStmt
 
   PrintStmt   = print "(" Exp ")"
   LetStmt     = let id "=" Exp
@@ -16,9 +17,10 @@ InfantJS {
   IfStmt      = if Exp Block else Block   --else
               | if Exp Block              --noelse
   WhileStmt   = while Exp Block
-  FunDecl     = function id "(" Params ")" "=" Exp
+  FunDecl     = function id "(" Params ")" Block
   RandomStmt  = random "(" Factor "," Factor ")"
   InputStmt   = input "(" Exp ")"
+  ReturnStmt  = return Exp
 
   Block       = "{" Statement* "}"
 
@@ -75,8 +77,8 @@ InfantJS {
   import      = "swallow"~alnum
 
   keyword     = let | print | if | else | while | false | true
-              | function | number | boolean | string | return 
-              | export | import
+              | function | number | boolean | string | return | random 
+              // | export | import
 
   id          = ~keyword letter alnum*
 

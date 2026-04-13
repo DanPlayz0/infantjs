@@ -118,7 +118,7 @@ export default function translate(match) {
       return { name, type: resolvedType }
     },
 
-    FunDecl(_function, id, _open, params, _close, _eq, expression) {
+    FunDecl(_function, id, _open, params, _close, block) {
       const paramList = params.asIteration().children.map((binding) => {
         return binding.translate()
       })
@@ -129,7 +129,7 @@ export default function translate(match) {
       }
       const previousContext = context
       context = funContext
-      const body = expression.translate()
+      const body = block.translate()
       const func = core.functionObject(id.sourceString, paramList)
       context = previousContext
       context.set(id.sourceString, func, id.source)
@@ -176,6 +176,11 @@ export default function translate(match) {
       validateNumber(min, num1.source)
       validateNumber(max, num2.source)
       return core.randomStmt(min, max)
+    },
+
+    ReturnStmt(_return, expression) {
+      const value = expression.translate()
+      return core.returnStmt(value)
     },
 
     Exp_binary(left, op, right) {
