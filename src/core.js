@@ -92,3 +92,11 @@ export function unaryExp(operator, argument, type) {
     type,
   }
 }
+
+export function randomStmt(minimum = undefined, maximum = undefined) {
+  return {
+    kind: "RandomStatement",
+    minimum,
+    maximum,
+  }
+}

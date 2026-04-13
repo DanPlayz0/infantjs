@@ -1,4 +1,4 @@
-mine num = (flippy() * 100) + 1
+mine num = flippy(1, 100)
 
 mine guess = 0
 

@@ -17,7 +17,7 @@ InfantJS {
               | if Exp Block              --noelse
   WhileStmt   = while Exp Block
   FunDecl     = function id "(" Params ")" "=" Exp
-  RandomStmt  = random "(" num "," num ")"
+  RandomStmt  = random "(" Factor "," Factor ")"
   InputStmt   = input "(" Exp ")"
 
   Block       = "{" Statement* "}"

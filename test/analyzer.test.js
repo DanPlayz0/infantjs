@@ -53,6 +53,10 @@ const semanticChecks = [
   ["print float literal", "gibberish(3.14)"],
   ["print string literal", 'gibberish("hello world")'],
   ["print string literal with variable", 'mine x = "hello" gibberish(x)'],
+  ["random number generation", "flippy(1, 10)"],
+  ["random number generation with float bounds", "flippy(0.5, 2.5)"],
+  ["random number generation with negative bounds", "flippy(-1, -5)"],
+  ["print result of function call", "playtime add(a: numba, b: numba) = a + b gibberish(add(2, 3))"],
 ]
 
 // Programs that are syntactically correct but have semantic errors
@@ -187,6 +191,21 @@ const semanticErrors = [
     'gibberish(-"hello")',
     /expected a number/i,
   ],
+  [
+    "string subtraction",
+    'gibberish("hello" - 3)',
+    /unsupported operator/i,
+  ],
+  [
+    "string less than",
+    'gibberish("hello" < 3)',
+    /Expected a number/i,
+  ],
+  [
+    "random number generation with non-number bounds",
+    "flippy(1, gaagaa)",
+    /Expected a number/,
+  ]
 ]
 
 describe("The analyzer", () => {

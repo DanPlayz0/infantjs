@@ -29,6 +29,7 @@ class Context {
   }
 }
 
+/** @param {string} message @param {import('ohm-js').Node['source']} at */
 function error(message, at) {
   const prefix = at.getLineAndColumnMessage()
   throw new Error(`${prefix}${message}`)
@@ -81,10 +82,13 @@ function validateVariable(value, at) {
   )
 }
 
+/** @param {import('ohm-js').MatchResult} match */
 export default function translate(match) {
   let context = new Context()
 
   const grammar = match.matcher.grammar
+
+  /** @type {import("ohm-js").ActionDict<any>} */
   const actions = {
     Program(statements) {
       return core.program(statements.children.map((s) => s.translate()))
@@ -166,6 +170,14 @@ export default function translate(match) {
       return core.assignStmt(target, source)
     },
 
+    RandomStmt(_random, _open, num1, _comma, num2, _close) {
+      const min = num1.translate();
+      const max = num2.translate();
+      validateNumber(min, num1.source)
+      validateNumber(max, num2.source)
+      return core.randomStmt(min, max)
+    },
+
     Exp_binary(left, op, right) {
       const x = left.translate()
       const y = right.translate()
@@ -182,7 +194,7 @@ export default function translate(match) {
       if (typeOf(x) === "string" || typeOf(y) === "string") {
         validate(
           op.sourceString === "+",
-          `Only + operator is supported for strings, but got ${op.sourceString}`,
+          `Unsupported operator ${op.sourceString} found with string, expected +`,
           op.source,
         )
         validate(
