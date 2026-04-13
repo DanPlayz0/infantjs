@@ -69,10 +69,14 @@ InfantJS {
   string      = "babble" ~alnum
   return      = "bedtime" ~alnum
   input       = "nomnom" ~alnum
-  random      = "flippy"~alnum  
+  random      = "flippy"~alnum
+  // class       = "daycare"~alnum
+  export      = "spit"~alnum
+  import      = "swallow"~alnum
 
   keyword     = let | print | if | else | while | false | true
-              | function | number | boolean | string | return
+              | function | number | boolean | string | return 
+              | export | import
 
   id          = ~keyword letter alnum*
 
