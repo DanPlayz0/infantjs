@@ -1,3 +1,6 @@
+# Temp javascript translations
+examples/*.js
+
 # Logs
 logs
 *.log
