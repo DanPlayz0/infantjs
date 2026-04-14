@@ -306,7 +306,7 @@ export default function translate(match) {
     },
 
     str(_left, _chars, _right) {
-      return String(_chars)
+      return String(_chars.sourceString)
     },
 
     num(_digits, _dot, _fraction) {
