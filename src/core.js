@@ -130,3 +130,24 @@ export function castStmt(value, targetType) {
     type: targetType,
   }
 }
+export function floorStmt(value) {
+  return {
+    kind: "FloorStatement",
+    value,
+    type: "number",
+  }
+}
+export function ceilStmt(value) {
+  return {
+    kind: "CeilStatement",
+    value,
+    type: "number",
+  }
+}
+export function roundStmt(value) {
+  return {
+    kind: "RoundStatement",
+    value,
+    type: "number",
+  }
+}

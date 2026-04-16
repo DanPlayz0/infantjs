@@ -7,6 +7,7 @@ InfantJS {
               | IfStmt
               | WhileStmt
               | FunDecl
+              | FunCall
               | RandomStmt
               | InputStmt
               | ReturnStmt
@@ -22,6 +23,7 @@ InfantJS {
               | if Exp Block              --noelse
   WhileStmt   = while Exp Block
   FunDecl     = function id "(" Params ")" Block
+  FunCall     = id "(" Args ")"
   RandomStmt  = random "(" Factor "," Factor ")"
   InputStmt   = input "(" Exp ")"
   ReturnStmt  = return Exp
@@ -29,6 +31,9 @@ InfantJS {
   CastStmt    = Type "(" Exp ")"
   // ExportStmt   = export id Exp
   // ImportStmt   = import id "from" id
+  FloorStmt   = floor "(" Exp ")"
+  CeilStmt    = ceil "(" Exp ")"
+  RoundStmt   = round "(" Exp ")"
 
   Block       = "{" Statement* "}"
 
@@ -40,6 +45,9 @@ InfantJS {
   Exp         = Condition relop Condition  -- binary
               | Condition
               | CastStmt
+              | FloorStmt
+              | CeilStmt
+              | RoundStmt
 
   Condition   = Condition addop Term       -- binary
               | Term
@@ -58,7 +66,10 @@ InfantJS {
               | InputStmt
               | RandomStmt
               | CastStmt
-              | id "(" Args ")"            -- call
+              | FloorStmt
+              | CeilStmt
+              | RoundStmt
+              | FunCall
               | id                         -- id
               | "(" Exp ")"                -- parens
 
@@ -88,10 +99,13 @@ InfantJS {
   // export      = "spit"~alnum
   // import      = "cry"~alnum
   sleep       = "nap"~alnum
+  floor       = "crawl"~alnum
+  ceil        = "climb"~alnum
+  round       = "roll"~alnum
   
 
   keyword     = let | print | if | else | while | false | true
-              | function | number | boolean | string | return | input | random | sleep
+              | function | number | boolean | string | return | input | random | sleep | floor | ceil | round
               // | export | import
 
   id          = ~keyword letter alnum*

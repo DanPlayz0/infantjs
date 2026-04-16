@@ -75,6 +75,25 @@ function translateStatement(statement) {
   if (kind === "InputStatement") {
     return `await promptInput(${translateStatement(statement.prompt)})`;
   }
+  if (kind === "FloorStatement") {
+    return `Math.floor(${translateStatement(statement.value)})`;
+  }
+  if (kind === "CeilStatement") {
+    return `Math.ceil(${translateStatement(statement.value)})`;
+  }
+  if (kind === "RoundStatement") {
+    return `Math.round(${translateStatement(statement.value)})`;
+  }
+  if (kind === "FunctionDeclaration") {
+    return [
+      `function ${statement.function.name}(${statement.function.params.map((x) => x.name).join(", ")}) {`,
+      ...statement.body.map(translateStatement),
+      `}`
+    ].join("\n");
+  }
+  if (kind === "FunctionCall") {
+    return `${statement.callee.name}(${statement.arguments.join(", ")})`;
+  }
   console.log("Missing", statement);
   // throw new Error(`Unknown statement kind: ${kind}`);
 }

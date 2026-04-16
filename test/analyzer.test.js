@@ -57,6 +57,26 @@ const semanticChecks = [
   ["random number generation with float bounds", "flippy(0.5, 2.5)"],
   ["random number generation with negative bounds", "flippy(-1, -5)"],
   ["print result of function call", "playtime add(a: numba, b: numba) { bedtime a + b } gibberish(add(2, 3))"],
+  ["function with no parameters", "playtime getFive() { bedtime 5 } gibberish(getFive())"],
+  ["function with boolean parameter", "playtime not(x: squarehole) { bedtime gaagaa } gibberish(not(googoo))"],
+  ["function with number parameter", "playtime square(x: numba) { bedtime x * x } gibberish(square(4))"],
+  ["function with string parameter", 'playtime greet(name: babble) { bedtime "Hello, " + name } gibberish(greet("Alice"))'],
+  ["math ceil function", "gibberish(climb(3.14))"],
+  ["math floor function", "gibberish(crawl(3.14))"],
+  ["math round function", "gibberish(roll(3.14))"],
+  ["sleep function", "nap(1000)"],
+  ["sleep function with large number", "nap(1000000)"],
+  ["sleep function with float", "nap(500.5)"],
+  ["cast to string with number", "babble(42)"],
+  ["cast to string with boolean", "babble(gaagaa)"],
+  ["cast to number with non-zero number", "numba(0)"],
+  ["cast true to boolean", "squarehole(gaagaa)"],
+  ["cast false to boolean", "squarehole(googoo)"],
+  ["cast true to number", "numba(gaagaa)"],
+  ["cast false to number", "numba(googoo)"],
+  ["cast string to number", "numba(\"42\")"],
+  ["input function with prompt", "nomnom(\"Some kind of prompt\")"],
+  ["input function using variable as prompt", 'mine x = "Enter something:" nomnom(x)'],
 ]
 
 // Programs that are syntactically correct but have semantic errors
@@ -205,7 +225,23 @@ const semanticErrors = [
     "random number generation with non-number bounds",
     "flippy(1, gaagaa)",
     /Expected a number/,
-  ]
+  ],
+  [
+    "random number generation with non-number bounds",
+    "flippy(gaagaa, 10)",
+    /Expected a number/,
+  ],
+  [ "math ceil with non-number argument", "gibberish(climb(gaagaa))", /Expected a number/],
+  [ "math floor with non-number argument", "gibberish(crawl(gaagaa))", /Expected a number/],
+  [ "math round with non-number argument", "gibberish(roll(gaagaa))", /Expected a number/],
+  [ "sleep with zero argument", "nap(0)", /Expected a positive number/],
+  [ "sleep with non-number argument", "nap(gaagaa)", /Expected a number/],
+  [ "sleep with negative argument", "nap(-1000)", /Expected a positive number/],
+  [ "cannot print sleep", "gibberish(nap(1000))", /Expected .+, not a keyword, .+/i],
+  // ["input function without arguments", "nomnom()", /Expected a string/],
+  ["input function with non-string prompt", "nomnom(1)", /Expected a string/],
+  ["input function with non-string prompt", "nomnom(gaagaa)", /Expected a string/],
+  ["input function with non-string prompt", "nomnom(googoo)", /Expected a string/],
 ]
 
 describe("The analyzer", () => {

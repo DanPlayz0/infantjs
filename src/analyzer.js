@@ -82,6 +82,14 @@ function validateVariable(value, at) {
   )
 }
 
+function validateString(value, at) {
+  validate(
+    typeOf(value) === "string",
+    `Expected a string, but got ${typeOf(value)}`,
+    at,
+  )
+}
+
 function resolvedType(typeName, source) {
   validate(
     ["numba", "squarehole", "babble"].includes(typeName),
@@ -191,12 +199,13 @@ export default function translate(match) {
     SleepStmt(_sleep, _open, expression, _close) {
       const duration = expression.translate()
       validateNumber(duration, expression.source)
+      validate(duration > 0, "Expected a positive number", expression.source);
       return core.sleepStmt(duration)
     },
 
     InputStmt(_input, _open, prompt, _close) {
       const promptValue = prompt.translate()
-      validate(promptValue === undefined || typeOf(promptValue) === "string", promptValue === undefined ? "Expected no arguments or a string argument" : `Expected a string argument, but got ${typeOf(promptValue)}`, prompt.source);
+      validateString(promptValue, prompt.source);
       return core.inputStmt(promptValue)
     },
 
@@ -205,15 +214,48 @@ export default function translate(match) {
       const typeName = type.sourceString
       const targetType = resolvedType(typeName, type.source)
       const valueType = typeOf(value)
+      const allowedCasts = [
+        // identity casts
+        ["string", "string"], // "" -> ""
+        ["number", "number"], // 42 -> 42
+        ["boolean", "boolean"], // true -> true
+
+        // num -> string
+        ["number", "string"], // 42 -> "42"
+        ["string", "number"], // "42" -> 42
+
+        // bool -> string
+        ["boolean", "string"], // true -> "true", false -> "false"
+        ["string", "boolean"], // "true" -> true, "false" -> false
+
+        // bool -> number
+        ["boolean", "number"], // true -> 1, false -> 0
+        // ["number", "boolean"], // 0 -> false, >= 0 -> true
+      ];
       validate(
-        (targetType === "number" && valueType === "string") ||
-          (targetType === "string" && valueType === "number") ||
-          (targetType === "boolean" && valueType === "string") ||
-          (targetType === "string" && valueType === "boolean"),
+        allowedCasts.some(([from, to]) => from === valueType && to === targetType),
         `Cannot cast ${valueType} to ${targetType}`,
         type.source,
-      )
+      );
       return core.castStmt(value, targetType)
+    },
+
+    FloorStmt(_floor, _open, expression, _close) {
+      const value = expression.translate()
+      validateNumber(value, expression.source)
+      return core.floorStmt(value)
+    },
+
+    CeilStmt(_ceil, _open, expression, _close) {
+      const value = expression.translate()
+      validateNumber(value, expression.source)
+      return core.ceilStmt(value)
+    },
+    
+    RoundStmt(_round, _open, expression, _close) {
+      const value = expression.translate()
+      validateNumber(value, expression.source)
+      return core.roundStmt(value)
     },
 
     Exp_binary(left, op, right) {
@@ -281,7 +323,7 @@ export default function translate(match) {
       return context.get(name, id.source)
     },
 
-    Primary_call(id, _open, args, _close) {
+    FunCall(id, _open, args, _close) {
       const func = context.get(id.sourceString, id.source)
       validateFunction(func, id.source)
       const argValues = args

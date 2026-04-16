@@ -23,6 +23,7 @@ const syntaxErrors = [
   ["gibberish 1)", "missing opening parenthesis"],
   ["mine x = gibberish(1)", "invalid statement"],
   ["peekaboox { gibberish(x) }", "keyword should be separated from identifier"],
+  ["nomnom()", "input statement missing string prompt"],
 ];
 
 describe("The parser", () => {
