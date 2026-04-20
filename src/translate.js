@@ -43,6 +43,9 @@ function translateStatement(statement) {
     return `${translateStatement(statement.target)} = ${translateStatement(statement.source)}`;
   }
   if (kind === "CastStatement") {
+    if (statement.type === typeof statement.value) {
+      return translateStatement(statement.value); // Optimize away unnecessary casts
+    }
     // console.log(statement);
     if (statement.type === "number") {
       return `Number(${translateStatement(statement.value)})`;
