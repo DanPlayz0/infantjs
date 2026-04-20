@@ -26,7 +26,8 @@ InfantJS {
   FunCall     = id "(" Args ")"
   RandomStmt  = random "(" Factor "," Factor ")"
   InputStmt   = input "(" Exp ")"
-  ReturnStmt  = return Exp
+  ReturnStmt  = return Exp   -- value
+              | return       -- void
   SleepStmt   = sleep "(" Exp ")"
   CastStmt    = Type "(" Exp ")"
   // ExportStmt   = export id Exp

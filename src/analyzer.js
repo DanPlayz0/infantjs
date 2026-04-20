@@ -191,9 +191,13 @@ export default function translate(match) {
       return core.randomStmt(min, max)
     },
 
-    ReturnStmt(_return, expression) {
+    ReturnStmt_value(_return, expression) {
       const value = expression.translate()
       return core.returnStmt(value)
+    },
+
+    ReturnStmt_void(_return) {
+      return core.returnStmt()
     },
 
     SleepStmt(_sleep, _open, expression, _close) {

@@ -77,6 +77,8 @@ const semanticChecks = [
   ["cast string to number", "numba(\"42\")"],
   ["input function with prompt", "nomnom(\"Some kind of prompt\")"],
   ["input function using variable as prompt", 'mine x = "Enter something:" nomnom(x)'],
+  ["function with void return", "playtime doSomething() { bedtime }"],
+  ["function with return value", "playtime getNumber() { bedtime 42 } gibberish(getNumber())"],
 ]
 
 // Programs that are syntactically correct but have semantic errors
