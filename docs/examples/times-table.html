@@ -1,5 +1,5 @@
 ---
-permalink: /examples/shapes/
+permalink: /examples/times-table/
 ---
 <!DOCTYPE html>
 <html lang="en">
@@ -7,8 +7,8 @@ permalink: /examples/shapes/
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>SPIN | Screenplay</title>
-    <link rel="stylesheet" href="\Site\EXAMPLES\CSS\writing-detail.css">
-    <link rel="icon" type="image/x-icon" href="/images/favicon.ico">  <!-- fixed -->
+    <link rel="stylesheet" href="CSS/writing-detail.css">
+    <link rel="icon" type="image/x-icon" href="/favicon.ico">  <!-- fixed -->
 </head>
 <body>
     <header class="overlay-header">
@@ -26,9 +26,9 @@ permalink: /examples/shapes/
 
         <section class="script-reader-container">
             <div class="script-header">
-                <h1>Shapes</h1>
-                <p class="script-meta">Play with Shapes</p>
-                <a href="Scripts/shapes.pdf" download="shapes.pdf" class="download-btn">Download PDF</a>  <!-- fixed -->
+                <h1>Times Table</h1>
+                <p class="script-meta">Create and Practice Your Times Tables</p>
+                <a href="Scripts/timestables.pdf" download="Timestables.pdf" class="download-btn">Download PDF</a>  <!-- fixed -->
             </div>
 
             <div class="pdf-viewer">
@@ -40,7 +40,7 @@ permalink: /examples/shapes/
                 pdfjsLib.GlobalWorkerOptions.workerSrc = 
                     'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
 
-                pdfjsLib.getDocument('Scripts/shapes.pdf').promise.then(pdf => {
+                pdfjsLib.getDocument('Scripts/timestables.pdf').promise.then(pdf => {
                     pdf.getPage(1).then(page => {
                         const canvas = document.getElementById('pdf-canvas');
                         const viewport = page.getViewport({ scale: 1.5 });
