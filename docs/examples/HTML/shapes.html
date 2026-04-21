@@ -1,3 +1,6 @@
+---
+permalink: /examples/shapes/
+---
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -10,11 +13,11 @@
 <body>
     <header class="overlay-header">
         <div class="logo-wrapper">
-            <a href="/Site/INDEX/HTML/index.html" class="site-title">InfantJS</a>  <!-- fixed -->
+            <a href="/" class="site-title">InfantJS</a>  <!-- fixed -->
             <p class="site-subtitle">For Infants</p>
         </div>
         <nav class="top-nav">
-            <a href="/Site/EXAMPLES/HTML/examples.html" class="back-link">← Back to Examples</a>
+            <a href="/examples/" class="back-link">← Back to Examples</a>
         </nav>
     </header>
 
@@ -23,9 +26,9 @@
 
         <section class="script-reader-container">
             <div class="script-header">
-                <h1>Grader</h1>
-                <p class="script-meta">Simple Grading System</p>
-                <a href="Scripts/grader.pdf" download="grader.pdf" class="download-btn">Download PDF</a>  <!-- fixed -->
+                <h1>Shapes</h1>
+                <p class="script-meta">Play with Shapes</p>
+                <a href="Scripts/shapes.pdf" download="shapes.pdf" class="download-btn">Download PDF</a>  <!-- fixed -->
             </div>
 
             <div class="pdf-viewer">
@@ -37,7 +40,7 @@
                 pdfjsLib.GlobalWorkerOptions.workerSrc = 
                     'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
 
-                pdfjsLib.getDocument('Scripts/grader.pdf').promise.then(pdf => {
+                pdfjsLib.getDocument('Scripts/shapes.pdf').promise.then(pdf => {
                     pdf.getPage(1).then(page => {
                         const canvas = document.getElementById('pdf-canvas');
                         const viewport = page.getViewport({ scale: 1.5 });
