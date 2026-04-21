@@ -1,0 +1,171 @@
+
+:root {
+  /* Light Mode Colors */
+  --bg-color: #000000;
+  --text-color: #ffffff;
+  --switch-track: #000000;
+  --switch-border: #ffffff;
+  --accent-color: #ffda00; 
+  --box-color: #8080801a;
+  --movie-info: #bbb;
+  --section-label: #ffffff66;
+  --script-item: #222;
+  --script-hover: #555;
+  --script-meta: #ffda00;
+  --pdf-viewer: #222;
+  --pdf-shadow: #3030306b;
+  
+}
+
+body.dark-mode {
+  /* Dark Mode Colors */
+  --bg-color: #000000;
+  --text-color: #ffffff;
+  --switch-track: #000000;
+  --switch-border: #ffffff;
+  --accent-color: #ffda00; 
+  --box-color: #8080801a;
+  --movie-info: #bbb;
+  --section-label: #ffffff66;
+  --script-item: #222;
+  --script-hover: #555;
+  --script-meta: #ffda00;
+  --pdf-viewer: #222;
+  --pdf-shadow: #3030306b;
+}
+
+
+body {
+  position: relative;
+  min-height: 100vh;
+  margin: 0;
+  padding-bottom: 10px;
+}
+
+/* Container for the pill switch */
+.segmented-control {
+  position: absolute;
+  bottom: 20px;
+  left: 20px;
+  display: flex;
+  align-items: center;
+  width: 160px;
+  height: 36px;
+  background-color: var(--box-color); 
+  border-radius: 50px;
+  padding: 3px;
+  cursor: pointer;
+  border: 1px solid var(--switch-border);
+}
+
+.segmented-control input {
+  display: none; 
+}
+
+.option {
+  flex: 1;
+  z-index: 2;
+  text-align: center;
+  font-size: 13px;
+  color: var(--movie-info); 
+  transition: color 0.3s ease;
+  cursor: pointer;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 5px;
+}
+
+/* The White/Dark Pill */
+.selection-bg {
+  position: absolute;
+  top: 3px;
+  left: 3px;
+  width: calc(50% - 3px);
+  height: calc(100% - 6px);
+  background-color: var(--bg-color);
+  border-radius: 50px;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+  transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  z-index: 1;
+}
+
+/* Slide Logic */
+#dark-opt:checked ~ .selection-bg {
+  transform: translateX(100%);
+}
+
+/* Active Text Color */
+#light-opt:checked ~ label[for="light-opt"],
+#dark-opt:checked ~ label[for="dark-opt"] {
+  color: var(--text-color);
+  font-weight: 500;
+}
+
+body {
+    position: relative; 
+    min-height: 100vh;
+    background-color: var(--bg-color);
+    color: var(--text-color);
+    transition: background-color 0.3s ease;
+}
+
+/* Ensure the switch is at the very bottom of the document */
+.segmented-control {
+    position: absolute; 
+    bottom: 20px;
+    left: 20px;
+    z-index: 100;
+}
+
+input:checked + .slider {
+  background-color: var(--bg-color); 
+  border: 1px solid var(--text-color);
+}
+
+input:checked + .slider:before {
+  transform: translateX(100%);
+  box-shadow: inset 15px -4px 0px 15px var(--accent-color);
+}
+
+.contact img {
+    width: 30px; 
+    height: auto;
+    transition: filter 0.4s ease; 
+    filter: invert(0); 
+}
+
+body.dark-mode .contact img {
+    filter: invert(1); 
+}
+
+body, 
+body *, 
+.segmented-control, 
+.selection-bg {
+    transition: background-color 0.4s ease, 
+                color 0.4s ease, 
+                border-color 0.4s ease, 
+                filter 0.4s ease,
+                transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.option {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px; 
+    cursor: pointer;
+    z-index: 2;
+}
+
+.theme-icon {
+    width: 16px; 
+    height: 16px;
+    object-fit: contain;
+    transition: filter 0.3s ease;
+}
+
+body.dark-mode .theme-icon {
+    filter: invert(1); 
+}
