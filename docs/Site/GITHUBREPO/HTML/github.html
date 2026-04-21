@@ -38,25 +38,6 @@
     </div>
 </main>
     <script>
-    document.getElementById('contact-link').addEventListener('click', function(e) {
-        e.preventDefault(); 
-        const email = "info@milesmarti.com";
-        const subject = "";
-        const body = "";
-
-
-        const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
-
-        if (isMobile) {
-            window.location.href = `mailto:${email}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
-        } else {
-            const gmailUrl = `https://mail.google.com/mail/?view=cm&fs=1&to=${email}&su=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
-            window.open(gmailUrl, '_blank');
-        }
-    });
-    </script>
-
-    <script>
         document.addEventListener('DOMContentLoaded', () => {
             const infantButton = document.querySelector('.site-title');
             const clickSound = new Audio('/Noise/creaturelaugh.mp3');
