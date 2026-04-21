@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>InfantJS</title>
+    <link rel="stylesheet" href="\Site\EXAMPLES\CSS\writing.css">
+    <link rel="icon" type="image/x-icon" href="\images\favicon.ico">
+    <link rel="stylesheet" href="\theme\theme.css">
+    <script src="/theme/theme.js" defer></script>
+
+</head>
+<body>
+    <header class="overlay-header">
+        <div class="logo-wrapper">
+            <a href="\Site\INDEX\HTML\index.html" class="site-title">InfantJS</a>
+            <p class="site-subtitle">For Infants</p>
+        </div>
+        <nav class="top-nav">
+            <a href="\Site\EXAMPLES\HTML\examples.html">Examples</a>
+            <a href="\Site\STORY\HTML\story.html">Story</a>
+            <a href="\Site\ABOUT\HTML\about.html">About</a>
+            <a href="\Site\GITHUBREPO\HTML\github.html">Github Repo</a>
+        </nav>
+    </header>
+
+    <main>
+        <div class="page-buffer"></div>
+
+        <section class="writing-container">
+            <h2 class="section-label">Example Programs</h2>
+
+            <a href="\Site\EXAMPLES\HTML\example1.html" class="script-item">
+                <div class="script-info">
+                    <span class="script-type"></span>
+                    <h3>Guessing Game</h3>
+                    <p>A simple number guessing game implemented in Infant JavaScript.</p>
+                </div>
+                <div class="arrow">→</div>
+            </a>
+
+            <a href="\Site\EXAMPLES\HTML\example2.html" class="script-item">
+                <div class="script-info">
+                    <span class="script-type"></span>
+                    <h3>Shapes</h3>
+                    <p>Play with Shapes in Infant JavaScript.</p>
+                </div>
+                <div class="arrow">→</div>
+            </a>
+
+            <a href="\Site\EXAMPLES\HTML\example3.html" class="script-item">
+                <div class="script-info">
+                    <span class="script-type"></span>
+                    <h3>Grader</h3>
+                    <p>Simple Grading System in Infant JavaScript.</p>
+                </div>
+                <div class="arrow">→</div>
+            </a>
+
+            <a href="\Site\EXAMPLES\HTML\example4.html" class="script-item">
+                <div class="script-info">
+                    <span class="script-type"></span>
+                    <h3>Times Tables</h3>
+                    <p>Create and Practice Your Times Tables</p>
+                </div>
+                <div class="arrow">→</div>
+            </a>
+
+            <a href="\Site\EXAMPLES\HTML\example5.html" class="script-item">
+                <div class="script-info">
+                    <span class="script-type"></span>
+                    <h3>Example 5</h3>
+                    <p>Description for Example 5.</p>
+                </div>
+                <div class="arrow">→</div>
+            </a>
+
+            <a href="\Site\EXAMPLES\HTML\example6.html" class="script-item">
+                <div class="script-info">
+                    <span class="script-type"></span>
+                    <h3>Example 6</h3>
+                    <p>Description for Example 6.</p>
+                </div>
+                <div class="arrow">→</div>
+            </a>
+
+            <a href="\Site\EXAMPLES\HTML\example7.html" class="script-item">
+                <div class="script-info">
+                    <span class="script-type"></span>
+                    <h3>Example 7</h3>
+                    <p>Description for Example 7.</p>
+                </div>
+                <div class="arrow">→</div>
+            </a>
+        </section>
+    </main>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const infantButton = document.querySelector('.site-title');
+            const clickSound = new Audio('/Noise/creaturelaugh.mp3');
+            clickSound.playbackRate = 3.0;
+            infantButton.addEventListener('click', (event) => {
+                event.preventDefault(); 
+                const targetUrl = infantButton.getAttribute('href');
+                clickSound.play();
+                setTimeout(() => {
+                    window.location.href = targetUrl;
+                }, 500); 
+            });
+        });
+    </script>
+</body>
+</html>
+
