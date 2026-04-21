@@ -1,9 +1,53 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <meta http-equiv="refresh" content="0; url=/Site/INDEX/HTML/index.html">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">    
+    <title>InfantJS</title>
+    <link rel="icon" type="image/x-icon" href="/favicon.ico">
+    <link rel="stylesheet" href="/index.css">
+
 </head>
 <body>
-    <p>Redirecting to <a href="/Site/INDEX/HTML/index.html">InfantJS</a>...</p>
+
+  <main>
+      <section class="hero">
+          <header class="overlay-header">
+              <a href="/" class="site-title">InfantJS</a>
+              <nav class="top-nav">
+                  <a href="/examples/">Examples</a>
+                  <a href="/story/">Story</a>
+                  <a href="/about/">About</a>
+                  <a href="/github/">Github Repo</a>
+              </nav>
+          </header>
+
+          <div class="hero-image-container">
+              <div class="blurred-bg" style="background-image: url('/logo.png');"></div>            
+              <div class="hero-center-text">
+                  <h1>InfantJS</h1>
+                  <p>For when BabyJS is too advanced</p>
+              </div>
+          </div>
+      </section>
+  </main>
+
+  <script>
+      document.addEventListener('DOMContentLoaded', () => {
+          const infantButton = document.querySelector('.site-title');
+          const clickSound = new Audio('/Noise/creaturelaugh.mp3');
+          clickSound.playbackRate = 3.0;
+          infantButton.addEventListener('click', (event) => {
+              event.preventDefault(); 
+              const targetUrl = infantButton.getAttribute('href');
+              clickSound.play();
+              setTimeout(() => {
+                  window.location.href = targetUrl;
+              }, 1000); 
+          });
+      });
+  </script>
+
+
 </body>
 </html>
