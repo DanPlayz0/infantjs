@@ -3,19 +3,28 @@
   "version": "0.0.1",
   "main": "index.js",
   "type": "module",
+  "description": "A simple compiler and interpreter for the InfantJS programming language",
+  "author": "Danny D, Samuel Rambo, Gabriel Garcia, Parker Jazayeri",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/DanPlayz0/infantjs"
+  },
+  "homepage": "https://infantjs.compiles.me",
+  "bugs": {
+    "url": "https://github.com/DanPlayz0/infantjs/issues"
+  },
+  "keywords": [
+    "compiler",
+    "interpreter",
+    "language",
+    "infantjs"
+  ],
   "scripts": {
     "lang": "node src/infant.js",
     "translate:run": "node src/translate.js",
     "test": "c8 node --test test/**/*.test.js"
   },
-  "keywords": [
-    "compiler",
-    "interpreter",
-    "language"
-  ],
-  "author": "DanPlayz0",
-  "license": "ISC",
-  "description": "A simple compiler and interpreter for the InfantJS programming language",
   "dependencies": {
     "ohm-js": "^17.5.0"
   },
