@@ -366,6 +366,8 @@ You must run the translator which will automatically translate to javascript and
 
 An example of how to run/use the translator: `npm run translate examples/guess-number-game.infant`
 
+----------------------------------------------------------------------------------------------------------------
+
 <!-- 
 To run an example (e.g `math.infant`): `npm run baby examples/math.infant`
 To run tests: `npm test` -->
