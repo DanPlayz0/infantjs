@@ -264,9 +264,38 @@ npm install
 ```
 __Compile and run a <code>.infant </code> file (translates to JS and executes):__
 
-```javascript
+```ruby
 npm run translate examples/guess-number-game.infant
 ```
+
+__Use the compiler directly:__
+```ruby
+# Check syntax only
+node src/infant.js examples/hello.infant parsed
+
+# Run semantic analysis
+node src/infant.js examples/hello.infant analyzed
+
+# Run optimizer
+node src/infant.js examples/hello.infant optimized
+
+# Generate JavaScript
+node src/infant.js examples/hello.infant js
+
+# Generate Python
+node src/infant.js examples/hello.infant py
+
+# Write output to file
+node src/infant.js examples/hello.infant js --write
+```
+
+__Run the tests with coverage:__
+```ruby
+npm test
+```
+
+----------------------------------------------------------------------------------------------------------------
+
 
 
 
