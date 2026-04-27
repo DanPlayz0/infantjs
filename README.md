@@ -72,6 +72,7 @@ __The analyzer enforces the following constraints at compile time, before any co
 <h2>Keyword Reference </h2>
 
 |   __InfantJS__  |   __Meaning__    |     __JavaScript Equivalent__ |
+| :---------------- | :------: | ----: |
 |  <code> mine </code>   |    declare variable   |   <code> let </code>  |
 |   <code> gibberish </code>  |   print to console    |   <code> console.log </code>  |
 |   <code> peekaboo </code>  |   if    |   <code> if </code>  |
