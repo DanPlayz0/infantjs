@@ -36,7 +36,7 @@ Language Features
 * __Random number generation__ — <code>flippy(min, max) </code>
 * __User input__ — <code> nomnom("prompt") </code>
 * __Type casting__ — <code> numba() </code>, <code> babble() </code>, <code> squarehole() </code>with validated cast paths
-* __Math builtins__ —  <code> crawl() </code> (floor), <code> climb() </ code>(ceil), <code> roll()</code> (round)
+* __Math builtins__ —  <code> crawl() </code> (floor), <code> climb() </code>(ceil), <code> roll()</code> (round)
 * __Sleep / delay__ — <code> nap(ms) </code>— validated to be a positive number
 * __Return statements__ — <code> bedtime </code>(value or void)
 * __Dual code generation__ — compiles to both JavaScript and Python
