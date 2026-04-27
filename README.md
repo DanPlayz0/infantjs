@@ -110,7 +110,7 @@ jsconsole.log(100 + 100);
 ----------------------------------------------------------------------------------------------------------------
 
 
-<h4> __Variables and Arithmetic__ </h4>
+<h4> Variables and Arithmetic </h4>
 
 
 <table>
@@ -139,7 +139,7 @@ if (x > 100) {
 
 ----------------------------------------------------------------------------------------------------------------
 
-<h4> __Functions__ <h4>
+<h4> Functions <h4>
 
 <table>
 <tr><th>InfantJS</th><th>JavaScript</th></tr>
@@ -172,7 +172,7 @@ example(3, false);
 
 ----------------------------------------------------------------------------------------------------------------
 
-<h4> __Number Guessing Game__ </h4>
+<h4> Number Guessing Game </h4>
 
 <table>
 <tr><th>InfantJS</th><th>JavaScript</th></tr>
@@ -218,7 +218,7 @@ console.log("You got it! It was " + String(num) + "!");
 
 ----------------------------------------------------------------------------------------------------------------
 
-<h4> __While Loop with Variable__ </h4>
+<h4> While Loop with Variable </h4>
 
 <table>
 <tr><th>InfantJS</th><th>JavaScript</th></tr>
@@ -238,7 +238,7 @@ jswhile (false) {
  
 ----------------------------------------------------------------------------------------------------------------
 
-<h4> __Math Builtins and Casting__ </h4>
+<h4> Math Builtins and Casting </h4>
 
 <table>
 <tr><th>InfantJS</th><th>JavaScript</th></tr>
