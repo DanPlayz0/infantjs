@@ -101,7 +101,7 @@ __InfantJS__
 gibberish(100 + 100)
 ```
 
-_JavaScript__
+__JavaScript__
 ```javascript
 console.log(100 + 100);
 ```
@@ -111,11 +111,8 @@ console.log(100 + 100);
 
 <h4> Variables and Arithmetic </h4>
 
-
-<table>
-<tr><th>InfantJS</th><th>JavaScript</th></tr>
-<tr>
-<td>
+__InfantJS__
+```
 mine x = 100 + 100
 gibberish(x / 2)
 x = x - 50
@@ -123,27 +120,26 @@ gibberish(x)
 peekaboo x > 100 {
   gibberish(x ** 3)
 }
-</td>
-<td>
-jslet x = 100 + 100;
+```
+
+__JavaScript__
+```javascript
+let x = 100 + 100;
 console.log(x / 2);
 x = x - 50;
 console.log(x);
 if (x > 100) {
   console.log(x ** 3);
 }
-</td>
-</tr>
-</table>
+```
+
 
 ----------------------------------------------------------------------------------------------------------------
 
 <h4> Functions <h4>
 
-<table>
-<tr><th>InfantJS</th><th>JavaScript</th></tr>
-<tr>
-<td>
+__InfantJS__
+```
 playtime example(x: numba, y: squarehole) {
   peekaboo y {
     gibberish(x ** 3)
@@ -153,9 +149,11 @@ playtime example(x: numba, y: squarehole) {
 }
 
 example(3, googoo)
-</td>
-<td>
-jsfunction example(x, y) {
+```
+
+_JavaScript__
+```javascript
+function example(x, y) {
   if (y) {
     console.log(x ** 3);
   } else {
@@ -164,20 +162,15 @@ jsfunction example(x, y) {
 }
 
 example(3, false);
-</td>
-</tr>
-</table>
+```
 
 
 ----------------------------------------------------------------------------------------------------------------
 
 <h4> Number Guessing Game </h4>
 
-<table>
-<tr><th>InfantJS</th><th>JavaScript</th></tr>
-<tr>
-<td>
-mine num = flippy(1, 100)
+__InfantJS__
+```mine num = flippy(1, 100)
 mine guess = 0
 
 gibberish("What number am I thinking of?\n")
@@ -193,9 +186,11 @@ wawawa num != guess {
 }
 
 gibberish("You got it! It was " + babble(num) + "!")
-</td>
-<td>
-jslet num = Math.floor(Math.random() * 100) + 1;
+```
+
+__JavaScript__
+```javascript
+let num = Math.floor(Math.random() * 100) + 1;
 let guess = 0;
 
 console.log("What number am I thinking of?\n");
@@ -211,29 +206,24 @@ while (num !== guess) {
 }
 
 console.log("You got it! It was " + String(num) + "!");
-</td>
-</tr>
-</table>
+```
 
 ----------------------------------------------------------------------------------------------------------------
 
 <h4> While Loop with Variable </h4>
 
-<table>
-<tr><th>InfantJS</th><th>JavaScript</th></tr>
-<tr>
-<td>
-wawawa googoo {
+__InfantJS__
+```wawawa googoo {
   gibberish(gaagaa)
 }
-</td>
-<td>
-jswhile (false) {
+```
+
+__JavaScript__
+```javascript
+while (false) {
   console.log(true);
 }
-</td>
-</tr>
-</table>
+```
  
 ----------------------------------------------------------------------------------------------------------------
 
