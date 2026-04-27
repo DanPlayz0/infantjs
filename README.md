@@ -36,7 +36,7 @@ Language Features
 * __Random number generation__ — <code>flippy(min, max) </code>
 * __User input__ — <code> nomnom("prompt") </code>
 * __Type casting__ — <code> numba() </code>, <code> babble() </code>, <code> squarehole() </code>with validated cast paths
-* __Math builtins__ —  <code> crawl() </code> (floor), <code> climb() </code> (ceil), <code> roll() </code> (round)
+* __Math builtins__ —  <code> crawl() </code> (floor), <code> climb() </ code>(ceil), <code> roll()</code> (round)
 * __Sleep / delay__ — <code> nap(ms) </code>— validated to be a positive number
 * __Return statements__ — <code> bedtime </code>(value or void)
 * __Dual code generation__ — compiles to both JavaScript and Python
@@ -71,8 +71,7 @@ __The analyzer enforces the following constraints at compile time, before any co
 
 <h2>Keyword Reference </h2>
 
-| __InfantJS__              | __Meaning__ | __JavaScript Equivalent__ |
-| :---------------- | :------: | ----: |
+|   __InfantJS__  |   __Meaning__    |     __JavaScript Equivalent__ |
 |  <code> mine </code>   |    declare variable   |   <code> let </code>  |
 |   <code> gibberish </code>  |   print to console    |   <code> console.log </code>  |
 |   <code> peekaboo </code>  |   if    |   <code> if </code>  |
@@ -96,6 +95,7 @@ __The analyzer enforces the following constraints at compile time, before any co
 <h2> Example Programs </h2>
 
 __Hello World__
+
 <table><tr><th>InfantJS</th><th>JavaScript</th></tr>
 <tr>
 <td>
@@ -107,7 +107,132 @@ jsconsole.log(100 + 100);
 </tr>
 </table>
 
+----------------------------------------------------------------------------------------------------------------
 
+
+__Variables and Arithmetic__
+
+<table>
+<tr><th>InfantJS</th><th>JavaScript</th></tr>
+<tr>
+<td>
+mine x = 100 + 100
+gibberish(x / 2)
+x = x - 50
+gibberish(x)
+peekaboo x > 100 {
+  gibberish(x ** 3)
+}
+</td>
+<td>
+jslet x = 100 + 100;
+console.log(x / 2);
+x = x - 50;
+console.log(x);
+if (x > 100) {
+  console.log(x ** 3);
+}
+</td>
+</tr>
+</table>
+
+----------------------------------------------------------------------------------------------------------------
+
+Functions
+<table>
+<tr><th>InfantJS</th><th>JavaScript</th></tr>
+<tr>
+<td>
+playtime example(x: numba, y: squarehole) {
+  peekaboo y {
+    gibberish(x ** 3)
+  } nuhuh {
+    gibberish(x ** 2)
+  }
+}
+
+example(3, googoo)
+</td>
+<td>
+jsfunction example(x, y) {
+  if (y) {
+    console.log(x ** 3);
+  } else {
+    console.log(x ** 2);
+  }
+}
+
+example(3, false);
+</td>
+</tr>
+</table>
+
+
+----------------------------------------------------------------------------------------------------------------
+
+Number Guessing Game
+<table>
+<tr><th>InfantJS</th><th>JavaScript</th></tr>
+<tr>
+<td>
+mine num = flippy(1, 100)
+mine guess = 0
+
+gibberish("What number am I thinking of?\n")
+
+wawawa num != guess {
+  guess = numba(nomnom("Your guess: \n"))
+
+  peekaboo guess > num {
+    gibberish("Too high! Try again!\n")
+  } nuhuh {
+    gibberish("Too low! Try again!\n")
+  }
+}
+
+gibberish("You got it! It was " + babble(num) + "!")
+</td>
+<td>
+jslet num = Math.floor(Math.random() * 100) + 1;
+let guess = 0;
+
+console.log("What number am I thinking of?\n");
+
+while (num !== guess) {
+  guess = Number(await readline("Your guess: \n"));
+
+  if (guess > num) {
+    console.log("Too high! Try again!\n");
+  } else {
+    console.log("Too low! Try again!\n");
+  }
+}
+
+console.log("You got it! It was " + String(num) + "!");
+</td>
+</tr>
+</table>
+
+----------------------------------------------------------------------------------------------------------------
+
+While Loop with Variable
+<table>
+<tr><th>InfantJS</th><th>JavaScript</th></tr>
+<tr>
+<td>
+wawawa googoo {
+  gibberish(gaagaa)
+}
+</td>
+<td>
+jswhile (false) {
+  console.log(true);
+}
+</td>
+</tr>
+</table>
+ 
+----------------------------------------------------------------------------------------------------------------
 
 ## How do I run this language?
 
