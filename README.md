@@ -152,7 +152,7 @@ playtime example(x: numba, y: squarehole) {
 example(3, googoo)
 ```
 
-_JavaScript__
+__JavaScript__
 ```javascript
 function example(x, y) {
   if (y) {
@@ -230,7 +230,7 @@ while (false) {
 
 <h4> Math Builtins and Casting </h4>
 
-
+__InfantJS__
 ```
 mine pi = 3.14159
 gibberish(crawl(pi))
@@ -259,11 +259,14 @@ console.log("Pi is: " + asText);
 
 __Install dependencies__
 
-```
+```python
 npm install
 ```
+__Compile and run a <code>.infant </code> file (translates to JS and executes):__
 
-
+```python
+npm run translate examples/guess-number-game.infant
+```
 
 
 
