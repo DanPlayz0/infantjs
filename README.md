@@ -96,16 +96,15 @@ __The analyzer enforces the following constraints at compile time, before any co
 
 <h4> Hello World </h4>
 
-<table><tr><th>InfantJS</th><th>JavaScript</th></tr>
-<tr>
-<td>
+__InfantJS__
+```InfantJS
 gibberish(100 + 100)
-</td>
-<td>
-jsconsole.log(100 + 100);
-</td>
-</tr>
-</table>
+```
+
+_JavaScript__
+```javascript
+console.log(100 + 100);
+```
 
 ----------------------------------------------------------------------------------------------------------------
 
@@ -238,6 +237,9 @@ jswhile (false) {
  
 ----------------------------------------------------------------------------------------------------------------
 
+<h4> Math Builtins and Casting </h4>
+
+
 ```
 mine pi = 3.14159
 gibberish(crawl(pi))
@@ -258,6 +260,8 @@ console.log(Math.round(pi));
 let asText = String(pi);
 console.log("Pi is: " + asText);
 ```
+
+
 ----------------------------------------------------------------------------------------------------------------
 
 <h2>How to Run</h2>
