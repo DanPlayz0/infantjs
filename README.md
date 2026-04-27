@@ -13,7 +13,7 @@ We decided to take that literally. So we created a langauge based on babies most
 
 You must run the translator which will automatically translate to javascript and run it.
 
-An example of how to run/use the translator: `npm run translate:run examples/guess-number-game.infant`
+An example of how to run/use the translator: `npm run translate examples/guess-number-game.infant`
 
 <!-- 
 To run an example (e.g `math.infant`): `npm run baby examples/math.infant`

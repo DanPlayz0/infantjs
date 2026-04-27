@@ -22,7 +22,7 @@
   ],
   "scripts": {
     "lang": "node src/infant.js",
-    "translate:run": "node src/translate.js",
+    "translate": "node src/translate.js",
     "test": "c8 node --test test/**/*.test.js"
   },
   "dependencies": {

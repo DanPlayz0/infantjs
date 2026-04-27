@@ -4,6 +4,7 @@
 
 export default function generate(program) {
   const output = []
+  let inputFunctionInjected = false
 
   // Each variable/function gets a unique suffix to avoid collisions
   // with JavaScript reserved words (e.g. a variable named "for" becomes "for_1")
@@ -20,16 +21,6 @@ export default function generate(program) {
 
   const generators = {
     Program(p) {
-      output.push(`import * as readline from 'node:readline/promises';`)
-      output.push(`import { stdin as input, stdout as output } from 'node:process';`)
-      output.push(``)
-      output.push(`async function __promptInput(prompt) {`)
-      output.push(`  const rl = readline.createInterface({ input, output });`)
-      output.push(`  const answer = await rl.question(prompt);`)
-      output.push(`  rl.close();`)
-      output.push(`  return answer;`)
-      output.push(`}`)
-      output.push(``)
       p.body.forEach(s => {
         const result = gen(s)
         // Statement generators push to output themselves and return undefined.
@@ -109,6 +100,21 @@ export default function generate(program) {
     },
 
     InputStatement(s) {
+      if (!inputFunctionInjected) {
+        // optimization: only inject the input function if it's actually used in the program
+        inputFunctionInjected = true
+        output.unshift(`import * as readline from 'node:readline/promises';`)
+        output.unshift(`import { stdin as input, stdout as output } from 'node:process';`)
+        output.unshift(``)
+        output.unshift(`async function __promptInput(prompt) {`)
+        output.unshift(`  const rl = readline.createInterface({ input, output });`)
+        output.unshift(`  const answer = await rl.question(prompt);`)
+        output.unshift(`  rl.close();`)
+        output.unshift(`  return answer;`)
+        output.unshift(`}`)
+        output.unshift(``)
+      }
+
       return `await __promptInput(${gen(s.prompt)})`
     },
 
