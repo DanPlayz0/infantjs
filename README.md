@@ -93,6 +93,19 @@ __The analyzer enforces the following constraints at compile time, before any co
 |   <code> squarehole </code>  |   boolean type / cast    |  <code> Boolean() </code>   |
 
 
+<h2> Example Programs </h2>
+
+__Hello World__
+<table><tr><th>InfantJS</th><th>JavaScript</th></tr>
+<tr>
+<td>
+gibberish(100 + 100)
+</td>
+<td>
+jsconsole.log(100 + 100);
+</td>
+</tr>
+</table>
 
 
 
