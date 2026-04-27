@@ -369,11 +369,3 @@ An example of how to run/use the translator: `npm run translate examples/guess-n
 <!-- 
 To run an example (e.g `math.infant`): `npm run baby examples/math.infant`
 To run tests: `npm test` -->
-
-## This language features:
-  - A baby-friendly syntax
-  - Javascript style structure
-  - Dynamic typing
-
-## Link to Companion Website
- [Link Text](https://infantjs.compiles.me)
