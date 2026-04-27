@@ -296,9 +296,71 @@ npm test
 
 ----------------------------------------------------------------------------------------------------------------
 
+<h2> Repository Structure <h2>
 
+```
+.
+├── README.md
+├── LICENSE
+├── package.json
+├── .gitignore
+├── docs/                        ← companion website (GitHub Pages)
+│   ├── index.html
+│   ├── index.css
+│   ├── logo.png
+│   ├── about/
+│   ├── examples/
+│   ├── github/
+│   ├── story/
+│   └── theme/
+├── examples/                    ← example .infant programs
+│   ├── hello.infant
+│   ├── math.infant
+│   ├── example.infant
+│   ├── guess-number-game.infant
+│   ├── class-export.infant
+│   └── class-import.infant
+├── src/
+│   ├── infant.js                ← CLI entrypoint
+│   ├── infantjs.ohm             ← Ohm grammar
+│   ├── compiler.js              ← pipeline orchestrator
+│   ├── parser.js                ← parser (wraps Ohm)
+│   ├── core.js                  ← AST node constructors
+│   ├── analyzer.js              ← semantic analyzer
+│   ├── optimizer.js             ← AST optimizer
+│   ├── generator.js             ← JavaScript code generator
+│   └── generator-python.js      ← Python code generator
+└── test/
+    ├── compiler.test.js
+    ├── parser.test.js
+    ├── analyzer.test.js
+    ├── optimizer.test.js
+    └── generator.test.js
+```
 
+----------------------------------------------------------------------------------------------------------------
 
+<h2> Grammer (abbreviated) </h2>
+
+__The full grammar lives in <code> src/infantjs.ohm. </code> Key rules:__
+```ohm
+Statement = PrintStmt | LetStmt | AssignStmt | IfStmt | WhileStmt
+          | FunDecl | FunCall | RandomStmt | InputStmt | ReturnStmt
+          | SleepStmt | CastStmt
+
+LetStmt    = "mine" id "=" Exp
+PrintStmt  = "gibberish" "(" Exp ")"
+IfStmt     = "peekaboo" Exp Block ("nuhuh" Block)?
+WhileStmt  = "wawawa" Exp Block
+FunDecl    = "playtime" id "(" Params ")" Block
+ReturnStmt = "bedtime" Exp?
+```
+
+----------------------------------------------------------------------------------------------------------------
+
+<h2> Companion Website </h2>
+
+Visit <u>infantjs.compiles.me</u> for the full language story, live examples, and developer bios
 
 You must run the translator which will automatically translate to javascript and run it.
 
