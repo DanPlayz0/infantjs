@@ -253,6 +253,7 @@ mine asText = babble(pi)
 gibberish("Pi is: " + asText)
 </td>
 <td>
+'''JavaScript
 jslet pi = 3.14159;
 console.log(Math.floor(pi));
 console.log(Math.ceil(pi));
@@ -260,6 +261,7 @@ console.log(Math.round(pi));
 
 let asText = String(pi);
 console.log("Pi is: " + asText);
+'''
 </td>
 </tr>
 </table>
@@ -272,7 +274,6 @@ __Install dependencies__
 
 ```
 npm install
-
 ```
 
 
