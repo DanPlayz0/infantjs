@@ -270,6 +270,13 @@ console.log("Pi is: " + asText);
 
 __Install dependencies__
 
+```
+npm install
+
+```
+
+
+
 
 
 
