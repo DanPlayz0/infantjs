@@ -72,7 +72,6 @@ __The analyzer enforces the following constraints at compile time, before any co
 <h2>Keyword Reference </h2>
 
 |   __InfantJS__  |   __Meaning__    |     __JavaScript Equivalent__ |
-| :---------------- | :------: | ----: |
 |  <code> mine </code>   |    declare variable   |   <code> let </code>  |
 |   <code> gibberish </code>  |   print to console    |   <code> console.log </code>  |
 |   <code> peekaboo </code>  |   if    |   <code> if </code>  |
@@ -111,7 +110,8 @@ jsconsole.log(100 + 100);
 ----------------------------------------------------------------------------------------------------------------
 
 
-__Variables and Arithmetic__
+<h4> __Variables and Arithmetic__ </h4>
+
 
 <table>
 <tr><th>InfantJS</th><th>JavaScript</th></tr>
@@ -139,7 +139,8 @@ if (x > 100) {
 
 ----------------------------------------------------------------------------------------------------------------
 
-Functions
+<h4> __Functions__ <h4>
+
 <table>
 <tr><th>InfantJS</th><th>JavaScript</th></tr>
 <tr>
@@ -171,7 +172,8 @@ example(3, false);
 
 ----------------------------------------------------------------------------------------------------------------
 
-Number Guessing Game
+<h4> __Number Guessing Game__ </h4>
+
 <table>
 <tr><th>InfantJS</th><th>JavaScript</th></tr>
 <tr>
@@ -216,7 +218,8 @@ console.log("You got it! It was " + String(num) + "!");
 
 ----------------------------------------------------------------------------------------------------------------
 
-While Loop with Variable
+<h4> __While Loop with Variable__ </h4>
+
 <table>
 <tr><th>InfantJS</th><th>JavaScript</th></tr>
 <tr>
@@ -235,7 +238,39 @@ jswhile (false) {
  
 ----------------------------------------------------------------------------------------------------------------
 
-## How do I run this language?
+<h4> __Math Builtins and Casting__ </h4>
+
+<table>
+<tr><th>InfantJS</th><th>JavaScript</th></tr>
+<tr>
+<td>
+mine pi = 3.14159
+gibberish(crawl(pi))
+gibberish(climb(pi))
+gibberish(roll(pi))
+
+mine asText = babble(pi)
+gibberish("Pi is: " + asText)
+</td>
+<td>
+jslet pi = 3.14159;
+console.log(Math.floor(pi));
+console.log(Math.ceil(pi));
+console.log(Math.round(pi));
+
+let asText = String(pi);
+console.log("Pi is: " + asText);
+</td>
+</tr>
+</table>
+
+----------------------------------------------------------------------------------------------------------------
+
+<h2>How to Run</h2>
+__Install dependencies__
+
+
+
 
 You must run the translator which will automatically translate to javascript and run it.
 
