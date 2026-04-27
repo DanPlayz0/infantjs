@@ -94,7 +94,7 @@ __The analyzer enforces the following constraints at compile time, before any co
 
 <h2> Example Programs </h2>
 
-__Hello World__
+<h4> Hello World </h4>
 
 <table><tr><th>InfantJS</th><th>JavaScript</th></tr>
 <tr>
