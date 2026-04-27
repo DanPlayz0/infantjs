@@ -238,12 +238,7 @@ jswhile (false) {
  
 ----------------------------------------------------------------------------------------------------------------
 
-<h4> Math Builtins and Casting </h4>
-
-<table>
-<tr><th>InfantJS</th><th>JavaScript</th></tr>
-<tr>
-<td>
+```
 mine pi = 3.14159
 gibberish(crawl(pi))
 gibberish(climb(pi))
@@ -251,9 +246,11 @@ gibberish(roll(pi))
 
 mine asText = babble(pi)
 gibberish("Pi is: " + asText)
+```
 
+__JavaScript__
 ```JavaScript
-jslet pi = 3.14159;
+let pi = 3.14159;
 console.log(Math.floor(pi));
 console.log(Math.ceil(pi));
 console.log(Math.round(pi));
@@ -261,7 +258,6 @@ console.log(Math.round(pi));
 let asText = String(pi);
 console.log("Pi is: " + asText);
 ```
-
 ----------------------------------------------------------------------------------------------------------------
 
 <h2>How to Run</h2>
