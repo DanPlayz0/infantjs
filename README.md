@@ -259,12 +259,12 @@ console.log("Pi is: " + asText);
 
 __Install dependencies__
 
-```python
+```ruby
 npm install
 ```
 __Compile and run a <code>.infant </code> file (translates to JS and executes):__
 
-```python
+```javascript
 npm run translate examples/guess-number-game.infant
 ```
 
