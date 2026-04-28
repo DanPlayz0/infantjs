@@ -8,7 +8,6 @@ A programming language for *literal* babies
 
 ----------------------------------------------------------------------------------------------------------------
 
-
 ## Story
 
 We were inspired by our professor when he decided to make a programming language called "Baby.js" in our compilers class, we looked at each other and decided why stop with just babies, infants need to program too. That was were InfantJS was born. 
@@ -32,15 +31,14 @@ Language Features
 * __Type-safe arithmetic__ — booleans cannot appear in numeric expressions; strings cannot be multiplied or divided
 * __String concatenation__ — `+` is overloaded for strings, but only when both operands are strings
 * __Conditionals__ — `peekaboo` / `nuhuh` (if / else)
-* __Loops__ — <code>wawawa</code> (while)
-* __Random number generation__ — <code>flippy(min, max)`
+* __Loops__ — `wawawa` (while)
+* __Random number generation__ — `flippy(min, max)`
 * __User input__ — `nomnom("prompt")`
 * __Type casting__ — `numba()`, `babble()`, `squarehole()`with validated cast paths
-* __Math builtins__ —  `crawl()` (floor), `climb()`(ceil), `roll()</code> (round)
-* __Sleep / delay__ — `nap(ms)`— validated to be a positive number
-* __Return statements__ — `bedtime`(value or void)
+* __Math builtins__ —  `crawl()` (floor), `climb()` (ceil), `roll()` (round)
+* __Sleep / delay__ — `nap(ms)`— validated to be a positive number in milliseconds
+* __Return statements__ — `bedtime` (with value or void)
 * __Dual code generation__ — compiles to both JavaScript and Python
-
 
 ----------------------------------------------------------------------------------------------------------------
 
@@ -49,23 +47,23 @@ __The analyzer enforces the following constraints at compile time, before any co
 
 | __Check__    | __Example Error Caught__ |
 | -------- | ------- |
-|  Undefined variable reference | <code>gibberish(x)</code> before `mine x = ...</code>    |
-| Variable redeclaration in same scope |  <code>mine x = 1</code> then <code>mine x = 2` |
-| Assignment to undeclared variable    | <code>x = 5` without prior `mine x = ...`   |
+|  Undefined variable reference | `gibberish(x)` before `mine x = ...`    |
+| Variable redeclaration in same scope |  `mine x = 1` then `mine x = 2` |
+| Assignment to undeclared variable    | `x = 5` without prior `mine x = ...`   |
 |   Type mismatch on assignment  |   `mine x = 1` then `x = gaagaa`  |
-|   Non-boolean in <code>peekaboo` /  `wawawa ` condition   |  ` peekaboo 1 { ... }` |
+|   Non-boolean in `peekaboo` /  `wawawa ` condition   |  ` peekaboo 1 { ... }` |
 |  Non-number in arithmetic expression   | `gibberish(gaagaa * 2)`   |
 |  Non-number in `flippy` bounds   |  `flippy(gaagaa, 10)`  |
-|  Non-number in math builtins   |  `crawl(gaagaa) ` |
-|  Non-positive number in <code>nap`   |   <code nap(0)`, <code nap(-100)`  |
-|  Non-string prompt in `nomnom</code>   |  `nomnom(42)`  |
-|   Wrong argument count at call site  |   `playtime f() { ... }` called as `f(1) ` |
+|  Non-number in math builtins   |  `crawl(gaagaa)` |
+|  Non-positive number in `nap`   |   `nap(0)`, `nap(-100)`  |
+|  Non-string prompt in `nomnom`   |  `nomnom(42)`  |
+|   Wrong argument count at call site  |   `playtime f() { ... }` called as `f(1)` |
 |   Type mismatch in function arguments  |  `f(x: numba)` called with a boolean   |
 |   Invalid type cast  |  `numba(gaagaa)` <em> (boolean → number is disallowed)  </em> |
-|   String used with non-<code>+`operator  |  `"hello" * 3 `  |
-|  Mixed-type string concatenation   |  `"hello" + 1 ` |
-|   Unknown type annotation  |  `playtime f(x: unknown) ` |
-|   Undefined function call  |  `foo()` without prior `playtime foo() `  |
+|   String used with non-`+`operator  |  `"hello" * 3`  |
+|  Mixed-type string concatenation   |  `"hello" + 1` |
+|   Unknown type annotation  |  `playtime f(x: unknown)` |
+|   Undefined function call  |  `foo()` without prior `playtime foo()`  |
 
 
 
@@ -264,7 +262,7 @@ __Install dependencies__
 ```ruby
 npm install
 ```
-__Compile and run a <code>.infant` file (translates to JS and executes):__
+__Compile and run a `.infant` file (translates to JS and executes):__
 
 ```bash
 node src/infant.js examples/guess-number-game.infant js
