@@ -16,7 +16,7 @@ So we built InfantJS a dynamically-flavored language with keywords that only an 
 
 It's a completely 100% serious fully functional compiled language, with a real static analyzer, optimizer, and code generator.
 
-Team: Danny Divinsky, Samuel Rambo, Gabriel Garcia
+Team: Danny Divinsky, Samuel Rambo, Gabriel Garcia, Parker Jazayeri
 
 ----------------------------------------------------------------------------------------------------------------
 
