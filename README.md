@@ -27,18 +27,18 @@ Language Features
 * __Type inference__ — the analyzer infers the type of every expression and variable at compile time
 * __Type checking__ — type mismatches (e.g. assigning a boolean to a number variable) are caught before runtime
 * __Static scope resolution__ — variables are resolved at compile time with nested lexical scoping
-* __Functions with typed parameters__ — parameters are annotated with types (<code> numba </code>, <code> squarehole </code>, <code> babble </code>) and checked at call sites
+* __Functions with typed parameters__ — parameters are annotated with types (`numba`, `squarehole`, `babble`) and checked at call sites
 * __Arity checking__ — calling a function with the wrong number of arguments is a compile-time error
 * __Type-safe arithmetic__ — booleans cannot appear in numeric expressions; strings cannot be multiplied or divided
-* __String concatenation__ — <code> + </code> is overloaded for strings, but only when both operands are strings
-* __Conditionals__ — <code> peekaboo </code> / <code> nuhuh </code> (if / else)
+* __String concatenation__ — `+` is overloaded for strings, but only when both operands are strings
+* __Conditionals__ — `peekaboo` / `nuhuh` (if / else)
 * __Loops__ — <code>wawawa</code> (while)
-* __Random number generation__ — <code>flippy(min, max) </code>
-* __User input__ — <code> nomnom("prompt") </code>
-* __Type casting__ — <code> numba() </code>, <code> babble() </code>, <code> squarehole() </code>with validated cast paths
-* __Math builtins__ —  <code> crawl() </code> (floor), <code> climb() </code>(ceil), <code> roll()</code> (round)
-* __Sleep / delay__ — <code> nap(ms) </code>— validated to be a positive number
-* __Return statements__ — <code> bedtime </code>(value or void)
+* __Random number generation__ — <code>flippy(min, max)`
+* __User input__ — `nomnom("prompt")`
+* __Type casting__ — `numba()`, `babble()`, `squarehole()`with validated cast paths
+* __Math builtins__ —  `crawl()` (floor), `climb()`(ceil), `roll()</code> (round)
+* __Sleep / delay__ — `nap(ms)`— validated to be a positive number
+* __Return statements__ — `bedtime`(value or void)
 * __Dual code generation__ — compiles to both JavaScript and Python
 
 
@@ -49,23 +49,23 @@ __The analyzer enforces the following constraints at compile time, before any co
 
 | __Check__    | __Example Error Caught__ |
 | -------- | ------- |
-|  Undefined variable reference | <code>gibberish(x)</code> before <code> mine x = ...</code>    |
-| Variable redeclaration in same scope |  <code>mine x = 1</code> then <code>mine x = 2 </code> |
-| Assignment to undeclared variable    | <code>x = 5 </code> without prior <code> mine x = ... </code>   |
-|   Type mismatch on assignment  |   <code> mine x = 1 </code> then <code> x = gaagaa </code>  |
-|   Non-boolean in <code>peekaboo </code> /  <code> wawawa  </code> condition   |  <code>  peekaboo 1 { ... } </code> |
-|  Non-number in arithmetic expression   | <code> gibberish(gaagaa * 2) </code>   |
-|  Non-number in <code> flippy </code> bounds   |  <code> flippy(gaagaa, 10) </code>  |
-|  Non-number in math builtins   |  <code> crawl(gaagaa)  </code> |
-|  Non-positive number in <code>nap </code>   |   <code nap(0) </code>, <code nap(-100) </code>  |
-|  Non-string prompt in <code> nomnom</code>   |  <code> nomnom(42) </code>  |
-|   Wrong argument count at call site  |   <code> playtime f() { ... } </code> called as <code> f(1)  </code> |
-|   Type mismatch in function arguments  |  <code> f(x: numba) </code> called with a boolean   |
-|   Invalid type cast  |  <code> numba(gaagaa) </code> <em> (boolean → number is disallowed)  </em> |
-|   String used with non-<code>+ </code>operator  |  <code> "hello" * 3  </code>  |
-|  Mixed-type string concatenation   |  <code> "hello" + 1  </code> |
-|   Unknown type annotation  |  <code> playtime f(x: unknown)  </code> |
-|   Undefined function call  |  <code> foo() </code> without prior <code> playtime foo()  </code>  |
+|  Undefined variable reference | <code>gibberish(x)</code> before `mine x = ...</code>    |
+| Variable redeclaration in same scope |  <code>mine x = 1</code> then <code>mine x = 2` |
+| Assignment to undeclared variable    | <code>x = 5` without prior `mine x = ...`   |
+|   Type mismatch on assignment  |   `mine x = 1` then `x = gaagaa`  |
+|   Non-boolean in <code>peekaboo` /  `wawawa ` condition   |  ` peekaboo 1 { ... }` |
+|  Non-number in arithmetic expression   | `gibberish(gaagaa * 2)`   |
+|  Non-number in `flippy` bounds   |  `flippy(gaagaa, 10)`  |
+|  Non-number in math builtins   |  `crawl(gaagaa) ` |
+|  Non-positive number in <code>nap`   |   <code nap(0)`, <code nap(-100)`  |
+|  Non-string prompt in `nomnom</code>   |  `nomnom(42)`  |
+|   Wrong argument count at call site  |   `playtime f() { ... }` called as `f(1) ` |
+|   Type mismatch in function arguments  |  `f(x: numba)` called with a boolean   |
+|   Invalid type cast  |  `numba(gaagaa)` <em> (boolean → number is disallowed)  </em> |
+|   String used with non-<code>+`operator  |  `"hello" * 3 `  |
+|  Mixed-type string concatenation   |  `"hello" + 1 ` |
+|   Unknown type annotation  |  `playtime f(x: unknown) ` |
+|   Undefined function call  |  `foo()` without prior `playtime foo() `  |
 
 
 
@@ -73,24 +73,24 @@ __The analyzer enforces the following constraints at compile time, before any co
 
 |   __InfantJS__  |   __Meaning__    |     __JavaScript Equivalent__ |
 | :---------------- | :------: | ----: |
-|  <code> mine </code>   |    declare variable   |   <code> let </code>  |
-|   <code> gibberish </code>  |   print to console    |   <code> console.log </code>  |
-|   <code> peekaboo </code>  |   if    |   <code> if </code>  |
-|   <code> nuhuh </code>  |    else   |   <code> else </code>  |
-|   <code> wawawa </code>  |   while    |   <code> while </code>  |
-|  <code> playtime </code>   |    functuin declaration   |   <code> function </code>  |
-|   <code> bedtime </code>  |   return    |  <code> return </code>   |
-|   <code> gaagaa </code>  |   true    |  <code> true </code>   |
-|   <code> googoo </code>  |   false    |  <code> false </code>   |
-|   <code> flippy </code>  |   random int in range    |  <code> Math.floor(Math.random() *...) </code>   |
-|   <code> nomnom </code>  |   read user input    |  <code> readline </code>   |
-|   <code> nap </code>  |   sleep / delay / (ms)    |  <code> setTimeout </code>   |
-|   <code> crawl </code>  |   floor    |  <code> Math.floor </code>   |
-|   <code> climb </code>  |   ceil    |  <code> Math.ceil </code>   |
-|   <code> roll </code>  |   round    |  <code> Math.round </code>   |
-|   <code> numba </code>  |   number type / cast    |  <code> Number() </code>   |
-|   <code> babble </code>  |   string type / cast    |  <code> String() </code>   |
-|   <code> squarehole </code>  |   boolean type / cast    |  <code> Boolean() </code>   |
+|  `mine`   |    declare variable   |   `let`  |
+|   `gibberish`  |   print to console    |   `console.log`  |
+|   `peekaboo`  |   if    |   `if`  |
+|   `nuhuh`  |    else   |   `else`  |
+|   `wawawa`  |   while    |   `while`  |
+|  `playtime`   |    function declaration   |   `function`  |
+|   `bedtime`  |   return    |  `return`   |
+|   `gaagaa`  |   true    |  `true`   |
+|   `googoo`  |   false    |  `false`   |
+|   `flippy`  |   random int in range    |  `Math.floor(Math.random() *...)`   |
+|   `nomnom`  |   read user input    |  `readline`   |
+|   `nap`  |   sleep / delay / (ms)    |  `setTimeout`   |
+|   `crawl`  |   floor    |  `Math.floor`   |
+|   `climb`  |   ceil    |  `Math.ceil`   |
+|   `roll`  |   round    |  `Math.round`   |
+|   `numba`  |   number type / cast    |  `Number()`   |
+|   `babble`  |   string type / cast    |  `String()`   |
+|   `squarehole`  |   boolean type / cast    |  `Boolean()`   |
 
 
 <h2> Example Programs </h2>
@@ -98,13 +98,13 @@ __The analyzer enforces the following constraints at compile time, before any co
 <h4> Hello World </h4>
 
 __InfantJS__
-```InfantJS
-gibberish(100 + 100)
+```js
+gibberish("Hello World")
 ```
 
 __JavaScript__
 ```javascript
-console.log(100 + 100);
+console.log("Hello World");
 ```
 
 ----------------------------------------------------------------------------------------------------------------
@@ -113,7 +113,7 @@ console.log(100 + 100);
 <h4> Variables and Arithmetic </h4>
 
 __InfantJS__
-```
+```js
 mine x = 100 + 100
 gibberish(x / 2)
 x = x - 50
@@ -140,7 +140,7 @@ if (x > 100) {
 <h4> Functions <h4>
 
 __InfantJS__
-```
+```js
 playtime example(x: numba, y: squarehole) {
   peekaboo y {
     gibberish(x ** 3)
@@ -171,7 +171,8 @@ example(3, false);
 <h4> Number Guessing Game </h4>
 
 __InfantJS__
-```mine num = flippy(1, 100)
+```js
+mine num = flippy(1, 100)
 mine guess = 0
 
 gibberish("What number am I thinking of?\n")
@@ -214,7 +215,8 @@ console.log("You got it! It was " + String(num) + "!");
 <h4> While Loop with Variable </h4>
 
 __InfantJS__
-```wawawa googoo {
+```
+wawawa googoo {
   gibberish(gaagaa)
 }
 ```
@@ -262,14 +264,14 @@ __Install dependencies__
 ```ruby
 npm install
 ```
-__Compile and run a <code>.infant </code> file (translates to JS and executes):__
+__Compile and run a <code>.infant` file (translates to JS and executes):__
 
-```ruby
-npm run translate examples/guess-number-game.infant
+```bash
+node src/infant.js examples/guess-number-game.infant js
 ```
 
 __Use the compiler directly:__
-```ruby
+```bash
 # Check syntax only
 node src/infant.js examples/hello.infant parsed
 
@@ -285,12 +287,15 @@ node src/infant.js examples/hello.infant js
 # Generate Python
 node src/infant.js examples/hello.infant py
 
-# Write output to file
+# Write output to javascript file
 node src/infant.js examples/hello.infant js --write
+
+# Write output to python file
+node src/infant.js examples/hello.infant py --write
 ```
 
 __Run the tests with coverage:__
-```ruby
+```bash
 npm test
 ```
 
@@ -342,7 +347,7 @@ npm test
 
 <h2> Grammer (abbreviated) </h2>
 
-__The full grammar lives in <code> src/infantjs.ohm. </code> Key rules:__
+__The full grammar lives in `src/infantjs.ohm.` Key rules:__
 ```ohm
 Statement = PrintStmt | LetStmt | AssignStmt | IfStmt | WhileStmt
           | FunDecl | FunCall | RandomStmt | InputStmt | ReturnStmt
@@ -362,12 +367,4 @@ ReturnStmt = "bedtime" Exp?
 
 Visit <u>infantjs.compiles.me</u> for the full language story, live examples, and developer bios
 
-You must run the translator which will automatically translate to javascript and run it.
-
-An example of how to run/use the translator: `npm run translate examples/guess-number-game.infant`
-
 ----------------------------------------------------------------------------------------------------------------
-
-<!-- 
-To run an example (e.g `math.infant`): `npm run baby examples/math.infant`
-To run tests: `npm test` -->
