@@ -1,18 +1,19 @@
 ---
 permalink: /about/
 ---
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>InfantJS Story</title>
+    <title>InfantJS — About</title>
     <link rel="stylesheet" href="/about/about.css">
     <link rel="icon" type="image/x-icon" href="/favicon.ico">
     <link rel="stylesheet" href="/theme/theme.css">
     <script src="/theme/theme.js" defer></script>
-
 </head>
 <body>
+
     <header class="overlay-header">
         <div class="logo-wrapper">
             <a href="/" class="site-title">InfantJS</a>
@@ -20,6 +21,7 @@ permalink: /about/
         </div>
         <nav class="top-nav">
             <a href="/examples/">Examples</a>
+            <a href="/checks/">Checks</a>
             <a href="/story/">Story</a>
             <a href="/about/">About</a>
             <a href="/github/">Github Repo</a>
@@ -28,38 +30,126 @@ permalink: /about/
 
     <main>
         <div class="page-buffer"></div>
-        <div class="film-detail-container">
-            <div class="poster-column">
-                <img src="/logo.png" alt="About Image">
+
+        <div class="about-container">
+
+            <!-- PAGE HEADER -->
+            <div class="about-header">
+                <span class="about-eyebrow">The Team</span>
+                <h1 class="about-title">Meet the Developers<br>Behind InfantJS</h1>
+                <p class="about-subtitle">
+                    Lorem ipsum dolor sit amet consectetur adipiscing elit. Dolor sit amet consectetur adipiscing elit quisque faucibus.
+                </p>
             </div>
 
-            <div class="content-column">
-                <div class="movie-info">
-                    <h1>Developer Bios</h1>
-                    <h2>Danny Divinsky</h2>
-                    <div class="poster-column">
-                        <img src="/blank_profile_picture.png" alt="About Image">
+            <!-- DEVELOPER CARDS -->
+            <div class="team-grid">
+
+                <div class="dev-card" style="--delay: 0ms">
+                    <div class="dev-photo-wrap">
+                        <img src="/about/blank_profile_picture.png" alt="Danny D." class="dev-photo">
+                        <div class="dev-photo-border"></div>
+                        <span class="dev-index">01</span>
                     </div>
-                    <p><i>Danny is a passionate developer with a love for creating engaging learning experiences for children.</i></p>
+                    <div class="dev-info">
+                        <h2 class="dev-name">Danny D.</h2>
+                        <p class="dev-bio">
+                            Lorem ipsum dolor sit amet consectetur adipiscing elit. Consectetur adipiscing elit 
+                            quisque faucibus ex sapien vitae. Ex sapien vitae pellentesque sem placerat in id. 
+                            Placerat in id cursus mi pretium tellus duis. Pretium tellus duis convallis tempus leo eu aenean.
+                        </p>
+                        <div class="dev-tags">
+                            <span class="tag">Parser</span>
+                            <span class="tag">Ohm Grammar</span>
+                            <span class="tag">Pipeline</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="dev-card" style="--delay: 80ms">
+                    <div class="dev-photo-wrap">
+                        <img src="/about/blank_profile_picture.png" alt="Samuel Rambo" class="dev-photo">
+                        <div class="dev-photo-border"></div>
+                        <span class="dev-index">02</span>
+                    </div>
+                    <div class="dev-info">
+                        <h2 class="dev-name">Samuel Rambo</h2>
+                        <p class="dev-bio">
+                            Lorem ipsum dolor sit amet consectetur adipiscing elit. Adipiscing elit quisque faucibus 
+                            ex sapien vitae pellentesque. Vitae pellentesque sem placerat in id cursus mi. Cursus mi 
+                            pretium tellus duis convallis tempus leo. Tempus leo eu aenean sed diam urna tempor. Urna 
+                            tempor pulvinar vivamus fringilla lacus nec metus.
+                        </p>
+                        <div class="dev-tags">
+                            <span class="tag">Analyzer</span>
+                            <span class="tag">Type System</span>
+                            <span class="tag">Scoping</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="dev-card" style="--delay: 160ms">
+                    <div class="dev-photo-wrap">
+                        <img src="/about/blank_profile_picture.png" alt="Gabriel Garcia" class="dev-photo">
+                        <div class="dev-photo-border"></div>
+                        <span class="dev-index">03</span>
+                    </div>
+                    <div class="dev-info">
+                        <h2 class="dev-name">Gabriel Garcia</h2>
+                        <p class="dev-bio">
+                            Lorem ipsum dolor sit amet consectetur adipiscing elit. Sit amet 
+                            consectetur adipiscing elit quisque faucibus ex. Adipiscing elit quisque 
+                            faucibus ex sapien vitae pellentesque.
+                        </p>
+                        <div class="dev-tags">
+                            <span class="tag">JS Generator</span>
+                            <span class="tag">Python Generator</span>
+                            <span class="tag">Website</span>
+                        </div>
+                    </div>
                 </div>
             </div>
+
+            <!-- FOOTER -->
+            <div class="about-footer">
+                <p>
+                    Built with <span class="heart">❤</span> and <code>gibberish()</code>
+                    at Loyola Marymount University &nbsp;·&nbsp; CMSI 3802 &nbsp;·&nbsp; Spring 2026
+                </p>
+                <a href="https://github.com/DanPlayz0/infantjs" class="footer-link" target="_blank">
+                    View on GitHub →
+                </a>
+            </div>
+
         </div>
     </main>
 
     <script>
         document.addEventListener('DOMContentLoaded', () => {
-          const infantButton = document.querySelector('.site-title');
-          const clickSound = new Audio('/Noise/creaturelaugh.mp3');
-          clickSound.playbackRate = 3.0;
-          infantButton.addEventListener('click', (event) => {
-            event.preventDefault(); 
-            const targetUrl = infantButton.getAttribute('href');
-            clickSound.play();
-            setTimeout(() => {
-                window.location.href = targetUrl;
-            }, 500); 
-          });
+            // Staggered entrance animation
+            const cards = document.querySelectorAll('.dev-card');
+            cards.forEach((card, i) => {
+                card.style.opacity = '0';
+                card.style.transform = 'translateY(24px)';
+                setTimeout(() => {
+                    card.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
+                    card.style.opacity = '1';
+                    card.style.transform = 'translateY(0)';
+                }, 120 + i * 80);
+            });
+
+            // Logo click sound
+            const infantButton = document.querySelector('.site-title');
+            const clickSound = new Audio('/Noise/creaturelaugh.mp3');
+            clickSound.playbackRate = 3.0;
+            infantButton.addEventListener('click', (event) => {
+                event.preventDefault();
+                const targetUrl = infantButton.getAttribute('href');
+                clickSound.play();
+                setTimeout(() => { window.location.href = targetUrl; }, 500);
+            });
         });
     </script>
+
 </body>
 </html>
