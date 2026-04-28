@@ -52,7 +52,7 @@ __The analyzer enforces the following constraints at compile time, before any co
 |  Undefined variable reference | <code>gibberish(x)</code> before <code> mine x = ...</code>    |
 | Variable redeclaration in same scope |  <code>mine x = 1</code> then <code>mine x = 2 </code> |
 | Assignment to undeclared variable    | <code>x = 5 </code> without prior <code> mine x = ... </code>   |
-|   Type mismatch on assignment  |   <code> mine x = 1 </<code> then <code> x = gaagaa </code>  |
+|   Type mismatch on assignment  |   <code> mine x = 1 </code> then <code> x = gaagaa </code>  |
 |   Non-boolean in <code>peekaboo </code> /  <code> wawawa  </code> condition   |  <code>  peekaboo 1 { ... } </code> |
 |  Non-number in arithmetic expression   | <code> gibberish(gaagaa * 2) </code>   |
 |  Non-number in <code> flippy </code> bounds   |  <code> flippy(gaagaa, 10) </code>  |
