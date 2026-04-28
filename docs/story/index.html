@@ -1,62 +1,195 @@
 ---
 permalink: /story/
 ---
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>InfantJS Story</title>
-    <link rel="stylesheet" href="/story/about.css">
+    <title>InfantJS — Story</title>
+    <link rel="stylesheet" href="/story/story.css">
     <link rel="icon" type="image/x-icon" href="/favicon.ico">
     <link rel="stylesheet" href="/theme/theme.css">
     <script src="/theme/theme.js" defer></script>
-
 </head>
 <body>
+
     <header class="overlay-header">
         <div class="logo-wrapper">
             <a href="/" class="site-title">InfantJS</a>
             <p class="site-subtitle">For Infants</p>
         </div>
         <nav class="top-nav">
-            <a href="/examples">Examples</a>
-            <a href="/story">Story</a>
-            <a href="/about">About</a>
-            <a href="/github">Github Repo</a>
+            <a href="/examples/">Examples</a>
+            <a href="/story/">Story</a>
+            <a href="/about/">About</a>
+            <a href="/github/">Github Repo</a>
         </nav>
     </header>
 
     <main>
         <div class="page-buffer"></div>
 
-        <div class="film-detail-container">
-            <div class="poster-column">
-                <img src="/logo.png" alt="About Image">
+        <div class="story-container">
+
+            <!-- PAGE HEADER -->
+            <div class="story-header anim-block">
+                <span class="story-eyebrow">The Origin Story</span>
+                <h1 class="story-title">How InfantJS<br>Came to Be</h1>
+                <p class="story-lead">
+                    A programming language born from one question:
+                    <em>what if Baby.js was still too hard?</em>
+                </p>
             </div>
 
-            <div class="content-column">
-                <div class="movie-info">
-                    <h1>Story</h1>
-                    <p><i>InfantJS is a simplified JavaScript environment designed for young learners. It provides a gentle introduction to programming concepts with a focus on creativity and exploration.</p></i>
+            <!-- PARAGRAPHS -->
+            <div class="story-body">
+
+                <div class="story-paragraph anim-block" style="--delay: 80ms">
+                    <div class="paragraph-aside">
+                        <span class="paragraph-number">01</span>
+                        <div class="paragraph-line"></div>
+                    </div>
+                    <div class="paragraph-content">
+                        <h2 class="paragraph-heading">The Joke</h2>
+                        <p>
+                            It started as a joke. Our professor introduced a toy language called
+                            "Baby.js" as a teaching vehicle for compiler concepts — a stripped-down
+                            runtime with simple syntax meant to illustrate how grammars, parsers,
+                            and semantic analyzers actually work. We looked at each other and thought:
+                            <em>why stop there?</em> If Baby.js exists, there must be something even
+                            more foundational. Something even a literal infant could understand.
+                            Something so simple, so pure, so wonderfully absurd that it could only
+                            have been designed by four sleep-deprived computer science students
+                            at two in the morning.
+                        </p>
+                    </div>
+                </div>
+
+                <div class="story-paragraph anim-block" style="--delay: 160ms">
+                    <div class="paragraph-aside">
+                        <span class="paragraph-number">02</span>
+                        <div class="paragraph-line"></div>
+                    </div>
+                    <div class="paragraph-content">
+                        <h2 class="paragraph-heading">The Language</h2>
+                        <p>
+                            So we built <strong>InfantJS</strong> — a fully compiled programming
+                            language whose entire vocabulary is drawn from the sacred lexicon of
+                            babies. You declare variables with <code>mine</code>. You print with
+                            <code>gibberish</code>. You loop with <code>wawawa</code>, branch with
+                            <code>peekaboo</code>, and return from functions with <code>bedtime</code>.
+                            Boolean true is <code>gaagaa</code>. Boolean false is <code>googoo</code>.
+                            Random numbers come from <code>flippy</code>. User input is consumed via
+                            <code>nomnom</code>. Under all that adorable syntax is a real compiler
+                            pipeline: an Ohm-based parser, a static semantic analyzer with type
+                            checking and scope resolution, an optimizer, and a code generator that
+                            outputs clean, runnable JavaScript — or Python, if you prefer.
+                        </p>
+                    </div>
+                </div>
+
+                <div class="story-paragraph anim-block" style="--delay: 240ms">
+                    <div class="paragraph-aside">
+                        <span class="paragraph-number">03</span>
+                        <div class="paragraph-line"></div>
+                    </div>
+                    <div class="paragraph-content">
+                        <h2 class="paragraph-heading">The Truth</h2>
+                        <p>
+                            The deeper truth is that InfantJS is a love letter to compiler design.
+                            Building a language from scratch forces you to reckon with every assumption
+                            you've ever made about programming. What <em>is</em> a type, really?
+                            What does scope actually mean? Why do some errors have to be caught at
+                            compile time, and not at runtime? We grappled with all of it — and wrapped
+                            the answers in the warmest, silliest, most infantile packaging we could
+                            imagine. We hope InfantJS makes you smile. We hope it makes you think.
+                            And we hope it proves, once and for all, that the best way to learn
+                            something serious is to refuse to take it seriously.
+                        </p>
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- KEYWORD STRIP -->
+            <div class="keyword-strip anim-block" style="--delay: 320ms">
+                <span class="strip-label">Keywords</span>
+                <div class="keywords">
+                    <span class="kw">mine</span>
+                    <span class="kw-sep">·</span>
+                    <span class="kw">gibberish</span>
+                    <span class="kw-sep">·</span>
+                    <span class="kw">peekaboo</span>
+                    <span class="kw-sep">·</span>
+                    <span class="kw">nuhuh</span>
+                    <span class="kw-sep">·</span>
+                    <span class="kw">wawawa</span>
+                    <span class="kw-sep">·</span>
+                    <span class="kw">playtime</span>
+                    <span class="kw-sep">·</span>
+                    <span class="kw">bedtime</span>
+                    <span class="kw-sep">·</span>
+                    <span class="kw">gaagaa</span>
+                    <span class="kw-sep">·</span>
+                    <span class="kw">googoo</span>
+                    <span class="kw-sep">·</span>
+                    <span class="kw">flippy</span>
+                    <span class="kw-sep">·</span>
+                    <span class="kw">nomnom</span>
+                    <span class="kw-sep">·</span>
+                    <span class="kw">nap</span>
+                    <span class="kw-sep">·</span>
+                    <span class="kw">crawl</span>
+                    <span class="kw-sep">·</span>
+                    <span class="kw">climb</span>
+                    <span class="kw-sep">·</span>
+                    <span class="kw">roll</span>
                 </div>
             </div>
+
+            <!-- CLOSING QUOTE -->
+            <div class="story-quote anim-block" style="--delay: 380ms">
+                <div class="quote-mark">"</div>
+                <blockquote>
+                    For when BabyJS is too advanced.
+                </blockquote>
+                <div class="quote-links">
+                    <a href="/examples/" class="quote-link">See Examples →</a>
+                    <a href="/about/" class="quote-link">Meet the Team →</a>
+                </div>
+            </div>
+
         </div>
     </main>
 
     <script>
         document.addEventListener('DOMContentLoaded', () => {
+            // Staggered entrance animations
+            const blocks = document.querySelectorAll('.anim-block');
+            blocks.forEach((block) => {
+                const delay = parseInt(block.style.getPropertyValue('--delay') || '0');
+                block.style.opacity = '0';
+                block.style.transform = 'translateY(20px)';
+                setTimeout(() => {
+                    block.style.transition = 'opacity 0.55s ease, transform 0.55s ease';
+                    block.style.opacity = '1';
+                    block.style.transform = 'translateY(0)';
+                }, 60 + delay);
+            });
+
+            // Logo click sound
             const infantButton = document.querySelector('.site-title');
             const clickSound = new Audio('/Noise/creaturelaugh.mp3');
             clickSound.playbackRate = 3.0;
             infantButton.addEventListener('click', (event) => {
-                event.preventDefault(); 
+                event.preventDefault();
                 const targetUrl = infantButton.getAttribute('href');
                 clickSound.play();
-                setTimeout(() => {
-                    window.location.href = targetUrl;
-                }, 500); 
+                setTimeout(() => { window.location.href = targetUrl; }, 500);
             });
         });
     </script>
+
 </body>
 </html>

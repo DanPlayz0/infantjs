@@ -32,21 +32,32 @@
       </section>
   </main>
 
-  <script>
-      document.addEventListener('DOMContentLoaded', () => {
-          const infantButton = document.querySelector('.site-title');
-          const clickSound = new Audio('/Noise/creaturelaugh.mp3');
-          clickSound.playbackRate = 3.0;
-          infantButton.addEventListener('click', (event) => {
-              event.preventDefault(); 
-              const targetUrl = infantButton.getAttribute('href');
-              clickSound.play();
-              setTimeout(() => {
-                  window.location.href = targetUrl;
-              }, 1000); 
-          });
-      });
-  </script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // Staggered entrance animation
+            const cards = document.querySelectorAll('.dev-card');
+            cards.forEach((card, i) => {
+                card.style.opacity = '0';
+                card.style.transform = 'translateY(24px)';
+                setTimeout(() => {
+                    card.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
+                    card.style.opacity = '1';
+                    card.style.transform = 'translateY(0)';
+                }, 120 + i * 80);
+            });
+
+            // Logo click sound
+            const infantButton = document.querySelector('.site-title');
+            const clickSound = new Audio('/Noise/creaturelaugh.mp3');
+            clickSound.playbackRate = 3.0;
+            infantButton.addEventListener('click', (event) => {
+                event.preventDefault();
+                const targetUrl = infantButton.getAttribute('href');
+                clickSound.play();
+                setTimeout(() => { window.location.href = targetUrl; }, 500);
+            });
+        });
+    </script>
 
 
 </body>
