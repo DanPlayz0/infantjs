@@ -135,9 +135,9 @@ export default function generate(program) {
     },
 
     InputStatement(s) {
-      if (!inputFunctionInjected) {
+      if (!injectedHeaders.has("input")) {
+        injectedHeaders.add("input")
         // optimization: only inject the input function if it's actually used in the program
-        inputFunctionInjected = true
         output.unshift(`import * as readline from 'node:readline/promises';`)
         output.unshift(`import { stdin as input, stdout as output } from 'node:process';`)
         output.unshift(``)
