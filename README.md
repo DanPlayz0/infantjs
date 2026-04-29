@@ -4,7 +4,7 @@
 
 A programming language for *literal* babies
 
-[🌐 Companion Website](https://infantjs.compiles.me) &nbsp;|&nbsp; [📁 GitHub Repo](https://github.com/DanPlayz0/infantjs)
+[🌐 Companion Website](https://infantjs.compiles.me) &nbsp;|&nbsp; [📁 GitHub Repo](https://github.com/DanPlayz0/infantjs)  &nbsp;|&nbsp; [📊 Powerpoint](https://docs.google.com/presentation/d/1nQSZ4yLsXFqFITq5mR-FpJmPMlYlsSw1E7gDLeQ_zuU/edit?usp=sharing)
 
 ----------------------------------------------------------------------------------------------------------------
 
