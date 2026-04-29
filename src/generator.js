@@ -61,7 +61,7 @@ export default function generate(program) {
     },
 
     FunctionDeclaration(s) {
-      const params = s.function.params.map((p) => `${p.name}_${p.name}`).join(", ")
+      const params = s.function.params.map((p) => targetName(p)).join(", ")
       output.push(`function ${targetName(s.function)}(${params}) {`)
       s.body.forEach(gen)
       output.push(`}`)

@@ -132,14 +132,13 @@ export default function translate(match) {
     },
 
     FunDecl(_function, id, _open, params, _close, block) {
-      const paramList = params.asIteration().children.map((binding) => {
-        return binding.translate()
-      })
+      const bindings = params.asIteration().children.map((b) => b.translate())
       const funContext = new Context(context)
-      for (const param of paramList) {
-        const variable = core.variable(param.name, param.type)
-        funContext.set(param.name, variable, id.source)
-      }
+      const paramList = bindings.map((binding) => {
+        const variable = core.variable(binding.name, binding.type)
+        funContext.set(binding.name, variable, id.source)
+        return variable
+      })
       const previousContext = context
       context = funContext
       const body = block.translate()

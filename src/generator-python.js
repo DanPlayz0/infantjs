@@ -92,8 +92,7 @@ export default function generatePython(program) {
     },
 
     FunctionDeclaration(s) {
-      console.log(s.function)
-      const params = s.function.params.map((p) => `${p.name}_${p.id}`).join(", ")
+      const params = s.function.params.map((p) => targetName(p)).join(", ")
       output.push(`def ${targetName(s.function)}(${params}):`)
       output.indent()
       s.body.forEach(gen)
