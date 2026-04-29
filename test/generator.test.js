@@ -113,8 +113,13 @@ describe("The generator", () => {
   })
 
   it("includes readline helper in output", () => {
-    const output = generateFrom("gibberish(1)")
+    const output = generateFrom('nomnom("Enter: ")')
     assert.match(output, /readline/)
     assert.match(output, /__promptInput/)
+  })
+
+  it("generates an assign statement", () => {
+    const output = generateFrom("mine x = 5 x = 10")
+    assert.match(output, /= 10/)
   })
 })
