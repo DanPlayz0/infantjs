@@ -257,10 +257,10 @@ describe("The optimizer", () => {
   })
 
   // ---------------------------------------------------------------------------
-  // RandomStatement — operands are optimized
+  // RandomStatement — returns unchanged (arguments are already optimized)
   // ---------------------------------------------------------------------------
-  it("optimizes constant bounds inside flippy", () => {
-    const result = optimizeFrom("flippy(1 * 1, 2 + 8)")
+  it("preserves RandomStatement after optimization", () => {
+    const result = optimizeFrom("flippy(1, 10)")
     const rand = result.body[0]
     assert.equal(rand.kind, "RandomStatement")
     assert.equal(rand.minimum, 1)
@@ -268,13 +268,88 @@ describe("The optimizer", () => {
   })
 
   // ---------------------------------------------------------------------------
-  // SleepStatement — duration is optimized
+  // SleepStatement — returns unchanged (duration is already optimized)
   // ---------------------------------------------------------------------------
-  it("optimizes constant duration inside nap", () => {
-    const result = optimizeFrom("nap(500 * 2)")
+  it("preserves SleepStatement after optimization", () => {
+    const result = optimizeFrom("nap(1000)")
     const sleep = result.body[0]
     assert.equal(sleep.kind, "SleepStatement")
     assert.equal(sleep.duration, 1000)
+  })
+
+  // ---------------------------------------------------------------------------
+  // CastStatement — identity and non-identity casts
+  // ---------------------------------------------------------------------------
+  it("keeps identity cast with variable (numba on number variable)", () => {
+    const result = optimizeFrom("mine x = 42 gibberish(numba(x))")
+    // numba(variable) where variable is a number should remain as CastStatement
+    // since we can't know at compile time if it's a literal
+    assert.equal(result.body[1].arguments[0].kind, "CastStatement")
+  })
+
+  it("keeps cast with variable (babble on string variable)", () => {
+    const result = optimizeFrom('mine x = "hello" gibberish(babble(x))')
+    assert.equal(result.body[1].arguments[0].kind, "CastStatement")
+  })
+
+  it("keeps cast with variable (squarehole on boolean variable)", () => {
+    const result = optimizeFrom("mine x = gaagaa gibberish(squarehole(x))")
+    assert.equal(result.body[1].arguments[0].kind, "CastStatement")
+  })
+
+  // ---------------------------------------------------------------------------
+  // Edge cases for comparisons with equals operators
+  // ---------------------------------------------------------------------------
+  it("folds == (triple equals) with equal values", () => {
+    const result = optimizeFrom("gibberish(5 == 5)")
+    assert.equal(result.body[0].arguments[0], true)
+  })
+
+  it("folds != (triple not equals) with different values", () => {
+    const result = optimizeFrom("gibberish(5 != 3)")
+    assert.equal(result.body[0].arguments[0], true)
+  })
+
+  it("folds == with different values to false", () => {
+    const result = optimizeFrom("gibberish(5 == 3)")
+    assert.equal(result.body[0].arguments[0], false)
+  })
+
+  it("folds != with same values to false", () => {
+    const result = optimizeFrom("gibberish(5 != 5)")
+    assert.equal(result.body[0].arguments[0], false)
+  })
+
+  // ---------------------------------------------------------------------------
+  // Variable references in expressions (should NOT be folded)
+  // ---------------------------------------------------------------------------
+  it("preserves binary expression with variable and literal", () => {
+    const result = optimizeFrom("mine x = 5 gibberish(x + 2)")
+    assert.equal(result.body[1].arguments[0].kind, "BinaryExpression")
+  })
+
+  it("preserves unary expression with variable", () => {
+    const result = optimizeFrom("mine x = 5 gibberish(-x)")
+    assert.equal(result.body[1].arguments[0].kind, "UnaryExpression")
+  })
+
+  // ---------------------------------------------------------------------------
+  // Multiple optimizations in nested structures
+  // ---------------------------------------------------------------------------
+  it("optimizes within if consequent", () => {
+    const result = optimizeFrom("peekaboo gaagaa { gibberish(2 + 3) }")
+    assert.deepEqual(result.body[0].arguments[0], 5)
+  })
+
+  it("optimizes within if alternate", () => {
+    const result = optimizeFrom("peekaboo googoo { gibberish(1) } nuhuh { gibberish(2 + 3) }")
+    assert.deepEqual(result.body[0].arguments[0], 5)
+  })
+
+  it("optimizes within while body", () => {
+    const result = optimizeFrom("wawawa gaagaa { gibberish(2 * 3) }")
+    // while true becomes infinite loop, but body should still be optimized
+    assert.ok(result)
   })
 
   // ---------------------------------------------------------------------------

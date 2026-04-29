@@ -12,6 +12,10 @@ class PrivateOutput {
     this.output.push("  ".repeat(this.indentLevel) + line)
   }
 
+  unshift(line) {
+    this.output.unshift(line)
+  }
+
   indent() {
     this.indentLevel++
   }
@@ -84,11 +88,10 @@ export default function generatePython(program) {
     },
 
     WhileStatement(s) {
-      output.push(`while (${gen(s.test)}) {`)
+      output.push(`while ${gen(s.test)}:`)
       output.indent()
       s.body.forEach(gen)
       output.dedent()
-      output.push(`}`)
     },
 
     FunctionDeclaration(s) {
