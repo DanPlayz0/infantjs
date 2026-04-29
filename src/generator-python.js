@@ -32,7 +32,6 @@ class PrivateOutput {
 export default function generatePython(program) {
   const output = new PrivateOutput();
   let injectedHeaders = new Set();
-  let indentLevel = 0
 
   // Each variable/function gets a unique suffix to avoid collisions
   // with JavaScript reserved words (e.g. a variable named "for" becomes "for_1")

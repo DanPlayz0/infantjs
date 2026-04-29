@@ -2,9 +2,36 @@
 // accepts a program representation and returns the JavaScript translation
 // as a string.
 
+class PrivateOutput {
+  constructor() {
+    this.output = []
+    this.indentLevel = 0
+  }
+  
+  push(line) {
+    this.output.push("  ".repeat(this.indentLevel) + line)
+  }
+
+  unshift(line) {
+    this.output.unshift(line)
+  }
+
+  indent() {
+    this.indentLevel++
+  }
+
+  dedent() {
+    this.indentLevel--
+  }
+
+  join(separator = "\n") {
+    return this.output.join(separator)
+  }
+}
+
 export default function generate(program) {
-  const output = []
-  let inputFunctionInjected = false
+  const output = new PrivateOutput();
+  let injectedHeaders = new Set();
 
   // Each variable/function gets a unique suffix to avoid collisions
   // with JavaScript reserved words (e.g. a variable named "for" becomes "for_1")
@@ -45,25 +72,33 @@ export default function generate(program) {
 
     IfStatement(s) {
       output.push(`if (${gen(s.test)}) {`)
+      output.indent()
       s.consequent.forEach(gen)
+      output.dedent()
       output.push(`}`)
       if (s.alternate.length > 0) {
         output.push(`else {`)
+        output.indent()
         s.alternate.forEach(gen)
+        output.dedent()
         output.push(`}`)
       }
     },
 
     WhileStatement(s) {
       output.push(`while (${gen(s.test)}) {`)
+      output.indent()
       s.body.forEach(gen)
+      output.dedent()
       output.push(`}`)
     },
 
     FunctionDeclaration(s) {
       const params = s.function.params.map((p) => targetName(p)).join(", ")
       output.push(`function ${targetName(s.function)}(${params}) {`)
+      output.indent()
       s.body.forEach(gen)
+      output.dedent()
       output.push(`}`)
     },
 
