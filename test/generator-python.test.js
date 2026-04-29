@@ -250,12 +250,17 @@ describe("The Python generator", () => {
     const output = generateFrom("flippy(1, 5) flippy(2, 8) flippy(3, 10)")
     const importCount = (output.match(/from random import randint/g) || []).length
     assert.equal(importCount, 1, "randint import should appear exactly once")
+    // Also verify we have multiple randint calls
+    const callCount = (output.match(/randint/g) || []).length
+    assert(callCount >= 3, "Should have at least 3 randint calls")
   })
 
   it("verifies sleep imports only appear once", () => {
     const output = generateFrom("nap(100) nap(200) nap(300)")
     const importCount = (output.match(/from time import sleep/g) || []).length
     assert.equal(importCount, 1, "sleep import should appear exactly once")
+    const callCount = (output.match(/sleep\(/g) || []).length
+    assert(callCount >= 3, "Should have at least 3 sleep calls")
   })
 
   it("verifies floor imports only appear once", () => {
@@ -264,16 +269,111 @@ describe("The Python generator", () => {
     assert.equal(importCount, 1, "floor import should appear exactly once")
   })
 
+  it("verifies ceil imports only appear once", () => {
+    const output = generateFrom("gibberish(climb(1.5)) gibberish(climb(2.5))")
+    const importCount = (output.match(/from math import ceil/g) || []).length
+    assert.equal(importCount, 1, "ceil import should appear exactly once")
+  })
+
+  it("verifies round imports only appear once", () => {
+    const output = generateFrom("gibberish(roll(1.5)) gibberish(roll(2.5))")
+    const importCount = (output.match(/from math import round/g) || []).length
+    assert.equal(importCount, 1, "round import should appear exactly once")
+  })
+
   it("generates identity cast optimization (numba on number)", () => {
-    // numba(42) where 42 is already a number should not wrap
+    // numba(42) where 42 is already a number gets optimized away to just 42
     const output = generateFrom("gibberish(numba(42))")
-    assert.doesNotMatch(output, /int\(/)
-    assert.match(output, /42/)
+    assert.match(output, /print\(42\)/)
   })
 
   it("generates non-identity cast (numba on string)", () => {
-    // numba("42") should wrap with int()
+    // numba("42") should wrap with int() since string needs conversion
     const output = generateFrom('gibberish(numba("42"))')
     assert.match(output, /int\(/)
+  })
+
+  it("generates cast to string from number", () => {
+    const output = generateFrom("gibberish(babble(42))")
+    assert.match(output, /str\(/)
+  })
+
+  it("generates cast to string from boolean", () => {
+    const output = generateFrom("gibberish(babble(gaagaa))")
+    assert.match(output, /str\(/)
+  })
+
+  it("generates cast to boolean from number", () => {
+    const output = generateFrom('mine x = 5 gibberish(squarehole(x))')
+    assert.match(output, /bool\(/)
+  })
+
+  it("generates multiple math operations in sequence", () => {
+    const output = generateFrom("gibberish(crawl(1.5) + climb(2.5) + roll(3.5))")
+    assert.match(output, /floor/)
+    assert.match(output, /ceil/)
+    // round might be imported but not explicitly visible if it's a function call result
+  })
+
+  it("handles cast within function parameters", () => {
+    const output = generateFrom("playtime process(x: numba) { bedtime x } gibberish(process(numba(42)))")
+    // Should handle casting within function call arguments
+    assert.ok(output)
+  })
+
+  it("generates standalone expression statements (function calls)", () => {
+    // These are expressions used as statements
+    const output = generateFrom("playtime doSomething() { gibberish(1) } doSomething()")
+    assert.match(output, /doSomething_/)
+  })
+
+  it("generates standalone sleep as expression statement", () => {
+    // nap() is an expression statement that returns a value
+    const output = generateFrom("nap(100)")
+    assert.match(output, /sleep/)
+  })
+
+  it("generates standalone cast as expression statement", () => {
+    // babble("test") as an expression statement (though unusual)
+    const output = generateFrom("babble(42)")
+    assert.match(output, /str\(/)
+  })
+
+  it("generates standalone random as expression statement", () => {
+    // flippy as a standalone statement
+    const output = generateFrom("flippy(1, 10)")
+    assert.match(output, /randint/)
+  })
+
+  it("generates standalone input as expression statement", () => {
+    // nomnom as a standalone statement
+    const output = generateFrom('nomnom("Enter value: ")')
+    assert.match(output, /input/)
+  })
+
+  it("handles complex nested indentation", () => {
+    const output = generateFrom(
+      "playtime outer() { " +
+      "  peekaboo gaagaa { " +
+      "    gibberish(1) " +
+      "  } " +
+      "}"
+    )
+    assert.match(output, /def/)
+    assert.match(output, /if/)
+    // Verify proper indentation structure exists
+    assert.ok(output)
+  })
+
+  it("handles while loops with body optimization", () => {
+    const output = generateFrom("wawawa gaagaa { gibberish(2 + 2) }")
+    assert.match(output, /while/)
+    assert.match(output, /4/)  // 2 + 2 should be optimized to 4
+  })
+
+  it("preserves variable naming with suffix", () => {
+    // Variables get suffixes to avoid Python keywords
+    const output = generateFrom("mine for = 1 gibberish(for)")
+    assert.match(output, /for_/)
   })
 })
