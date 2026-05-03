@@ -1,0 +1,24 @@
+mine x = 0
+mine max = 100
+
+/* 
+  A simple FizzBuzz implementation in InfantJS
+  As you can see, the syntax is very similar to JavaScript, but with a more playful and intuitive style.
+*/
+wawawa x < max {
+  peekaboo x % 15 == 0 {
+    gibberish("FizzBuzz")
+  } nuhuh {
+    peekaboo x % 3 == 0 {
+      gibberish("Fizz")
+    } nuhuh { 
+      peekaboo x % 5 == 0 {
+        gibberish("Buzz")
+      } nuhuh {
+        gibberish(x)
+      }
+    }
+  }
+
+  x = x + 1
+}

@@ -1,0 +1,32 @@
+{
+  "name": "infantjs",
+  "displayName": "InfantJS",
+  "description": "A syntax highlighter and an autocomplete provider for InfantJS",
+  "version": "0.0.1",
+  "main": "./extension.js",
+  "activationEvents": ["onLanguage:infantjs"],
+  "publisher": "InfantJS",
+  "engines": {
+    "vscode": "^1.116.0"
+  },
+  "categories": [
+    "Programming Languages"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/infantjs/infantjs.git"
+  },
+  "contributes": {
+    "languages": [{
+      "id": "infantjs",
+      "aliases": ["InfantJS", "infantjs"],
+      "extensions": [".infant", ".infantjs"],
+      "configuration": "./language-configuration.json"
+    }],
+    "grammars": [{
+      "language": "infantjs",
+      "scopeName": "source.infantjs",
+      "path": "./syntaxes/infantjs.tmLanguage.json"
+    }]
+  }
+}

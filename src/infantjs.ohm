@@ -13,6 +13,7 @@ InfantJS {
               | ReturnStmt
               | SleepStmt
               | CastStmt
+              | Comment
               // | ExportStmt
               // | ImportStmt
 
@@ -64,6 +65,7 @@ InfantJS {
               | str
               | false
               | true
+              | Comment
               | InputStmt
               | RandomStmt
               | CastStmt
@@ -110,5 +112,6 @@ InfantJS {
               // | export | import
 
   id          = ~keyword letter alnum*
+  Comment     = "/*" (~"*/" any)* "*/"
 
 }

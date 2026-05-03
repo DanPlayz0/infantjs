@@ -60,6 +60,9 @@ export default function generatePython(program) {
       })
     },
 
+    // Python doesn't have a good syntax for multiline comments other than """, but that would be confusing since it looks like a string literal. Instead, we just ignore comments entirely for python generation.
+    Comment(c) {},
+
     LetStatement(s) {
       output.push(`${targetName(s.variable)} = ${gen(s.initializer)}`)
     },

@@ -63,6 +63,10 @@ export default function generate(program) {
       output.push(`__main();`)
     },
 
+    Comment(c) {
+      output.push(`/* ${c.content} */`)
+    },
+
     LetStatement(s) {
       output.push(`let ${targetName(s.variable)} = ${gen(s.initializer)};`)
     },
