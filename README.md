@@ -448,3 +448,8 @@ ReturnStmt = "bedtime" Exp?
 Visit <u>infantjs.compiles.me</u> for the full language story, live examples, and developer bios
 
 ----------------------------------------------------------------------------------------------------------------
+<h2> Optional Syntax Highlighting </h2>
+
+Install the InfantJS VS Code extension for `.infant` file highlighting.
+Download `docs/infantjs-syntax-0.0.1.vsix` from the repo, then in VS Code:
+`Ctrl+Shift+X` → `...` → `Install from VSIX`
