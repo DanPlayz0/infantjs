@@ -1,0 +1,27 @@
+{
+  "name": "infantjs-syntax",
+  "displayName": "InfantJS Syntax",
+  "description": "Syntax highlighting for InfantJS",
+  "version": "0.0.1",
+  "publisher": "infantjs",
+  "engines": {
+    "vscode": "^1.0.0"
+  },
+  "contributes": {
+    "languages": [
+      {
+        "id": "infantjs",
+        "aliases": ["InfantJS", "infant"],
+        "extensions": [".infant"],
+        "configuration": "./language-configuration.json"
+      }
+    ],
+    "grammars": [
+      {
+        "language": "infantjs",
+        "scopeName": "source.infantjs",
+        "path": "./syntaxes/infantjs.tmLanguage.json"
+      }
+    ]
+  }
+}
