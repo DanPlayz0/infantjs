@@ -1,0 +1,87 @@
+playtime makespaces(n: numba) {
+  mine s = ""
+  mine i = 0
+  wawawa i < n {
+    s = s + " "
+    i = i + 1
+  }
+  bedtime s
+}
+
+playtime makestars(n: numba) {
+  mine s = ""
+  mine i = 0
+  wawawa i < n {
+    s = s + "*"
+    i = i + 1
+  }
+  bedtime s
+}
+
+playtime printrow(sp: numba, st: numba) {
+  gibberish(makespaces(sp) + makestars(st))
+  bedtime 0
+}
+
+playtime square(size: numba) {
+  mine r = 0
+  wawawa r < size {
+    gibberish(makestars(size))
+    r = r + 1
+  }
+  bedtime 0
+}
+
+playtime triangle(size: numba) {
+  mine row = 1
+  wawawa row <= size {
+    printrow(size - row, row * 2 - 1)
+    row = row + 1
+  }
+  bedtime 0
+}
+
+playtime diamond(size: numba) {
+  mine row = 1
+  wawawa row <= size {
+    printrow(size - row, row * 2 - 1)
+    row = row + 1
+  }
+  mine row2 = size - 1
+  wawawa row2 >= 1 {
+    printrow(size - row2, row2 * 2 - 1)
+    row2 = row2 - 1
+  }
+  bedtime 0
+}
+
+gibberish("=== InfantJS Shape Maker ===")
+gibberish("Pick a shape:")
+gibberish("  1 = Square")
+gibberish("  2 = Triangle")
+gibberish("  3 = Diamond")
+
+mine rawshape = nomnom("Enter shape number (1/2/3): ")
+mine shape = numba(rawshape)
+
+mine rawsize = nomnom("Enter size (1-10): ")
+mine size = numba(rawsize)
+
+gibberish("")
+
+peekaboo shape == 1 {
+  gibberish("Square:")
+  square(size)
+} nuhuh {
+  peekaboo shape == 2 {
+    gibberish("Triangle:")
+    triangle(size)
+  } nuhuh {
+    peekaboo shape == 3 {
+      gibberish("Diamond:")
+      diamond(size)
+    } nuhuh {
+      gibberish("Unknown shape! Enter 1, 2, or 3.")
+    }
+  }
+}

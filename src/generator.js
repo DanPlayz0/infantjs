@@ -44,17 +44,23 @@ export default function generate(program) {
     }
   })(new Map())
 
-  const gen = (node) => generators[node?.kind]?.(node) ?? node
+  const gen = (node) => {
+  if (typeof node === "string") return `"${node}"`
+  if (typeof node === "boolean") return node
+  return generators[node?.kind]?.(node) ?? node
+  }
 
   const generators = {
     Program(p) {
+      output.push(`async function __main() {`)
+      output.indent()
       p.body.forEach(s => {
         const result = gen(s)
-        // Statement generators push to output themselves and return undefined.
-        // Expression generators (Random, Cast, Sleep, etc.) return a string —
-        // when used as standalone statements we need to push them manually.
         if (typeof result === "string") output.push(`${result};`)
       })
+      output.dedent()
+      output.push(`}`)
+      output.push(`__main();`)
     },
 
     LetStatement(s) {
@@ -73,13 +79,19 @@ export default function generate(program) {
     IfStatement(s) {
       output.push(`if (${gen(s.test)}) {`)
       output.indent()
-      s.consequent.forEach(gen)
+      s.consequent.forEach(s => {
+        const result = gen(s)
+        if (typeof result === "string") output.push(`${result};`)
+      })
       output.dedent()
       output.push(`}`)
       if (s.alternate.length > 0) {
         output.push(`else {`)
         output.indent()
-        s.alternate.forEach(gen)
+        s.alternate.forEach(s => {
+          const result = gen(s)
+          if (typeof result === "string") output.push(`${result};`)
+        })
         output.dedent()
         output.push(`}`)
       }
@@ -88,7 +100,10 @@ export default function generate(program) {
     WhileStatement(s) {
       output.push(`while (${gen(s.test)}) {`)
       output.indent()
-      s.body.forEach(gen)
+      s.body.forEach(s => {
+        const result = gen(s)
+        if (typeof result === "string") output.push(`${result};`)
+      })
       output.dedent()
       output.push(`}`)
     },
@@ -97,7 +112,10 @@ export default function generate(program) {
       const params = s.function.params.map((p) => targetName(p)).join(", ")
       output.push(`function ${targetName(s.function)}(${params}) {`)
       output.indent()
-      s.body.forEach(gen)
+      s.body.forEach(s => {
+        const result = gen(s)
+        if (typeof result === "string") output.push(`${result};`)
+      })
       output.dedent()
       output.push(`}`)
     },
@@ -137,19 +155,19 @@ export default function generate(program) {
     InputStatement(s) {
       if (!injectedHeaders.has("input")) {
         injectedHeaders.add("input")
-        // optimization: only inject the input function if it's actually used in the program
-        output.unshift(`import * as readline from 'node:readline/promises';`)
-        output.unshift(`import { stdin as input, stdout as output } from 'node:process';`)
-        output.unshift(``)
-        output.unshift(`async function __promptInput(prompt) {`)
-        output.unshift(`  const rl = readline.createInterface({ input, output });`)
-        output.unshift(`  const answer = await rl.question(prompt);`)
-        output.unshift(`  rl.close();`)
-        output.unshift(`  return answer;`)
-        output.unshift(`}`)
-        output.unshift(``)
+        output.unshift([
+          `import * as readline from 'node:readline/promises';`,
+          `import { stdin as input, stdout as output } from 'node:process';`,
+          ``,
+          `async function __promptInput(prompt) {`,
+          `  const rl = readline.createInterface({ input, output });`,
+          `  const answer = await rl.question(prompt);`,
+          `  rl.close();`,
+          `  return answer;`,
+          `}`,
+          ``,
+        ].join("\n"))
       }
-
       return `await __promptInput(${gen(s.prompt)})`
     },
 
