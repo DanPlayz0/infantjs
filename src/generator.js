@@ -79,19 +79,13 @@ export default function generate(program) {
     IfStatement(s) {
       output.push(`if (${gen(s.test)}) {`)
       output.indent()
-      s.consequent.forEach(s => {
-        const result = gen(s)
-        if (typeof result === "string") output.push(`${result};`)
-      })
+      s.consequent.forEach(gen)
       output.dedent()
       output.push(`}`)
       if (s.alternate.length > 0) {
         output.push(`else {`)
         output.indent()
-        s.alternate.forEach(s => {
-          const result = gen(s)
-          if (typeof result === "string") output.push(`${result};`)
-        })
+        s.alternate.forEach(gen)
         output.dedent()
         output.push(`}`)
       }
@@ -100,10 +94,7 @@ export default function generate(program) {
     WhileStatement(s) {
       output.push(`while (${gen(s.test)}) {`)
       output.indent()
-      s.body.forEach(s => {
-        const result = gen(s)
-        if (typeof result === "string") output.push(`${result};`)
-      })
+      s.body.forEach(gen)
       output.dedent()
       output.push(`}`)
     },
@@ -112,10 +103,7 @@ export default function generate(program) {
       const params = s.function.params.map((p) => targetName(p)).join(", ")
       output.push(`function ${targetName(s.function)}(${params}) {`)
       output.indent()
-      s.body.forEach(s => {
-        const result = gen(s)
-        if (typeof result === "string") output.push(`${result};`)
-      })
+      s.body.forEach(gen)
       output.dedent()
       output.push(`}`)
     },
