@@ -43,7 +43,7 @@ Language Features
 ----------------------------------------------------------------------------------------------------------------
 
 <h2>Static Checks Performed by the Compiler</h2>
-__The analyzer enforces the following constraints at compile time, before any code runs:__
+The analyzer enforces the following constraints at compile time, before any code runs:
 
 | __Check__    | __Example Error Caught__ |
 | -------- | ------- |
