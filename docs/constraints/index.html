@@ -1,0 +1,207 @@
+---
+permalink: /constraints/
+---
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>InfantJS — Static Constraints</title>
+    <link rel="stylesheet" href="/constraints/constraints.css">
+    <link rel="icon" type="image/x-icon" href="/favicon.ico">
+    <link rel="stylesheet" href="/theme/theme.css">
+    <script src="/theme/theme.js" defer></script>
+</head>
+<body>
+
+    <header class="overlay-header">
+        <div class="logo-wrapper">
+            <a href="/" class="site-title">InfantJS</a>
+            <p class="site-subtitle">For Infants</p>
+        </div>
+        <nav class="top-nav">
+            <a href="/examples/">Examples</a>
+            <a href="/story/">Story</a>
+            <a href="/about/">About</a>
+            <a href="/constraints/">Constraints</a>
+            <a href="/github/">Github Repo</a>
+        </nav>
+    </header>
+
+    <main>
+        <div class="page-buffer"></div>
+
+        <div class="constraints-container">
+
+            <!-- PAGE HEADER -->
+            <div class="constraints-header">
+                <span class="constraints-eyebrow">Compiler Safety</span>
+                <h1 class="constraints-title">Static Checks &amp;<br>Constraints</h1>
+                <p class="constraints-subtitle">
+                    Every InfantJS program is analyzed at compile time before a single line runs.
+                    Here is every rule the compiler enforces.
+                </p>
+            </div>
+
+            <!-- INTRO BLURB -->
+            <div class="constraints-intro">
+                <p>
+                    InfantJS uses a <strong>static analyzer</strong> that walks the AST before code generation.
+                    If any of the constraints below are violated, the compiler halts with a clear error message
+                    pointing to the exact line and column — no silent failures, no runtime surprises.
+                </p>
+            </div>
+
+            <!-- CONSTRAINTS TABLE -->
+            <div class="table-wrapper">
+                <table class="constraints-table">
+                    <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>Check</th>
+                            <th>Example Error Caught</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td class="num">01</td>
+                            <td>Undefined variable reference</td>
+                            <td><code>gibberish(x)</code> before <code>mine x = ...</code></td>
+                        </tr>
+                        <tr>
+                            <td class="num">02</td>
+                            <td>Variable redeclaration in same scope</td>
+                            <td><code>mine x = 1</code> then <code>mine x = 2</code></td>
+                        </tr>
+                        <tr>
+                            <td class="num">03</td>
+                            <td>Assignment to undeclared variable</td>
+                            <td><code>x = 5</code> without a prior <code>mine x = ...</code></td>
+                        </tr>
+                        <tr>
+                            <td class="num">04</td>
+                            <td>Type mismatch on assignment</td>
+                            <td><code>mine x = 1</code> then <code>x = gaagaa</code></td>
+                        </tr>
+                        <tr>
+                            <td class="num">05</td>
+                            <td>Non-boolean in <code>peekaboo</code> condition</td>
+                            <td><code>peekaboo 1 { ... }</code></td>
+                        </tr>
+                        <tr>
+                            <td class="num">06</td>
+                            <td>Non-boolean in <code>wawawa</code> condition</td>
+                            <td><code>wawawa 1 { ... }</code></td>
+                        </tr>
+                        <tr>
+                            <td class="num">07</td>
+                            <td>Non-number in arithmetic expression</td>
+                            <td><code>gibberish(gaagaa * 2)</code></td>
+                        </tr>
+                        <tr>
+                            <td class="num">08</td>
+                            <td>Non-number in <code>flippy</code> bounds</td>
+                            <td><code>flippy(gaagaa, 10)</code></td>
+                        </tr>
+                        <tr>
+                            <td class="num">09</td>
+                            <td>Non-number in math builtins</td>
+                            <td><code>crawl(gaagaa)</code>, <code>climb(gaagaa)</code>, <code>roll(gaagaa)</code></td>
+                        </tr>
+                        <tr>
+                            <td class="num">10</td>
+                            <td>Non-positive number in <code>nap</code></td>
+                            <td><code>nap(0)</code>, <code>nap(-100)</code></td>
+                        </tr>
+                        <tr>
+                            <td class="num">11</td>
+                            <td>Non-string prompt in <code>nomnom</code></td>
+                            <td><code>nomnom(42)</code>, <code>nomnom(gaagaa)</code></td>
+                        </tr>
+                        <tr>
+                            <td class="num">12</td>
+                            <td>Wrong argument count at call site</td>
+                            <td><code>playtime f() { ... }</code> called as <code>f(1)</code></td>
+                        </tr>
+                        <tr>
+                            <td class="num">13</td>
+                            <td>Type mismatch in function arguments</td>
+                            <td><code>f(x: numba)</code> called with a boolean</td>
+                        </tr>
+                        <tr>
+                            <td class="num">14</td>
+                            <td>Invalid type cast path</td>
+                            <td><code>numba(gaagaa)</code> — boolean → number is disallowed</td>
+                        </tr>
+                        <tr>
+                            <td class="num">15</td>
+                            <td>String used with non-<code>+</code> operator</td>
+                            <td><code>"hello" * 3</code>, <code>"hello" / 3</code></td>
+                        </tr>
+                        <tr>
+                            <td class="num">16</td>
+                            <td>Mixed-type string concatenation</td>
+                            <td><code>"hello" + 1</code>, <code>"hello" + gaagaa</code></td>
+                        </tr>
+                        <tr>
+                            <td class="num">17</td>
+                            <td>Unknown type annotation</td>
+                            <td><code>playtime f(x: unknown) { ... }</code></td>
+                        </tr>
+                        <tr>
+                            <td class="num">18</td>
+                            <td>Undefined function call</td>
+                            <td><code>foo()</code> without a prior <code>playtime foo()</code></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- GRAMMAR LINK -->
+            <div class="grammar-link-block">
+                <span class="grammar-eyebrow">Full Grammar</span>
+                <p>
+                    The complete Ohm grammar that defines every syntactic form of InfantJS lives at
+                    <a href="https://github.com/DanPlayz0/infantjs/blob/main/src/infantjs.ohm" class="inline-link" target="_blank">
+                        src/infantjs.ohm
+                    </a>
+                    in the repository.
+                </p>
+                <a href="https://github.com/DanPlayz0/infantjs/blob/main/src/infantjs.ohm"
+                   class="grammar-btn" target="_blank">
+                    View Grammar →
+                </a>
+            </div>
+
+        </div>
+    </main>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // Staggered row entrance
+            const rows = document.querySelectorAll('.constraints-table tbody tr');
+            rows.forEach((row, i) => {
+                row.style.opacity = '0';
+                row.style.transform = 'translateX(-12px)';
+                setTimeout(() => {
+                    row.style.transition = 'opacity 0.4s ease, transform 0.4s ease';
+                    row.style.opacity = '1';
+                    row.style.transform = 'translateX(0)';
+                }, 80 + i * 40);
+            });
+
+            // Logo click sound
+            const infantButton = document.querySelector('.site-title');
+            const clickSound = new Audio('/Noise/creaturelaugh.mp3');
+            clickSound.playbackRate = 3.0;
+            infantButton.addEventListener('click', (event) => {
+                event.preventDefault();
+                const targetUrl = infantButton.getAttribute('href');
+                clickSound.play();
+                setTimeout(() => { window.location.href = targetUrl; }, 500);
+            });
+        });
+    </script>
+
+</body>
+</html>

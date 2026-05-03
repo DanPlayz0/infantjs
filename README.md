@@ -255,6 +255,88 @@ console.log("Pi is: " + asText);
 
 ----------------------------------------------------------------------------------------------------------------
 
+
+
+<h2> Generated Output </h2>
+
+---
+
+**The compiler produces clean, readable JavaScript. Here is what the compiler actually outputs:**
+
+**InfantJS input:**
+```js
+mine x = 100 + 100
+gibberish(x / 2)
+```
+
+**Compiled JavaScript output:**
+```javascript
+async function __main() {
+  let x_1 = 200;
+  console.log((x_1 / 2));
+}
+__main();
+```
+
+Note that `100 + 100` is folded to `200` at compile time by the optimizer, and variables get unique numeric suffixes (e.g. `x_1`) to avoid collisions with JavaScript reserved words.
+
+---
+
+**InfantJS input:**
+```js
+playtime square(n: numba) {
+  bedtime n * n
+}
+gibberish(square(5))
+```
+
+**Compiled JavaScript output:**
+```javascript
+function square_1(n_2) {
+  return (n_2 * n_2);
+}
+async function __main() {
+  console.log(square_1(5));
+}
+__main();
+```
+
+---
+
+**InfantJS input:**
+```js
+mine num = flippy(1, 10)
+mine guess = numba(nomnom("Guess: "))
+peekaboo guess == num {
+  gibberish("Correct!")
+}
+```
+
+**Compiled JavaScript output:**
+```javascript
+import * as readline from 'node:readline/promises';
+import { stdin as input, stdout as output } from 'node:process';
+
+async function __promptInput(prompt) {
+  const rl = readline.createInterface({ input, output });
+  const answer = await rl.question(prompt);
+  rl.close();
+  return answer;
+}
+
+async function __main() {
+  let num_1 = Math.floor(Math.random() * (Math.floor(10) - Math.ceil(1) + 1) + Math.ceil(1));
+  let guess_2 = Number(await __promptInput("Guess: "));
+  if ((guess_2 === num_1)) {
+    console.log("Correct!");
+  }
+}
+__main();
+```
+
+----------------------------------------------------------------------------------------------------------------
+
+
 <h2>How to Run</h2>
 
 __Install dependencies__
