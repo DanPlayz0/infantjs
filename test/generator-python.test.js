@@ -368,6 +368,7 @@ describe("The Python generator", () => {
   it("handles while loops with body optimization", () => {
     const output = generateFrom("wawawa gaagaa { gibberish(2 + 2) }")
     assert.match(output, /while/)
+    assert.match(output, /True/)
     assert.match(output, /4/)  // 2 + 2 should be optimized to 4
   })
 

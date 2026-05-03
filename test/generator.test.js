@@ -122,4 +122,11 @@ describe("The generator", () => {
     const output = generateFrom("mine x = 5 x = 10")
     assert.match(output, /= 10/)
   })
+  
+  it("handles while loops with body optimization", () => {
+    const output = generateFrom("wawawa gaagaa { gibberish(2 + 2) }")
+    assert.match(output, /while/)
+    assert.match(output, /true/)
+    assert.match(output, /4/)  // 2 + 2 should be optimized to 4
+  })
 })
