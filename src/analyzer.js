@@ -366,8 +366,8 @@ export default function translate(match) {
       return false
     },
 
+    // This won't be emitted in output but can still be represented for testing purposes
     Comment(_open, content, _close) {
-      // This won't be emitted in output but can still be represented for testing purposes
       return core.comment(content.sourceString)
     },
   }

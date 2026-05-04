@@ -112,6 +112,6 @@ InfantJS {
               // | export | import
 
   id          = ~keyword letter alnum*
-  Comment     = "/*" (~"*/" any)* "*/"
+  Comment     = "/*" (Comment | ~"*/" any)* "*/"
 
 }
