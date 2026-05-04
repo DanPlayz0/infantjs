@@ -14,8 +14,8 @@ InfantJS {
               | SleepStmt
               | CastStmt
               | Comment
-              // | ExportStmt
-              // | ImportStmt
+              | ExportStmt
+              | ImportStmt
 
   PrintStmt   = print "(" Exp ")"
   LetStmt     = let id "=" Exp
@@ -31,8 +31,9 @@ InfantJS {
               | return       -- void
   SleepStmt   = sleep "(" Exp ")"
   CastStmt    = Type "(" Exp ")"
-  // ExportStmt   = export id Exp
-  // ImportStmt   = import id "from" id
+  ExportStmt  = export FunDecl -- function
+              | export id      -- variable
+  ImportStmt   = import id "from" str
   FloorStmt   = floor "(" Exp ")"
   CeilStmt    = ceil "(" Exp ")"
   RoundStmt   = round "(" Exp ")"
@@ -98,9 +99,8 @@ InfantJS {
   return      = "bedtime" ~alnum
   input       = "nomnom" ~alnum
   random      = "flippy"~alnum
-  // class       = "daycare"~alnum
-  // export      = "spit"~alnum
-  // import      = "cry"~alnum
+  export      = "spit"~alnum
+  import      = "cry"~alnum
   sleep       = "nap"~alnum
   floor       = "crawl"~alnum
   ceil        = "climb"~alnum
@@ -109,7 +109,7 @@ InfantJS {
 
   keyword     = let | print | if | else | while | false | true
               | function | number | boolean | string | return | input | random | sleep | floor | ceil | round
-              // | export | import
+              | export | import
 
   id          = ~keyword letter alnum*
   Comment     = "/*" (Comment | ~"*/" any)* "*/"

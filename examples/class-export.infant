@@ -1,7 +1,9 @@
-spit playtime programmer(x: squarehole) = {
+playtime programmer(x: squarehole) {
   peekaboo x {
     gibberish("welcome to the daycare mainframe")
   } nuhuh {
     gibberish("you cannot access this")
   }
 }
+
+spit programmer

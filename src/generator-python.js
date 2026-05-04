@@ -2,18 +2,20 @@
 // accepts a program representation and returns the JavaScript translation
 // as a string.
 
+// Mostly exists for the required python whitespace code indentation
 class PrivateOutput {
   constructor() {
+    this.imports = [];
     this.output = []
     this.indentLevel = 0
   }
-  
-  push(line) {
-    this.output.push("  ".repeat(this.indentLevel) + line)
+
+  import(line) {
+    this.imports.push(line)
   }
 
-  unshift(line) {
-    this.output.unshift(line)
+  push(line) {
+    this.output.push("  ".repeat(this.indentLevel) + line)
   }
 
   indent() {
@@ -25,7 +27,7 @@ class PrivateOutput {
   }
 
   join(separator = "\n") {
-    return this.output.join(separator)
+    return [...this.imports, ...this.output].join(separator)
   }
 }
 
@@ -69,6 +71,13 @@ export default function generatePython(program) {
 
     AssignStatement(s) {
       output.push(`${targetName(s.target)} = ${gen(s.source)}`)
+    },
+
+    // Python auto-exports all top-level definitions, so we don't need a special export statement
+    ExportStatement(s) {},
+
+    ImportStatement(s) {
+      output.import(`from ${s.source} import ${s.identifier}`)
     },
 
     PrintStatement(s) {
@@ -132,7 +141,7 @@ export default function generatePython(program) {
     RandomStatement(s) {
       if (!injectedHeaders.has("randint")) {
         injectedHeaders.add("randint")
-        output.unshift(`from random import randint`)
+        output.import(`from random import randint`)
       }
       // flippy(min, max) → random int between min and max inclusive
       const min = gen(s.minimum)
@@ -147,7 +156,7 @@ export default function generatePython(program) {
     SleepStatement(s) {
       if (!injectedHeaders.has("sleep")) {
         injectedHeaders.add("sleep")
-        output.unshift(`from time import sleep`)
+        output.import(`from time import sleep`)
       }
       // nap(ms) → pause execution for ms milliseconds
       return `sleep(${gen(s.duration)} / 1000)`
@@ -163,7 +172,7 @@ export default function generatePython(program) {
     FloorStatement(s) {
       if (!injectedHeaders.has("floor")) {
         injectedHeaders.add("floor")
-        output.unshift(`from math import floor`)
+        output.import(`from math import floor`)
       }
       return `floor(${gen(s.value)})`
     },
@@ -171,7 +180,7 @@ export default function generatePython(program) {
     CeilStatement(s) {
       if (!injectedHeaders.has("ceil")) {
         injectedHeaders.add("ceil")
-        output.unshift(`from math import ceil`)
+        output.import(`from math import ceil`)
       }
       return `ceil(${gen(s.value)})`
     },
@@ -179,7 +188,7 @@ export default function generatePython(program) {
     RoundStatement(s) {
       if (!injectedHeaders.has("round")) {
         injectedHeaders.add("round")
-        output.unshift(`from math import round`)
+        output.import(`from math import round`)
       }
       return `round(${gen(s.value)})`
     },

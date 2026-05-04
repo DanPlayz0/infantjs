@@ -81,3 +81,11 @@ export function roundStmt(value) {
 export function comment(content) {
   return { kind: "Comment", content, type: "string" }
 }
+
+export function exportStmt(content) {
+  return { kind: "ExportStatement", content }
+}
+
+export function importStmt(identifier, source) {
+  return { kind: "ImportStatement", identifier, source }
+}

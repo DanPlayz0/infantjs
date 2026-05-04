@@ -2,18 +2,21 @@
 // accepts a program representation and returns the JavaScript translation
 // as a string.
 
+// This mainly exists for python code generation but...
+// why not make output generation a bit nicer for javascript while we're at it?
 class PrivateOutput {
   constructor() {
+    this.imports = [];
     this.output = []
     this.indentLevel = 0
   }
-  
-  push(line) {
-    this.output.push("  ".repeat(this.indentLevel) + line)
+
+  import(line) {
+    this.imports.push(line)
   }
 
-  unshift(line) {
-    this.output.unshift(line)
+  push(line) {
+    this.output.push("  ".repeat(this.indentLevel) + line)
   }
 
   indent() {
@@ -25,7 +28,7 @@ class PrivateOutput {
   }
 
   join(separator = "\n") {
-    return this.output.join(separator)
+    return [...this.imports, ...this.output].join(separator)
   }
 }
 
@@ -52,15 +55,10 @@ export default function generate(program) {
 
   const generators = {
     Program(p) {
-      output.push(`async function __main() {`)
-      output.indent()
       p.body.forEach(s => {
         const result = gen(s)
         if (typeof result === "string") output.push(`${result};`)
       })
-      output.dedent()
-      output.push(`}`)
-      output.push(`__main();`)
     },
 
     Comment(c) {
@@ -78,6 +76,16 @@ export default function generate(program) {
     PrintStatement(s) {
       const args = s.arguments.map(gen).join(", ")
       output.push(`console.log(${args});`)
+    },
+
+    ImportStatement(s) {
+      output.import(`import ${s.identifier} from "${s.source}";`)
+    },
+
+    ExportStatement(s) {
+      // Export an existing local binding under its original name.
+      // e.g. `export { localName as exportedName };`
+      output.push(`export { ${targetName(s.content)} as ${s.content.name} };`)
     },
 
     IfStatement(s) {
@@ -105,7 +113,8 @@ export default function generate(program) {
 
     FunctionDeclaration(s) {
       const params = s.function.params.map((p) => targetName(p)).join(", ")
-      output.push(`function ${targetName(s.function)}(${params}) {`)
+      const prefix = s.exported ? "export " : ""
+      output.push(`${prefix}function ${targetName(s.function)}(${params}) {`)
       output.indent()
       s.body.forEach(gen)
       output.dedent()
@@ -147,7 +156,7 @@ export default function generate(program) {
     InputStatement(s) {
       if (!injectedHeaders.has("input")) {
         injectedHeaders.add("input")
-        output.unshift([
+        output.import([
           `import * as readline from 'node:readline/promises';`,
           `import { stdin as input, stdout as output } from 'node:process';`,
           ``,

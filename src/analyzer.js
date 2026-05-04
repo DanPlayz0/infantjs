@@ -212,6 +212,27 @@ export default function translate(match) {
       return core.inputStmt(promptValue)
     },
 
+    ExportStmt_variable(_export, id) {
+      const exportedValue = context.get(id.sourceString, id.source)
+      return core.exportStmt(exportedValue)
+    },
+
+    ExportStmt_function(_export, funDecl) {
+      // Translate the function declaration, mark it as exported,
+      // and return the declaration so the function body is emitted.
+      const decl = funDecl.translate()
+      decl.exported = true
+      return decl
+    },
+
+    ImportStmt(_import, id, _from, source) {
+      const moduleName = source.translate()
+      validateString(moduleName, source.source)
+      const importName = id.sourceString
+      // For simplicity, we'll just return an import statement without actually resolving the module
+      return core.importStmt(importName, moduleName)
+    },
+
     CastStmt(type, _open, expression, _close) {
       const value = expression.translate()
       const typeName = type.sourceString
