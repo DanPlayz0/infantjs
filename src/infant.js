@@ -1,5 +1,6 @@
 #! /usr/bin/env node
 
+import { parseArgs } from "node:util";
 import * as fs from "node:fs/promises"
 import stringify from "graph-stringify"
 import compile from "./compiler.js"
@@ -20,9 +21,10 @@ Prints to stdout according to <outputType>, which must be one of:
   py         the translation to Python
 
 Options (Filesystem operations are only supported when a filename is provided, not in REPL mode):
-  --help      print this message
-  --write     write the output to a file instead of stdout (filename is <filename> with the extension replaced by .js or .py)
-  --verbose   print stack traces for errors
+  --help               print this message
+  --write              write the output to a file instead of stdout (filename is <filename> with the extension replaced by .js or .py)
+  --verbose            print stack traces for errors
+  --include <filename> include the contents of another file (only supported in .infant files, not in REPL mode)
 `
 
 async function compileFromFile(filename, outputType) {
@@ -44,13 +46,27 @@ async function compileFromFile(filename, outputType) {
   }
 }
 
-if (process.argv.length >= 4 && !process.argv.includes("--help")) {
-  if (process.argv[2] === "repl") {
-    await startRepl(process.argv[3])
-  } else {
-    await compileFromFile(process.argv[2], process.argv[3])
-  }
-} else {
+const cliOptions = {
+  verbose: { type: "boolean", default: false },
+  write: { type: "boolean", default: false },
+  include: { type: "string", default: [], multiple: true, short: "i" },
+  help: { type: "boolean", default: false },
+  outputType: { type: "string", default: "js", short: "o" },
+  outputFile: { type: "string", default: "", short: "f" },
+};
+const parsedArgs = parseArgs({ args: process.argv.slice(2), options: cliOptions, allowPositionals: true });
+const { values, positionals } = parsedArgs;
+if (values.help || positionals.length < 2) {
   console.log(help)
   process.exitCode = 2
+} else {
+  const [filename, outputType] = positionals;
+  if (filename === "repl") {
+    await startRepl(outputType)
+  } else {
+    const includes = Array.isArray(values.include) ? values.include : (values.include ? [values.include] : []);
+    for (const inc of includes) {
+      await compileFromFile(inc, outputType)
+    }
+  }
 }
