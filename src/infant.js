@@ -3,10 +3,13 @@
 import * as fs from "node:fs/promises"
 import stringify from "graph-stringify"
 import compile from "./compiler.js"
+import startRepl from "./repl.js"
 
 const help = `InfantJS compiler
 
 Syntax: infant <filename> <outputType> [options]
+
+<filename> is either a path to an InfantJS source file or "repl" to start a REPL session.
 
 Prints to stdout according to <outputType>, which must be one of:
 
@@ -16,7 +19,7 @@ Prints to stdout according to <outputType>, which must be one of:
   js         the translation to JavaScript
   py         the translation to Python
 
-Options:
+Options (Filesystem operations are only supported when a filename is provided, not in REPL mode):
   --help      print this message
   --write     write the output to a file instead of stdout (filename is <filename> with the extension replaced by .js or .py)
   --verbose   print stack traces for errors
@@ -42,7 +45,11 @@ async function compileFromFile(filename, outputType) {
 }
 
 if (process.argv.length >= 4 && !process.argv.includes("--help")) {
-  await compileFromFile(process.argv[2], process.argv[3])
+  if (process.argv[2] === "repl") {
+    await startRepl(process.argv[3])
+  } else {
+    await compileFromFile(process.argv[2], process.argv[3])
+  }
 } else {
   console.log(help)
   process.exitCode = 2
