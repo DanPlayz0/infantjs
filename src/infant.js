@@ -65,6 +65,7 @@ if (values.help || positionals.length < 2) {
     await startRepl(outputType)
   } else {
     const includes = Array.isArray(values.include) ? values.include : (values.include ? [values.include] : []);
+    await compileFromFile(filename, outputType)
     for (const inc of includes) {
       await compileFromFile(inc, outputType)
     }
