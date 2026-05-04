@@ -1,0 +1,36 @@
+/* InfantJS version of the clockhands example
+	 Prints the 11 times when hour and minute hands overlap
+*/
+
+mine i = 0
+
+wawawa i < 11 {
+	mine t = crawl((43200 * i + 21600) / 11)
+
+	mine h = crawl(t / 3600)
+	mine m = crawl(t / 60) % 60
+	mine s = t % 60
+
+	mine hh = babble(h)
+	peekaboo h == 0 {
+		hh = "12"
+	} nuhuh {
+		peekaboo h < 10 {
+			hh = "0" + hh
+		}
+	}
+
+	mine mm = babble(m)
+	peekaboo m < 10 {
+		mm = "0" + mm
+	}
+
+	mine ss = babble(s)
+	peekaboo s < 10 {
+		ss = "0" + ss
+	}
+
+	gibberish(hh + ":" + mm + ":" + ss)
+
+	i = i + 1
+}
