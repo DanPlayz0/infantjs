@@ -26,6 +26,7 @@
     "test": "c8 node --test test/**/*.test.js"
   },
   "dependencies": {
+    "glob": "^10.3.0",
     "ohm-js": "^17.5.0"
   },
   "devDependencies": {

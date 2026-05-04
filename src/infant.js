@@ -2,6 +2,7 @@
 
 import { parseArgs } from "node:util";
 import * as fs from "node:fs/promises"
+import { glob } from "glob";
 import stringify from "graph-stringify"
 import compile from "./compiler.js"
 import startRepl from "./repl.js"
@@ -24,13 +25,12 @@ Options (Filesystem operations are only supported when a filename is provided, n
   --help               print this message
   --write              write the output to a file instead of stdout (filename is <filename> with the extension replaced by .js or .py)
   --verbose            print stack traces for errors
-  --include <filename> include the contents of another file (only supported in .infant files, not in REPL mode)
+  --include <filename> compile additional files (can be used multiple times)
 `
 
-async function compileFromFile(filename, outputType) {
+async function compileFromFile(filename, outputType, writeFlag) {
   try {
     const buffer = await fs.readFile(filename)
-    const writeFlag = process.argv.includes("--write")
     const compiled = compile(buffer.toString(), outputType, filename)
     if (writeFlag && ["js", "py"].includes(outputType)) {
       const outputFilename = filename.replace(/\.\w+$/, outputType === "py" ? ".py" : ".js")
@@ -60,14 +60,32 @@ if (values.help || positionals.length < 2) {
   console.log(help)
   process.exitCode = 2
 } else {
-  const [filename, outputType] = positionals;
-  if (filename === "repl") {
+  const [filePattern, outputType] = positionals;
+  const includes = Array.isArray(values.include) ? values.include : (values.include ? [values.include] : []);
+  
+  if (filePattern === "repl") {
     await startRepl(outputType)
   } else {
-    const includes = Array.isArray(values.include) ? values.include : (values.include ? [values.include] : []);
-    await compileFromFile(filename, outputType)
+    // Check if filePattern contains glob characters
+    const hasGlobChars = /[*?[\]]/.test(filePattern);
+    let filesToCompile = [];
+    
+    if (hasGlobChars) {
+      // Expand glob pattern
+      filesToCompile = await glob(filePattern);
+    } else {
+      // Single file
+      filesToCompile = [filePattern];
+    }
+    
+    // Compile include files first
     for (const inc of includes) {
-      await compileFromFile(inc, outputType)
+      await compileFromFile(inc, outputType, values.write);
+    }
+    
+    // Then compile main file(s)
+    for (const file of filesToCompile) {
+      await compileFromFile(file, outputType, values.write);
     }
   }
 }
