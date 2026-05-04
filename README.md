@@ -42,7 +42,8 @@ Language Features
 
 ----------------------------------------------------------------------------------------------------------------
 
-<h2>Static Checks Performed by the Compiler</h2>
+## Static Checks Performed by the Compiler
+
 The analyzer enforces the following constraints at compile time, before any code runs:
 
 | __Check__    | __Example Error Caught__ |
@@ -67,7 +68,7 @@ The analyzer enforces the following constraints at compile time, before any code
 
 
 
-<h2>Keyword Reference </h2>
+## Keyword Reference
 
 |   __InfantJS__  |   __Meaning__    |     __JavaScript Equivalent__ |
 | :---------------- | :------: | ----: |
@@ -90,27 +91,28 @@ The analyzer enforces the following constraints at compile time, before any code
 |   `babble`  |   string type / cast    |  `String()`   |
 |   `squarehole`  |   boolean type / cast    |  `Boolean()`   |
 
+## Example Programs
 
-<h2> Example Programs </h2>
+### Hello World
 
-<h4> Hello World </h4>
+InfantJS:
 
-__InfantJS__
 ```js
 gibberish("Hello World")
 ```
 
-__JavaScript__
+JavaScript:
+
 ```javascript
 console.log("Hello World");
 ```
 
 ----------------------------------------------------------------------------------------------------------------
 
+### Variables and Arithmetic
 
-<h4> Variables and Arithmetic </h4>
+InfantJS:
 
-__InfantJS__
 ```js
 mine x = 100 + 100
 gibberish(x / 2)
@@ -121,7 +123,8 @@ peekaboo x > 100 {
 }
 ```
 
-__JavaScript__
+JavaScript:
+
 ```javascript
 let x = 100 + 100;
 console.log(x / 2);
@@ -132,12 +135,12 @@ if (x > 100) {
 }
 ```
 
-
 ----------------------------------------------------------------------------------------------------------------
 
-<h4> Functions <h4>
+### Functions
 
-__InfantJS__
+InfantJS:
+
 ```js
 playtime example(x: numba, y: squarehole) {
   peekaboo y {
@@ -150,7 +153,8 @@ playtime example(x: numba, y: squarehole) {
 example(3, googoo)
 ```
 
-__JavaScript__
+JavaScript:
+
 ```javascript
 function example(x, y) {
   if (y) {
@@ -163,12 +167,12 @@ function example(x, y) {
 example(3, false);
 ```
 
-
 ----------------------------------------------------------------------------------------------------------------
 
-<h4> Number Guessing Game </h4>
+### Number Guessing Game
 
-__InfantJS__
+InfantJS:
+
 ```js
 mine num = flippy(1, 100)
 mine guess = 0
@@ -188,7 +192,8 @@ wawawa num != guess {
 gibberish("You got it! It was " + babble(num) + "!")
 ```
 
-__JavaScript__
+JavaScript:
+
 ```javascript
 let num = Math.floor(Math.random() * 100) + 1;
 let guess = 0;
@@ -210,28 +215,29 @@ console.log("You got it! It was " + String(num) + "!");
 
 ----------------------------------------------------------------------------------------------------------------
 
-<h4> While Loop with Variable </h4>
+### While Loop with Variable
 
-__InfantJS__
-```
+InfantJS:
+
+```js
 wawawa googoo {
   gibberish(gaagaa)
 }
 ```
 
-__JavaScript__
+JavaScript:
+
 ```javascript
 while (false) {
   console.log(true);
 }
 ```
- 
-----------------------------------------------------------------------------------------------------------------
 
-<h4> Math Builtins and Casting </h4>
+### Math Builtins and Casting
 
-__InfantJS__
-```
+InfantJS:
+
+```js
 mine pi = 3.14159
 gibberish(crawl(pi))
 gibberish(climb(pi))
@@ -241,8 +247,9 @@ mine asText = babble(pi)
 gibberish("Pi is: " + asText)
 ```
 
-__JavaScript__
-```JavaScript
+JavaScript
+
+```javascript
 let pi = 3.14159;
 console.log(Math.floor(pi));
 console.log(Math.ceil(pi));
@@ -252,24 +259,19 @@ let asText = String(pi);
 console.log("Pi is: " + asText);
 ```
 
+## Generated Output
 
-----------------------------------------------------------------------------------------------------------------
+The compiler produces clean, readable JavaScript. Here is what the compiler actually outputs:
 
+InfantJS input:
 
-
-<h2> Generated Output </h2>
-
----
-
-**The compiler produces clean, readable JavaScript. Here is what the compiler actually outputs:**
-
-**InfantJS input:**
 ```js
 mine x = 100 + 100
 gibberish(x / 2)
 ```
 
-**Compiled JavaScript output:**
+Compiled JavaScript output:
+
 ```javascript
 async function __main() {
   let x_1 = 200;
@@ -280,9 +282,10 @@ __main();
 
 Note that `100 + 100` is folded to `200` at compile time by the optimizer, and variables get unique numeric suffixes (e.g. `x_1`) to avoid collisions with JavaScript reserved words.
 
----
+----------------------------------------------------------------------------------------------------------------
 
-**InfantJS input:**
+InfantJS input:
+
 ```js
 playtime square(n: numba) {
   bedtime n * n
@@ -290,7 +293,8 @@ playtime square(n: numba) {
 gibberish(square(5))
 ```
 
-**Compiled JavaScript output:**
+Compiled JavaScript output:
+
 ```javascript
 function square_1(n_2) {
   return (n_2 * n_2);
@@ -301,9 +305,9 @@ async function __main() {
 __main();
 ```
 
----
+----------------------------------------------------------------------------------------------------------------
 
-**InfantJS input:**
+InfantJS input:
 ```js
 mine num = flippy(1, 10)
 mine guess = numba(nomnom("Guess: "))
@@ -336,21 +340,22 @@ __main();
 
 ----------------------------------------------------------------------------------------------------------------
 
+## How to Run
 
-<h2>How to Run</h2>
+Install dependencies
 
-__Install dependencies__
-
-```ruby
+```bash
 npm install
 ```
-__Compile and run a `.infant` file (translates to JS and executes):__
+
+Compile and run a `.infant` file (translates to JS and executes):
 
 ```bash
 node src/infant.js examples/guess-number-game.infant js
 ```
 
-__Use the compiler directly:__
+Use the compiler directly:
+
 ```bash
 # Check syntax only
 node src/infant.js examples/hello.infant parsed
@@ -374,16 +379,17 @@ node src/infant.js examples/hello.infant js --write
 node src/infant.js examples/hello.infant py --write
 ```
 
-__Run the tests with coverage:__
+Run the tests with coverage:
+
 ```bash
 npm test
 ```
 
 ----------------------------------------------------------------------------------------------------------------
 
-<h2> Repository Structure <h2>
+## Repository Structure
 
-```
+```bash
 .
 ├── README.md
 ├── LICENSE
@@ -425,9 +431,12 @@ npm test
 
 ----------------------------------------------------------------------------------------------------------------
 
-<h2> Grammer (abbreviated) </h2>
+## Grammer (abbreviated)
 
-__The full grammar lives in `src/infantjs.ohm.` Key rules:__
+The full grammar lives in [`src/infantjs.ohm.`](./src/infantjs.ohm) 
+
+### Key rules:
+
 ```ohm
 Statement = PrintStmt | LetStmt | AssignStmt | IfStmt | WhileStmt
           | FunDecl | FunCall | RandomStmt | InputStmt | ReturnStmt
@@ -443,12 +452,13 @@ ReturnStmt = "bedtime" Exp?
 
 ----------------------------------------------------------------------------------------------------------------
 
-<h2> Companion Website </h2>
+## Companion Website
 
-Visit <u>infantjs.compiles.me</u> for the full language story, live examples, and developer bios
+Visit [infantjs.compiles.me](https://infantjs.compiles.me) for the full language story, live examples, and developer bios
 
 ----------------------------------------------------------------------------------------------------------------
-<h2> Optional Syntax Highlighting </h2>
+
+## Optional Syntax Highlighting
 
 Install the InfantJS VS Code extension for `.infant` file highlighting.
 Download [`infantjs-vsc-extension/infantjs-0.0.1.vsix`](./infantjs-vsc-extension/infantjs-0.0.1.vsix) from the repo, then in VS Code
