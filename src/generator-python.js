@@ -195,7 +195,13 @@ export default function generatePython(program) {
     },
 
     BinaryExpression(e) {
-      return `(${gen(e.left)} ${e.operator} ${gen(e.right)})`
+      // Map JavaScript operators to Python equivalents
+      const operatorMap = {
+        '===': '==',
+        '!==': '!=',
+      }
+      const operator = operatorMap[e.operator] ?? e.operator
+      return `(${gen(e.left)} ${operator} ${gen(e.right)})`
     },
 
     UnaryExpression(e) {
