@@ -77,3 +77,7 @@ export function ceilStmt(value) {
 export function roundStmt(value) {
   return { kind: "RoundStatement", value, type: "number" }
 }
+
+export function comment(content) {
+  return { kind: "Comment", content, type: "string" }
+}

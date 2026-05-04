@@ -365,6 +365,11 @@ export default function translate(match) {
     false(_) {
       return false
     },
+
+    // This won't be emitted in output but can still be represented for testing purposes
+    Comment(_open, content, _close) {
+      return core.comment(content.sourceString)
+    },
   }
   const semantics = grammar.createSemantics().addOperation("translate", actions)
   return semantics(match).translate()

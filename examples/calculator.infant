@@ -1,0 +1,61 @@
+playtime add(a: numba, b: numba) {
+  bedtime a + b
+}
+
+playtime subtract(a: numba, b: numba) {
+  bedtime a - b
+}
+
+playtime multiply(a: numba, b: numba) {
+  bedtime a * b
+}
+
+playtime divide(a: numba, b: numba) {
+  peekaboo b == 0 {
+    gibberish("Error: Cannot divide by zero!")
+    bedtime 0
+  } nuhuh {
+    bedtime a / b
+  }
+}
+
+gibberish("=== InfantJS Calculator ===")
+gibberish("Operations:")
+gibberish("  1 = Add")
+gibberish("  2 = Subtract")
+gibberish("  3 = Multiply")
+gibberish("  4 = Divide")
+gibberish("")
+
+mine rawa = nomnom("Enter first number: ")
+mine a = numba(rawa)
+
+mine rawb = nomnom("Enter second number: ")
+mine b = numba(rawb)
+
+mine rawop = nomnom("Enter operation (1/2/3/4): ")
+mine op = numba(rawop)
+
+gibberish("")
+
+peekaboo op == 1 {
+  mine result1 = add(a, b)
+  gibberish(babble(a) + " + " + babble(b) + " = " + babble(result1))
+} nuhuh {
+  peekaboo op == 2 {
+    mine result2 = subtract(a, b)
+    gibberish(babble(a) + " - " + babble(b) + " = " + babble(result2))
+  } nuhuh {
+    peekaboo op == 3 {
+      mine result3 = multiply(a, b)
+      gibberish(babble(a) + " * " + babble(b) + " = " + babble(result3))
+    } nuhuh {
+      peekaboo op == 4 {
+        mine result4 = divide(a, b)
+        gibberish(babble(a) + " / " + babble(b) + " = " + babble(result4))
+      } nuhuh {
+        gibberish("Unknown operation! Enter 1, 2, 3, or 4.")
+      }
+    }
+  }
+}

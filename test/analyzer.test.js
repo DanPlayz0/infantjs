@@ -79,6 +79,9 @@ const semanticChecks = [
   ["input function using variable as prompt", 'mine x = "Enter something:" nomnom(x)'],
   ["function with void return", "playtime doSomething() { bedtime }"],
   ["function with return value", "playtime getNumber() { bedtime 42 } gibberish(getNumber())"],
+  ["comment", "mine x = 1 /* this is a comment */ gibberish(x)"],
+  ["comment with code inside", "/* mine x = 1 */ mine y = 2 gibberish(y)"],
+  ["comment with nested comment inside", "/* outer comment /* inner comment */ still outer */ mine x = 1 gibberish(x)"],
 ]
 
 // Programs that are syntactically correct but have semantic errors

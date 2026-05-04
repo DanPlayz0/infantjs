@@ -1,0 +1,28 @@
+playtime makeline(n: numba, size: numba) {
+  mine result = ""
+  mine i = 1
+  wawawa i <= size {
+    result = result + babble(n * i) + "	"
+    i = i + 1
+  }
+  bedtime result
+}
+
+gibberish("=== InfantJS Times Table ===")
+
+mine rawn = nomnom("Enter a number to see its times table: ")
+mine n = numba(rawn)
+
+mine rawsize = nomnom("How far up? (e.g. 10 or 12): ")
+mine size = numba(rawsize)
+
+gibberish("")
+
+mine row = 1
+wawawa row <= size {
+  gibberish(babble(n) + " x " + babble(row) + " = " + babble(n * row))
+  row = row + 1
+}
+
+gibberish("")
+gibberish("Done!")

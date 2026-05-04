@@ -1,0 +1,84 @@
+{
+  "$schema": "https://raw.githubusercontent.com/martinring/tmlanguage/master/tmlanguage.json",
+  "name": "InfantJS",
+  "scopeName": "source.infantjs",
+  "fileTypes": ["infant", "infantjs"],
+  "patterns": [
+    { "include": "#comments" },
+    { "include": "#keywords" },
+    { "include": "#types" },
+    { "include": "#booleans" },
+    { "include": "#strings" },
+    { "include": "#numbers" },
+    { "include": "#operators" },
+    { "include": "#functions" },
+    { "include": "#identifiers" },
+    { "include": "#punctuation" }
+  ],
+  "repository": {
+    "comments": {
+      "patterns": [
+        {
+          "begin": "/\\*",
+          "end": "\\*/",
+          "name": "comment.block.infantjs"
+        }
+      ]
+    },
+    "keywords": {
+      "match": "\\b(mine|gibberish|peekaboo|nuhuh|wawawa|playtime|bedtime|nomnom|flippy|nap|crawl|climb|roll)\\b",
+      "name": "keyword.control.infantjs"
+    },
+    "types": {
+      "match": "\\b(numba|babble|squarehole)\\b",
+      "name": "storage.type.infantjs"
+    },
+    "booleans": {
+      "match": "\\b(gaagaa|googoo)\\b",
+      "name": "constant.language.infantjs"
+    },
+    "strings": {
+      "begin": "\"",
+      "end": "\"",
+      "name": "string.quoted.double.infantjs",
+      "patterns": [
+        {
+          "match": "\\\\.",
+          "name": "constant.character.escape.infantjs"
+        }
+      ]
+    },
+    "numbers": {
+      "match": "\\b[0-9]+(\\.[0-9]+)?\\b",
+      "name": "constant.numeric.infantjs"
+    },
+    "operators": {
+      "match": "(==|!=|<=|>=|<|>|\\+|-|\\*\\*|\\*|/|%|=)",
+      "name": "keyword.operator.infantjs"
+    },
+    "functions": {
+      "match": "\\b(?!mine\\b|gibberish\\b|peekaboo\\b|nuhuh\\b|wawawa\\b|playtime\\b|bedtime\\b|nomnom\\b|flippy\\b|nap\\b|crawl\\b|climb\\b|roll\\b|gaagaa\\b|googoo\\b|numba\\b|babble\\b|squarehole\\b)([a-zA-Z][a-zA-Z0-9]*)(?=\\s*\\()",
+      "name": "entity.name.function.infantjs"
+    },
+    "identifiers": {
+      "match": "\\b(?!mine\\b|gibberish\\b|peekaboo\\b|nuhuh\\b|wawawa\\b|playtime\\b|bedtime\\b|nomnom\\b|flippy\\b|nap\\b|crawl\\b|climb\\b|roll\\b|gaagaa\\b|googoo\\b|numba\\b|babble\\b|squarehole\\b)[a-zA-Z][a-zA-Z0-9]*\\b",
+      "name": "variable.other.readwrite.infantjs"
+    },
+    "punctuation": {
+      "patterns": [
+        {
+          "match": "[{}()]",
+          "name": "punctuation.section.block.infantjs"
+        },
+        {
+          "match": ",",
+          "name": "punctuation.separator.comma.infantjs"
+        },
+        {
+          "match": ":",
+          "name": "punctuation.separator.type.infantjs"
+        }
+      ]
+    }
+  }
+}

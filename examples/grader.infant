@@ -1,0 +1,54 @@
+playtime lettergrade(score: numba) {
+  peekaboo score >= 90 {
+    bedtime "A"
+  } nuhuh {
+    peekaboo score >= 80 {
+      bedtime "B"
+    } nuhuh {
+      peekaboo score >= 70 {
+        bedtime "C"
+      } nuhuh {
+        peekaboo score >= 60 {
+          bedtime "D"
+        } nuhuh {
+          bedtime "F"
+        }
+      }
+    }
+  }
+}
+
+playtime passfail(score: numba) {
+  peekaboo score >= 60 {
+    bedtime "PASS"
+  } nuhuh {
+    bedtime "FAIL"
+  }
+}
+
+gibberish("=== InfantJS Grade Calculator ===")
+
+mine rawscore = nomnom("Enter your score (0-100): ")
+mine score = numba(rawscore)
+
+mine grade = lettergrade(score)
+mine status = passfail(score)
+
+gibberish("")
+gibberish("Score:  " + babble(score))
+gibberish("Grade:  " + babble(grade))
+gibberish("Status: " + babble(status))
+
+peekaboo score >= 90 {
+  gibberish("Outstanding! You crushed it!")
+} nuhuh {
+  peekaboo score >= 70 {
+    gibberish("Solid work! Keep it up.")
+  } nuhuh {
+    peekaboo score >= 60 {
+      gibberish("You passed, but there is room to grow.")
+    } nuhuh {
+      gibberish("Do not give up! Study harder next time.")
+    }
+  }
+}

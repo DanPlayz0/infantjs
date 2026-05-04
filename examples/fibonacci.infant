@@ -1,0 +1,33 @@
+playtime fibonacci(n: numba) {
+  peekaboo n <= 0 {
+    gibberish("Enter a number greater than 0!")
+    bedtime 0
+  } nuhuh {
+    mine a = 0
+    mine b = 1
+    mine count = 0
+    mine line = ""
+
+    wawawa count < n {
+      line = line + babble(a) + " "
+      mine next = a + b
+      a = b
+      b = next
+      count = count + 1
+    }
+
+    gibberish(line)
+    bedtime 0
+  }
+}
+
+gibberish("=== InfantJS Fibonacci Generator ===")
+
+mine rawn = nomnom("How many Fibonacci numbers to generate? ")
+mine n = numba(rawn)
+
+gibberish("")
+gibberish("Fibonacci sequence:")
+fibonacci(n)
+gibberish("")
+gibberish("Done!")

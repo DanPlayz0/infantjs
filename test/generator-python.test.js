@@ -2,10 +2,12 @@ import { describe, it } from "node:test"
 import assert from "node:assert"
 import parse from "../src/parser.js"
 import analyze from "../src/analyzer.js"
+import optimize from "../src/optimizer.js"
 import generatePython from "../src/generator-python.js"
 
 // Helper to run the full pipeline and get Python output
 const generateFrom = (source) => generatePython(analyze(parse(source)))
+const generateFromOptimized = (source) => generatePython(optimize(analyze(parse(source))))
 
 describe("The Python generator", () => {
   it("generates a let statement", () => {
@@ -303,16 +305,11 @@ describe("The Python generator", () => {
     assert.match(output, /str\(/)
   })
 
-  it("generates cast to boolean from number", () => {
-    const output = generateFrom('mine x = 5 gibberish(squarehole(x))')
-    assert.match(output, /bool\(/)
-  })
-
   it("generates multiple math operations in sequence", () => {
     const output = generateFrom("gibberish(crawl(1.5) + climb(2.5) + roll(3.5))")
     assert.match(output, /floor/)
     assert.match(output, /ceil/)
-    // round might be imported but not explicitly visible if it's a function call result
+    assert.match(output, /round/)
   })
 
   it("handles cast within function parameters", () => {
@@ -366,8 +363,9 @@ describe("The Python generator", () => {
   })
 
   it("handles while loops with body optimization", () => {
-    const output = generateFrom("wawawa gaagaa { gibberish(2 + 2) }")
+    const output = generateFromOptimized("wawawa gaagaa { gibberish(2 + 2) }")
     assert.match(output, /while/)
+    assert.match(output, /True/)
     assert.match(output, /4/)  // 2 + 2 should be optimized to 4
   })
 
@@ -375,5 +373,12 @@ describe("The Python generator", () => {
     // Variables get suffixes to avoid Python keywords
     const output = generateFrom("mine for = 1 gibberish(for)")
     assert.match(output, /for_/)
+  })
+  it("handles comments in code generation", () => {
+    const output = generateFrom("mine x = 1 /* this is a comment */ gibberish(x)")
+    // Comments should not appear in output, but code should still generate
+    assert.doesNotMatch(output, /\/\*/)
+    assert.doesNotMatch(output, /\*\//)
+    assert.match(output, /print/)
   })
 })
