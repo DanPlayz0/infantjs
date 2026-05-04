@@ -2,6 +2,7 @@
   "name": "infantjs",
   "displayName": "InfantJS",
   "description": "A syntax highlighter and an autocomplete provider for InfantJS",
+  "icon": "logo.png",
   "version": "0.0.1",
   "main": "./extension.js",
   "activationEvents": ["onLanguage:infantjs"],
