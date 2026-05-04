@@ -451,5 +451,9 @@ Visit <u>infantjs.compiles.me</u> for the full language story, live examples, an
 <h2> Optional Syntax Highlighting </h2>
 
 Install the InfantJS VS Code extension for `.infant` file highlighting.
-Download `docs/infantjs-syntax-0.0.1.vsix` from the repo, then in VS Code:
-`Ctrl+Shift+X` → `...` → `Install from VSIX`
+Download [`infantjs-vsc-extension/infantjs-0.0.1.vsix`](./infantjs-vsc-extension/infantjs-0.0.1.vsix) from the repo, then in VS Code
+
+* Via the extensions tab (`Ctrl+Shift+X`) → Click the three dots (`...`) at the top → Select `Install from VSIX` from the dropdown
+* Via Command Pallet (`Ctrl+Shift+P`) → `>Extensions: Install from VSIX`
+
+Once you have the finder/file explorer open, you need to find and select that VSIX extension file
