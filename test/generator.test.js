@@ -3,9 +3,11 @@ import assert from "node:assert"
 import parse from "../src/parser.js"
 import analyze from "../src/analyzer.js"
 import generate from "../src/generator.js"
+import optimize from "../src/optimizer.js"
 
-// Helper to run the full pipeline and get JS output
-const generateFrom = (source) => generate(analyze(parse(source)))
+// Helper to run the full pipeline (without optimization) and get JS output
+const generateFrom = (source) => generate(analyze(parse(source)));
+const generateFromOptimized = (source) => generate(optimize(analyze(parse(source))));
 
 describe("The generator", () => {
   it("generates a let statement", () => {
@@ -124,9 +126,16 @@ describe("The generator", () => {
   })
   
   it("handles while loops with body optimization", () => {
-    const output = generateFrom("wawawa gaagaa { gibberish(2 + 2) }")
+    const output = generateFromOptimized("wawawa gaagaa { gibberish(2 + 2) }")
     assert.match(output, /while/)
     assert.match(output, /true/)
     assert.match(output, /4/)  // 2 + 2 should be optimized to 4
+  })
+
+  it("handles comments in code generation", () => {
+    const output = generateFrom("mine x = 5 /* this is a comment */")
+    assert.match(output, /let/)
+    assert.match(output, /5/)
+    assert.match(output, /\/\* this is a comment \*\//)
   })
 })
