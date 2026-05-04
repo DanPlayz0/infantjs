@@ -46,8 +46,13 @@ export default function generatePython(program) {
     }
   })(new Map())
 
+  const moduleVars = new Map()
+  const importedBindings = new Map()
+
   const gen = (node) => {
     if (typeof node === "boolean") return node ? "True" : "False"
+    if (typeof node === "string") return JSON.stringify(node)
+    if (typeof node === "number") return String(node)
     return generators[node?.kind]?.(node) ?? node
   }
 
@@ -67,7 +72,11 @@ export default function generatePython(program) {
 
     // somehow even though the export is not used, test coverage is uncovered??
     /* c8 ignore next */
-    ExportStatement(s) {},
+    ExportStatement(s) {
+      if (s.content) {
+        output.push(`${s.content.name} = ${targetName(s.content)}`)
+      }
+    },
 
     LetStatement(s) {
       output.push(`${targetName(s.variable)} = ${gen(s.initializer)}`)
@@ -78,7 +87,57 @@ export default function generatePython(program) {
     },
 
     ImportStatement(s) {
-      output.import(`from ${s.source.replace(/^\./,'').replace(/^\//,'').replace(/\//g, '.')} import ${s.identifier}`)
+      // Use importlib to load modules by file path (supports hyphenated filenames)
+      const modPath = s.source
+      const sanitized = modPath.replace(/[^A-Za-z0-9]/g, '_')
+      const modVar = moduleVars.get(modPath) ?? `__mod_${sanitized}`
+      moduleVars.set(modPath, modVar)
+      const headerKey = `importlib_${sanitized}`
+      if (!injectedHeaders.has(headerKey)) {
+        injectedHeaders.add(headerKey)
+        output.import(`import importlib.util`)
+        // ensure os is available for resolving relative paths at runtime
+        if (!injectedHeaders.has('os')) {
+          injectedHeaders.add('os')
+          output.import(`import os`)
+        }
+        let pyPathExpr
+        if (modPath.startsWith('.') && modPath.endsWith('.infant')) {
+          const pyRel = modPath.replace(/\.infant$/, '.py')
+          const pyExpr = `os.path.normpath(os.path.join(os.path.dirname(__file__), ${JSON.stringify(pyRel)}))`
+          const infExpr = `os.path.normpath(os.path.join(os.path.dirname(__file__), ${JSON.stringify(modPath)}))`
+          pyPathExpr = `(${pyExpr} if os.path.exists(${pyExpr}) else ${infExpr})`
+        } else if (modPath.startsWith('.')) {
+          pyPathExpr = `os.path.normpath(os.path.join(os.path.dirname(__file__), ${JSON.stringify(modPath)}))`
+        } else {
+          pyPathExpr = JSON.stringify(modPath)
+        }
+        output.import(`${modVar}_spec = importlib.util.spec_from_file_location("${sanitized}", ${pyPathExpr})`)
+        output.import(`assert ${modVar}_spec is not None`)
+        output.import(`assert ${modVar}_spec.loader is not None`)
+        output.import(`${modVar} = importlib.util.module_from_spec(${modVar}_spec)`)
+        output.import(`${modVar}_spec.loader.exec_module(${modVar})`)
+      }
+      // Determine exported name and requested local name
+      let exportedName, requestedLocal
+      if (typeof s.identifier === 'string') {
+        exportedName = s.identifier
+        requestedLocal = s.identifier
+      } else {
+        exportedName = s.identifier.name
+        requestedLocal = targetName(s.identifier)
+      }
+      const key = `${modPath}::${exportedName}`
+      if (importedBindings.has(key)) {
+        const existingLocal = importedBindings.get(key)
+        if (requestedLocal !== existingLocal) {
+          output.push(`${requestedLocal} = ${existingLocal}`)
+        }
+      } else {
+        // First time loading this symbol from this module: use getattr
+        output.push(`${requestedLocal} = getattr(${modVar}, "${exportedName}")`)
+        importedBindings.set(key, requestedLocal)
+      }
     },
 
     PrintStatement(s) {
@@ -112,6 +171,10 @@ export default function generatePython(program) {
       output.indent()
       s.body.forEach(gen)
       output.dedent()
+      if (s.exported) {
+        // export alias: module-level name -> generated local name
+        output.push(`${s.function.name} = ${targetName(s.function)}`)
+      }
     },
 
     ReturnStatement(s) {

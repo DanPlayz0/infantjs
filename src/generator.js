@@ -79,7 +79,16 @@ export default function generate(program) {
     },
 
     ImportStatement(s) {
-      output.import(`import ${s.identifier} from "${s.source}";`)
+      if (typeof s.identifier === 'string') {
+        // Unknown entity at generation time — fall back to default import
+        output.import(`import ${s.identifier} from "${s.source}";`)
+      } else {
+        // Analyzer provided the actual exported entity. Use a named import
+        // and alias it to the generated local name so uses match the mapping.
+        const exportedName = s.identifier.name
+        const localName = targetName(s.identifier)
+        output.import(`import { ${exportedName} as ${localName} } from "${s.source}";`)
+      }
     },
 
     ExportStatement(s) {

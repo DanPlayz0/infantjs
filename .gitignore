@@ -1,6 +1,7 @@
 # Temp javascript translations
-examples/*.js
-examples/*.py
+examples/**/*.*
+examples/*.*
+!examples/**/*.infant
 
 # Logs
 logs

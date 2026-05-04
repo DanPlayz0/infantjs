@@ -29,7 +29,7 @@ async function compileFromFile(filename, outputType) {
   try {
     const buffer = await fs.readFile(filename)
     const writeFlag = process.argv.includes("--write")
-    const compiled = compile(buffer.toString(), outputType)
+    const compiled = compile(buffer.toString(), outputType, filename)
     if (writeFlag && ["js", "py"].includes(outputType)) {
       const outputFilename = filename.replace(/\.\w+$/, outputType === "py" ? ".py" : ".js")
       await fs.writeFile(outputFilename, compiled)

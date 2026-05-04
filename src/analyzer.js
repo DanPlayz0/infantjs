@@ -1,4 +1,7 @@
 import * as core from "./core.js"
+import parse from "./parser.js"
+import * as fs from "node:fs"
+import path from "node:path"
 
 /**
  * A context contains a mapping of identifiers to entities.
@@ -102,8 +105,9 @@ function resolvedType(typeName, source) {
 
 
 /** @param {import('ohm-js').MatchResult} match */
-export default function translate(match) {
+export default function translate(match, filename = undefined) {
   let context = new Context()
+  const currentFile = filename
 
   const grammar = match.matcher.grammar
 
@@ -229,8 +233,53 @@ export default function translate(match) {
       const moduleName = source.translate()
       validateString(moduleName, source.source)
       const importName = id.sourceString
-      // For simplicity, we'll just return an import statement without actually resolving the module
-      return core.importStmt(importName, moduleName)
+      // Resolve module file path (try relative to current file, then cwd)
+      const candidates = []
+      if (currentFile) candidates.push(path.resolve(path.dirname(currentFile), moduleName))
+      candidates.push(path.resolve(process.cwd(), moduleName))
+      candidates.push(path.resolve(moduleName))
+      let moduleContent = null
+      let modulePath = null
+      for (const p of candidates) {
+        try {
+          moduleContent = fs.readFileSync(p, "utf-8")
+          modulePath = p
+          break
+        } catch (e) {
+          // try next
+        }
+      }
+      if (!moduleContent) {
+        error(`Cannot load module ${moduleName}`, source.source)
+      }
+      const moduleMatch = parse(moduleContent)
+      const moduleProgram = translate(moduleMatch, modulePath)
+      // Register exported bindings from module into current context
+      let importedEntity = null
+      for (const stmt of moduleProgram.body) {
+        if (stmt.kind === "ExportStatement") {
+          const content = stmt.content
+          if (content) {
+            try { context.set(content.name, content, id.source) } catch (e) {}
+            if (content.name === importName) importedEntity = content
+            // also support importing under a different local name
+            try { context.set(importName, content, id.source) } catch (e) {}
+            if (!importedEntity) importedEntity = content
+          }
+        } else if (stmt.kind === "FunctionDeclaration" && stmt.exported) {
+          const funObj = stmt.function
+          if (funObj) {
+            try { context.set(funObj.name, funObj, id.source) } catch (e) {}
+            if (funObj.name === importName) importedEntity = funObj
+            try { context.set(importName, funObj, id.source) } catch (e) {}
+            if (!importedEntity) importedEntity = funObj
+          }
+        }
+      }
+      // If we found an entity, return it as the import identifier so the
+      // generator will map it to the same generated local name used in calls.
+      const importIdentifier = importedEntity || importName
+      return core.importStmt(importIdentifier, moduleName)
     },
 
     CastStmt(type, _open, expression, _close) {
