@@ -135,10 +135,17 @@ describe("The Python generator", () => {
     assert.match(output, /False/)
   })
 
-  it("generates a cast statement", () => {
+  it("generates no cast statement", () => {
     const output = generateFrom("gibberish(numba(42))")
     // Should generate int() or similar
     assert.ok(output)
+    assert.equal(output.trim(), "print(42)")
+  })
+
+  it("handles casts and identity casts", () => {
+    assert.match(generateFrom('numba("42")'), /int\(/)
+    assert.doesNotMatch(generateFrom("numba(42)"), /int\(/)
+    assert.match(generateFrom('babble(42)'), /str\(/)
   })
 
   it("generates a variable reference", () => {
