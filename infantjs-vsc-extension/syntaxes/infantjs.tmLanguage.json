@@ -173,7 +173,7 @@
               "name": "variable.other.import.infantjs"
             },
             "3": {
-              "name": "keyword.control.from.infantjs"
+              "name": "keyword.control.import.infantjs"
             }
           }
         },
@@ -247,8 +247,16 @@
     "types": {
       "patterns": [
         {
-          "name": "storage.type.primitive.infantjs",
-          "match": "\\b(?:numba|squarehole|babble)\\b"
+          "name": "support.class.string.infantjs",
+          "match": "\\bbabble\\b"
+        },
+        {
+          "name": "support.class.boolean.infantjs",
+          "match": "\\bsquarehole\\b"
+        },
+        {
+          "name": "support.class.number.infantjs",
+          "match": "\\bnumba\\b"
         }
       ]
     },
