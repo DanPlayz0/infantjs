@@ -2,81 +2,346 @@
   "$schema": "https://raw.githubusercontent.com/martinring/tmlanguage/master/tmlanguage.json",
   "name": "InfantJS",
   "scopeName": "source.infantjs",
-  "fileTypes": ["infant", "infantjs"],
+  "fileTypes": [
+    "infantjs",
+    "ijs"
+  ],
   "patterns": [
-    { "include": "#comments" },
-    { "include": "#keywords" },
-    { "include": "#types" },
-    { "include": "#booleans" },
-    { "include": "#strings" },
-    { "include": "#numbers" },
-    { "include": "#operators" },
-    { "include": "#functions" },
-    { "include": "#identifiers" },
-    { "include": "#punctuation" }
+    {
+      "include": "#comments"
+    },
+    {
+      "include": "#strings"
+    },
+    {
+      "include": "#declarations"
+    },
+    {
+      "include": "#imports-exports"
+    },
+    {
+      "include": "#control"
+    },
+    {
+      "include": "#builtins"
+    },
+    {
+      "include": "#types"
+    },
+    {
+      "include": "#constants"
+    },
+    {
+      "include": "#numbers"
+    },
+    {
+      "include": "#operators"
+    },
+    {
+      "include": "#function-call"
+    },
+    {
+      "include": "#variables"
+    },
+    {
+      "include": "#punctuation"
+    }
   ],
   "repository": {
     "comments": {
       "patterns": [
         {
+          "name": "comment.block.infantjs",
           "begin": "/\\*",
+          "beginCaptures": {
+            "0": {
+              "name": "punctuation.definition.comment.begin.infantjs"
+            }
+          },
           "end": "\\*/",
-          "name": "comment.block.infantjs"
+          "endCaptures": {
+            "0": {
+              "name": "punctuation.definition.comment.end.infantjs"
+            }
+          },
+          "patterns": [
+            {
+              "include": "#comments"
+            }
+          ]
         }
       ]
     },
-    "keywords": {
-      "match": "\\b(mine|gibberish|peekaboo|nuhuh|wawawa|playtime|bedtime|nomnom|flippy|nap|crawl|climb|roll)\\b",
-      "name": "keyword.control.infantjs"
-    },
-    "types": {
-      "match": "\\b(numba|babble|squarehole)\\b",
-      "name": "storage.type.infantjs"
-    },
-    "booleans": {
-      "match": "\\b(gaagaa|googoo)\\b",
-      "name": "constant.language.infantjs"
-    },
     "strings": {
-      "begin": "\"",
-      "end": "\"",
-      "name": "string.quoted.double.infantjs",
       "patterns": [
         {
-          "match": "\\\\.",
-          "name": "constant.character.escape.infantjs"
+          "name": "string.quoted.double.infantjs",
+          "begin": "\"",
+          "beginCaptures": {
+            "0": {
+              "name": "punctuation.definition.string.begin.infantjs"
+            }
+          },
+          "end": "\"",
+          "endCaptures": {
+            "0": {
+              "name": "punctuation.definition.string.end.infantjs"
+            }
+          },
+          "patterns": [
+            {
+              "name": "constant.character.escape.infantjs",
+              "match": "\\\\."
+            }
+          ]
+        }
+      ]
+    },
+    "declarations": {
+      "patterns": [
+        {
+          "name": "meta.function.declaration.infantjs",
+          "begin": "\\b(playtime)\\b\\s+([A-Za-z][A-Za-z0-9]*)\\s*(\\()",
+          "beginCaptures": {
+            "1": {
+              "name": "storage.type.function.infantjs"
+            },
+            "2": {
+              "name": "entity.name.function.infantjs"
+            },
+            "3": {
+              "name": "punctuation.definition.parameters.begin.infantjs"
+            }
+          },
+          "end": "\\)",
+          "endCaptures": {
+            "0": {
+              "name": "punctuation.definition.parameters.end.infantjs"
+            }
+          },
+          "patterns": [
+            {
+              "include": "#comments"
+            },
+            {
+              "include": "#parameter"
+            },
+            {
+              "include": "#types"
+            },
+            {
+              "include": "#punctuation-comma"
+            },
+            {
+              "name": "punctuation.separator.type.infantjs",
+              "match": ":"
+            }
+          ]
+        },
+        {
+          "name": "meta.variable.declaration.infantjs",
+          "match": "\\b(mine)\\b\\s+([A-Za-z][A-Za-z0-9]*)",
+          "captures": {
+            "1": {
+              "name": "storage.type.variable.infantjs"
+            },
+            "2": {
+              "name": "variable.other.definition.infantjs"
+            }
+          }
+        }
+      ]
+    },
+    "parameter": {
+      "patterns": [
+        {
+          "name": "variable.parameter.infantjs",
+          "match": "\\b(?!mine\\b|gibberish\\b|peekaboo\\b|nuhuh\\b|wawawa\\b|googoo\\b|gaagaa\\b|playtime\\b|numba\\b|squarehole\\b|babble\\b|bedtime\\b|nomnom\\b|flippy\\b|spit\\b|cry\\b|nap\\b|crawl\\b|climb\\b|roll\\b|from\\b)[A-Za-z][A-Za-z0-9]*(?=\\s*:)"
+        }
+      ]
+    },
+    "imports-exports": {
+      "patterns": [
+        {
+          "name": "meta.import.infantjs",
+          "match": "\\b(cry)\\b\\s+([A-Za-z][A-Za-z0-9]*)\\s+\\b(from)\\b",
+          "captures": {
+            "1": {
+              "name": "keyword.control.import.infantjs"
+            },
+            "2": {
+              "name": "variable.other.import.infantjs"
+            },
+            "3": {
+              "name": "keyword.control.from.infantjs"
+            }
+          }
+        },
+        {
+          "name": "meta.export.function.infantjs",
+          "match": "\\b(spit)\\b(?=\\s+playtime\\b)",
+          "captures": {
+            "1": {
+              "name": "keyword.control.export.infantjs"
+            }
+          }
+        },
+        {
+          "name": "meta.export.variable.infantjs",
+          "match": "\\b(spit)\\b\\s+([A-Za-z][A-Za-z0-9]*)",
+          "captures": {
+            "1": {
+              "name": "keyword.control.export.infantjs"
+            },
+            "2": {
+              "name": "variable.other.export.infantjs"
+            }
+          }
+        }
+      ]
+    },
+    "control": {
+      "patterns": [
+        {
+          "name": "keyword.control.conditional.if.infantjs",
+          "match": "\\bpeekaboo\\b"
+        },
+        {
+          "name": "keyword.control.conditional.else.infantjs",
+          "match": "\\bnuhuh\\b"
+        },
+        {
+          "name": "keyword.control.loop.while.infantjs",
+          "match": "\\bwawawa\\b"
+        },
+        {
+          "name": "keyword.control.flow.return.infantjs",
+          "match": "\\bbedtime\\b"
+        }
+      ]
+    },
+    "builtins": {
+      "patterns": [
+        {
+          "name": "support.function.builtin.output.infantjs",
+          "match": "\\bgibberish\\b(?=\\s*\\()"
+        },
+        {
+          "name": "support.function.builtin.input.infantjs",
+          "match": "\\bnomnom\\b(?=\\s*\\()"
+        },
+        {
+          "name": "support.function.builtin.random.infantjs",
+          "match": "\\bflippy\\b(?=\\s*\\()"
+        },
+        {
+          "name": "support.function.builtin.sleep.infantjs",
+          "match": "\\bnap\\b(?=\\s*\\()"
+        },
+        {
+          "name": "support.function.builtin.math.infantjs",
+          "match": "\\b(?:crawl|climb|roll)\\b(?=\\s*\\()"
+        }
+      ]
+    },
+    "types": {
+      "patterns": [
+        {
+          "name": "storage.type.primitive.infantjs",
+          "match": "\\b(?:numba|squarehole|babble)\\b"
+        }
+      ]
+    },
+    "constants": {
+      "patterns": [
+        {
+          "name": "constant.language.boolean.true.infantjs",
+          "match": "\\bgaagaa\\b"
+        },
+        {
+          "name": "constant.language.boolean.false.infantjs",
+          "match": "\\bgoogoo\\b"
         }
       ]
     },
     "numbers": {
-      "match": "\\b[0-9]+(\\.[0-9]+)?\\b",
-      "name": "constant.numeric.infantjs"
+      "patterns": [
+        {
+          "name": "constant.numeric.infantjs",
+          "match": "\\b\\d+(?:\\.\\d+)?\\b"
+        }
+      ]
     },
     "operators": {
-      "match": "(==|!=|<=|>=|<|>|\\+|-|\\*\\*|\\*|/|%|=)",
-      "name": "keyword.operator.infantjs"
+      "patterns": [
+        {
+          "name": "keyword.operator.comparison.infantjs",
+          "match": "<=|>=|==|!=|<|>"
+        },
+        {
+          "name": "keyword.operator.assignment.infantjs",
+          "match": "="
+        },
+        {
+          "name": "keyword.operator.arithmetic.infantjs",
+          "match": "\\*\\*|[+\\-*/%]"
+        }
+      ]
     },
-    "functions": {
-      "match": "\\b(?!mine\\b|gibberish\\b|peekaboo\\b|nuhuh\\b|wawawa\\b|playtime\\b|bedtime\\b|nomnom\\b|flippy\\b|nap\\b|crawl\\b|climb\\b|roll\\b|gaagaa\\b|googoo\\b|numba\\b|babble\\b|squarehole\\b)([a-zA-Z][a-zA-Z0-9]*)(?=\\s*\\()",
-      "name": "entity.name.function.infantjs"
+    "function-call": {
+      "patterns": [
+        {
+          "name": "meta.function-call.infantjs",
+          "match": "\\b(?!mine\\b|gibberish\\b|peekaboo\\b|nuhuh\\b|wawawa\\b|googoo\\b|gaagaa\\b|playtime\\b|numba\\b|squarehole\\b|babble\\b|bedtime\\b|nomnom\\b|flippy\\b|spit\\b|cry\\b|nap\\b|crawl\\b|climb\\b|roll\\b|from\\b)([A-Za-z][A-Za-z0-9]*)(?=\\s*\\()",
+          "captures": {
+            "1": {
+              "name": "entity.name.function.call.infantjs"
+            }
+          }
+        }
+      ]
     },
-    "identifiers": {
-      "match": "\\b(?!mine\\b|gibberish\\b|peekaboo\\b|nuhuh\\b|wawawa\\b|playtime\\b|bedtime\\b|nomnom\\b|flippy\\b|nap\\b|crawl\\b|climb\\b|roll\\b|gaagaa\\b|googoo\\b|numba\\b|babble\\b|squarehole\\b)[a-zA-Z][a-zA-Z0-9]*\\b",
-      "name": "variable.other.readwrite.infantjs"
+    "variables": {
+      "patterns": [
+        {
+          "name": "variable.other.assignment.infantjs",
+          "match": "\\b(?!mine\\b|gibberish\\b|peekaboo\\b|nuhuh\\b|wawawa\\b|googoo\\b|gaagaa\\b|playtime\\b|numba\\b|squarehole\\b|babble\\b|bedtime\\b|nomnom\\b|flippy\\b|spit\\b|cry\\b|nap\\b|crawl\\b|climb\\b|roll\\b|from\\b)([A-Za-z][A-Za-z0-9]*)(?=\\s*=)",
+          "captures": {
+            "1": {
+              "name": "variable.other.assignment.infantjs"
+            }
+          }
+        },
+        {
+          "name": "variable.other.readwrite.infantjs",
+          "match": "\\b(?!mine\\b|gibberish\\b|peekaboo\\b|nuhuh\\b|wawawa\\b|googoo\\b|gaagaa\\b|playtime\\b|numba\\b|squarehole\\b|babble\\b|bedtime\\b|nomnom\\b|flippy\\b|spit\\b|cry\\b|nap\\b|crawl\\b|climb\\b|roll\\b|from\\b)[A-Za-z][A-Za-z0-9]*\\b"
+        }
+      ]
     },
     "punctuation": {
       "patterns": [
         {
-          "match": "[{}()]",
-          "name": "punctuation.section.block.infantjs"
+          "include": "#punctuation-comma"
         },
         {
-          "match": ",",
-          "name": "punctuation.separator.comma.infantjs"
+          "name": "punctuation.section.block.infantjs",
+          "match": "[{}]"
         },
         {
-          "match": ":",
-          "name": "punctuation.separator.type.infantjs"
+          "name": "punctuation.section.parens.infantjs",
+          "match": "[()]"
+        },
+        {
+          "name": "punctuation.separator.type.infantjs",
+          "match": ":"
+        }
+      ]
+    },
+    "punctuation-comma": {
+      "patterns": [
+        {
+          "name": "punctuation.separator.comma.infantjs",
+          "match": ","
         }
       ]
     }
