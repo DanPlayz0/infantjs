@@ -16,6 +16,9 @@ InfantJS {
               | Comment
               | ExportStmt
               | ImportStmt
+              | FloorStmt
+              | CeilStmt
+              | RoundStmt
 
   PrintStmt   = print "(" Exp ")"
   LetStmt     = let id "=" Exp

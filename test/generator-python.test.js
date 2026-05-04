@@ -381,4 +381,25 @@ describe("The Python generator", () => {
     assert.doesNotMatch(output, /\*\//)
     assert.match(output, /print/)
   })
+
+  it("emits python module import statements", () => {
+    const out = generateFrom('cry foo from "./bar/baz"')
+    assert.match(out, /from bar.baz import foo/)
+  })
+
+  it("handles export statements", () => {
+    const output = generateFrom('spit playtime f() { bedtime }')
+    // Export is a no-op for Python generator, but function should still be emitted
+    assert.match(output, /def/)
+  })
+  it("handles import statements", () => {
+    const output = generateFrom('cry foo from "bar"')
+    assert.match(output, /from bar import foo/)
+  })
+
+  it("handles exported functions (no-op)", () => {
+    const out = generateFrom('spit playtime add(a: numba, b: numba) { bedtime a+b }')
+    // Python auto-exports top-level defs; ensure function is emitted
+    assert.match(out, /def /)
+  })
 })

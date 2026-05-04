@@ -11,7 +11,7 @@ export function variable(name, type) {
 }
 
 export function functionDecl(fun, body) {
-  return { kind: "FunctionDeclaration", function: fun, body }
+  return { kind: "FunctionDeclaration", function: fun, body, exported: false }
 }
 
 export function functionObject(name, params) {

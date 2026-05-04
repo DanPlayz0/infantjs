@@ -138,4 +138,20 @@ describe("The generator", () => {
     assert.match(output, /5/)
     assert.match(output, /\/\* this is a comment \*\//)
   })
+
+  it("emits ES module import statements", () => {
+    const out = generateFrom('cry foo from "bar"')
+    assert.match(out, /import foo from "bar"/) 
+  })
+
+  it("exports a top-level function with `export` keyword", () => {
+    const out = generateFrom('spit playtime add(a: numba) { bedtime a }')
+    assert.match(out, /export function/) 
+  })
+
+  it("exports a top-level variable via named export", () => {
+    const out = generateFrom('mine x = 5 spit x')
+    assert.match(out, /export \{/)
+    assert.match(out, /as x/)
+  })
 })
