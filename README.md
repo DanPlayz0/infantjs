@@ -42,6 +42,18 @@ Language Features
 
 ----------------------------------------------------------------------------------------------------------------
 
+## Optional Syntax Highlighting
+
+Install the InfantJS VS Code extension for `.infant` file highlighting.
+Download [`infantjs-vsc-extension/infantjs-0.0.1.vsix`](./infantjs-vsc-extension/infantjs-0.0.1.vsix) from the repo, then in VS Code
+
+* Via the extensions tab (`Ctrl+Shift+X`) → Click the three dots (`...`) at the top → Select `Install from VSIX` from the dropdown
+* Via Command Pallet (`Ctrl+Shift+P`) → `>Extensions: Install from VSIX`
+
+Once you have the finder/file explorer open, you need to find and select that VSIX extension file
+
+----------------------------------------------------------------------------------------------------------------
+
 ## Static Checks Performed by the Compiler
 
 The analyzer enforces the following constraints at compile time, before any code runs:
@@ -455,15 +467,3 @@ ReturnStmt = "bedtime" Exp?
 ## Companion Website
 
 Visit [infantjs.compiles.me](https://infantjs.compiles.me) for the full language story, live examples, and developer bios
-
-----------------------------------------------------------------------------------------------------------------
-
-## Optional Syntax Highlighting
-
-Install the InfantJS VS Code extension for `.infant` file highlighting.
-Download [`infantjs-vsc-extension/infantjs-0.0.1.vsix`](./infantjs-vsc-extension/infantjs-0.0.1.vsix) from the repo, then in VS Code
-
-* Via the extensions tab (`Ctrl+Shift+X`) → Click the three dots (`...`) at the top → Select `Install from VSIX` from the dropdown
-* Via Command Pallet (`Ctrl+Shift+P`) → `>Extensions: Install from VSIX`
-
-Once you have the finder/file explorer open, you need to find and select that VSIX extension file
