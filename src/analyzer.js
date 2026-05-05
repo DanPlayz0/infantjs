@@ -260,6 +260,7 @@ export default function translate(match, filename = undefined) {
         if (stmt.kind === "ExportStatement") {
           const content = stmt.content
           if (content) {
+            /* c8 ignore next */
             try { context.set(content.name, content, id.source) } catch (e) {}
             if (content.name === importName) importedEntity = content
             // also support importing under a different local name

@@ -389,19 +389,31 @@ describe("The Python generator", () => {
     assert.match(output, /print/)
   })
 
-  it("emits python module import statements", () => {
-    const out = generateFrom('cry foo from "./bar/baz"')
-    assert.match(out, /from bar.baz import foo/)
+  it("handles export statements", () => {
+    const output = generateFrom('mine x = 5 spit x')
+    assert.match(output, /x = x_\d+/)
+    assert.match(output, /5/)
   })
 
-  it("handles export statements", () => {
-    const output = generateFrom('spit playtime f() { bedtime }')
-    // Export is a no-op for Python generator, but function should still be emitted
-    assert.match(output, /def/)
+  it("emits python module import statements for a non-relative module", () => {
+    const output = generateFrom('cry foo from "examples/example.infant"')
+    assert.match(output, /import importlib\.util/)
+    assert.match(output, /import os/)
+    assert.match(output, /spec_from_file_location/)
+    assert.match(output, /getattr\(.*"foo"\)/)
   })
-  it("handles import statements", () => {
-    const output = generateFrom('cry foo from "bar"')
-    assert.match(output, /from bar import foo/)
+
+  it("emits python module import statements for a relative infant module", () => {
+    const output = generateFrom('cry programmer from "./examples/class-export.infant"')
+    assert.match(output, /os\.path\.exists/)
+    assert.match(output, /class-export\.infant/)
+    assert.match(output, /getattr\(.*"programmer"\)/)
+  })
+
+  it("reuses imported bindings from the same module", () => {
+    const output = generateFrom('cry greeter from "./examples/exported-function.js" cry greeter from "./examples/exported-function.js"')
+    assert.match(output, /getattr\(.*"greeter"\)/)
+    assert.match(output, /greeter_\d+ = greeter_\d+/)
   })
 
   it("handles exported functions (no-op)", () => {

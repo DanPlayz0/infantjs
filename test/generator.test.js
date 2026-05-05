@@ -139,9 +139,14 @@ describe("The generator", () => {
     assert.match(output, /\/\* this is a comment \*\//)
   })
 
-  it("emits ES module import statements", () => {
-    const out = generateFrom('cry foo from "bar"')
-    assert.match(out, /import foo from "bar"/) 
+  it("emits ES module default import statements", () => {
+    const out = generateFrom('cry foo from "examples/example.infant"')
+    assert.match(out, /import foo from "examples\/example\.infant"/)
+  })
+
+  it("emits ES module named import statements", () => {
+    const out = generateFrom('cry greeter from "./examples/exported-function.js"')
+    assert.match(out, /import \{ greeter as greeter_\d+ \} from "\.\/examples\/exported-function\.js"/)
   })
 
   it("exports a top-level function with `export` keyword", () => {

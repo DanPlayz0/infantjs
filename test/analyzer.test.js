@@ -260,6 +260,24 @@ describe("The analyzer", () => {
       assert.throws(() => analyze(parse(source)), errorMessagePattern)
     })
   }
+  it("throws on missing imported module", () => {
+    assert.throws(() => analyze(parse('cry foo from "missing-module"')), /Cannot load module missing-module/)
+  })
+  it("resolves imports inside imported modules", () => {
+    assert.ok(analyze(parse('cry helper from "./examples/class-import.infant"')))
+  })
+
+  it("imports an exported binding under an alias", () => {
+    assert.ok(analyze(parse('cry helper from "./examples/class-export.infant"')))
+  })
+
+  it("imports an exported variable under an alias", () => {
+    assert.ok(analyze(parse('cry helper from "./examples/exported-variable.infant"')))
+  })
+
+  it("imports an exported function under an alias", () => {
+    assert.ok(analyze(parse('cry helper from "./examples/exported-function.js"')))
+  })
   it("produces the expected representation for a trivial program", () => {
     assert.deepEqual(
       analyze(parse("mine x = 1")),
