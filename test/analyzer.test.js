@@ -40,7 +40,7 @@ const semanticChecks = [
   ["chained comparisons", "mine x = 3 mine y = 5 gibberish(x < y)"],
   ["function declaration and call", "playtime add(a: numba, b: numba) { bedtime a + b } gibberish(add(5, 7))"],
   ["Can look up variable in parent scope", "mine x = 1 playtime f() { bedtime x } gibberish(f())"],
-  ["boolean parameter and argument", "playtime isTrue(x: squarehole) { bedtime x } gibberish(isTrue(gaagaa))"],
+  ["boolean parameter and argument", "playtime isTrue(x: squarehole): squarehole { bedtime x } gibberish(isTrue(gaagaa))"],
   ["print float literal", "gibberish(3.14)"],
   ["print string literal", 'gibberish("hello world")'],
   ["print string literal with variable", 'mine x = "hello" gibberish(x)'],
@@ -49,11 +49,11 @@ const semanticChecks = [
   ["random number generation with negative bounds", "flippy(-1, -5)"],
   ["print result of function call", "playtime add(a: numba, b: numba) { bedtime a + b } gibberish(add(2, 3))"],
   ["function with no parameters", "playtime getFive() { bedtime 5 } gibberish(getFive())"],
-  ["function with boolean parameter", "playtime not(x: squarehole) { bedtime gaagaa } gibberish(not(googoo))"],
+  ["function with boolean parameter", "playtime not(x: squarehole): squarehole { bedtime gaagaa } gibberish(not(googoo))"],
   ["function with number parameter", "playtime square(x: numba) { bedtime x * x } gibberish(square(4))"],
   [
     "function with string parameter",
-    'playtime greet(name: babble) { bedtime "Hello, " + name } gibberish(greet("Alice"))',
+    'playtime greet(name: babble): babble { bedtime "Hello, " + name } gibberish(greet("Alice"))',
   ],
   ["math ceil function", "gibberish(climb(3.14))"],
   ["math floor function", "gibberish(crawl(3.14))"],
@@ -73,6 +73,11 @@ const semanticChecks = [
   ["input function using variable as prompt", 'mine x = "Enter something:" nomnom(x)'],
   ["function with void return", "playtime doSomething() { bedtime }"],
   ["function with return value", "playtime getNumber() { bedtime 42 } gibberish(getNumber())"],
+  ["function with explicit boolean return type", "playtime isReady(): squarehole { bedtime gaagaa } gibberish(isReady())"],
+  [
+    "function with explicit string return type",
+    'playtime greeting(): babble { bedtime "hello" } gibberish(greeting())',
+  ],
   ["comment", "mine x = 1 /* this is a comment */ gibberish(x)"],
   ["comment with code inside", "/* mine x = 1 */ mine y = 2 gibberish(y)"],
   ["comment with nested comment inside", "/* outer comment /* inner comment */ still outer */ mine x = 1 gibberish(x)"],
@@ -137,6 +142,11 @@ const semanticErrors = [
   ["input function with non-string prompt", "nomnom(1)", /Expected a string/],
   ["input function with non-string prompt", "nomnom(gaagaa)", /Expected a string/],
   ["input function with non-string prompt", "nomnom(googoo)", /Expected a string/],
+  [
+    "function return type mismatch",
+    'playtime nope(): babble { bedtime 42 }',
+    /Return type mismatch: expected string, but got number/,
+  ],
 ]
 
 describe("The analyzer", () => {

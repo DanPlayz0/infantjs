@@ -14,8 +14,8 @@ export function functionDecl(fun, body) {
   return { kind: "FunctionDeclaration", function: fun, body, exported: false }
 }
 
-export function functionObject(name, params) {
-  return { kind: "FunctionObject", name, params }
+export function functionObject(name, params, returnType = "number") {
+  return { kind: "FunctionObject", name, params, returnType }
 }
 
 export function functionCall(callee, args, type) {

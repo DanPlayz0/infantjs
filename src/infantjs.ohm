@@ -26,7 +26,8 @@ InfantJS {
   IfStmt      = if Exp Block else Block   --else
               | if Exp Block              --noelse
   WhileStmt   = while Exp Block
-  FunDecl     = function id "(" Params ")" Block
+  FunDecl     = function id "(" Params ")" ReturnType? Block
+  ReturnType  = ":" Type
   FunCall     = id "(" Args ")"
   RandomStmt  = random "(" Factor "," Factor ")"
   InputStmt   = input "(" Exp ")"

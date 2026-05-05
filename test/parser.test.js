@@ -12,6 +12,7 @@ const syntaxChecks = [
   ["mine count = 3 * 22 + 1", "arithmetic expressions"],
   ['gibberish("hello" + " world")', "string concatenation"],
   ["gibberish(1+((2*3)) % x ** 2 ** 5)", "parenthesed expresssions"],
+  ['playtime greet(name: babble): babble { bedtime "hi " + name }', "function return type annotation"],
 ]
 
 const syntaxErrors = [

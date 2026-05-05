@@ -83,6 +83,7 @@ function resolvedType(typeName, source) {
 export default function translate(match, filename = undefined) {
   let context = new Context()
   const currentFile = filename
+  let currentFunctionReturnType = null
 
   const grammar = match.matcher.grammar
 
@@ -110,7 +111,7 @@ export default function translate(match, filename = undefined) {
       return { name, type: resolvedType(typeName, type.source) }
     },
 
-    FunDecl(_function, id, _open, params, _close, block) {
+    FunDecl(_function, id, _open, params, _close, returnType, block) {
       const bindings = params.asIteration().children.map((b) => b.translate())
       const funContext = new Context(context)
       const paramList = bindings.map((binding) => {
@@ -118,13 +119,21 @@ export default function translate(match, filename = undefined) {
         funContext.set(binding.name, variable, id.source)
         return variable
       })
+      const declaredReturnType = returnType.children.length === 0 ? "number" : returnType.children[0].translate()
       const previousContext = context
+      const previousFunctionReturnType = currentFunctionReturnType
       context = funContext
+      currentFunctionReturnType = declaredReturnType
       const body = block.translate()
-      const func = core.functionObject(id.sourceString, paramList)
+      const func = core.functionObject(id.sourceString, paramList, declaredReturnType)
       context = previousContext
+      currentFunctionReturnType = previousFunctionReturnType
       context.set(id.sourceString, func, id.source)
       return core.functionDecl(func, body)
+    },
+
+    ReturnType(_colon, type) {
+      return type.translate()
     },
 
     Block(_open, statements, _close) {
@@ -171,10 +180,18 @@ export default function translate(match, filename = undefined) {
 
     ReturnStmt_value(_return, expression) {
       const value = expression.translate()
+      validate(currentFunctionReturnType !== null, "Return statement must be inside a function", expression.source)
+      const actualType = typeOf(value)
+      validate(
+        actualType === currentFunctionReturnType,
+        `Return type mismatch: expected ${currentFunctionReturnType}, but got ${actualType}`,
+        expression.source,
+      )
       return core.returnStmt(value)
     },
 
     ReturnStmt_void(_return) {
+      validate(currentFunctionReturnType !== null, "Return statement must be inside a function", _return.source)
       return core.returnStmt()
     },
 
@@ -386,7 +403,11 @@ export default function translate(match, filename = undefined) {
           id.source,
         )
       }
-      return core.functionCall(func, argValues, "number")
+      return core.functionCall(func, argValues, func.returnType)
+    },
+
+    Type(typeKeyword) {
+      return resolvedType(typeKeyword.sourceString, typeKeyword.source)
     },
 
     str(_left, _chars, _right) {
