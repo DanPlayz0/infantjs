@@ -28,7 +28,7 @@ permalink: /examples/shapes/
             <div class="script-header">
                 <h1>Shapes</h1>
                 <p class="script-meta">Play with Shapes</p>
-                <a href="code_examples/shapes.pdf" download="shapes.pdf" class="download-btn">Download PDF</a>  <!-- fixed -->
+                <a href="../code_examples/shapes.pdf" download="shapes.pdf" class="download-btn">Download PDF</a>  <!-- fixed -->
             </div>
 
             <div class="pdf-viewer">
@@ -40,7 +40,7 @@ permalink: /examples/shapes/
                 pdfjsLib.GlobalWorkerOptions.workerSrc = 
                     'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
 
-                pdfjsLib.getDocument('code_examples/shapes.pdf').promise.then(pdf => {
+                pdfjsLib.getDocument('../code_examples/shapes.pdf').promise.then(pdf => {
                     pdf.getPage(1).then(page => {
                         const canvas = document.getElementById('pdf-canvas');
                         const viewport = page.getViewport({ scale: 1.5 });

@@ -28,7 +28,7 @@ permalink: /examples/times-table/
             <div class="script-header">
                 <h1>Times Table</h1>
                 <p class="script-meta">Create and Practice Your Times Tables</p>
-                <a href="code_examples/timestables.pdf" download="timestables.pdf" class="download-btn">Download PDF</a>  <!-- fixed -->
+                <a href="../code_examples/timestables.pdf" download="timestables.pdf" class="download-btn">Download PDF</a>  <!-- fixed -->
             </div>
 
             <div class="pdf-viewer">
@@ -40,7 +40,7 @@ permalink: /examples/times-table/
                 pdfjsLib.GlobalWorkerOptions.workerSrc = 
                     'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
 
-                pdfjsLib.getDocument('code_examples/timestables.pdf').promise.then(pdf => {
+                pdfjsLib.getDocument('../code_examples/timestables.pdf').promise.then(pdf => {
                     pdf.getPage(1).then(page => {
                         const canvas = document.getElementById('pdf-canvas');
                         const viewport = page.getViewport({ scale: 1.5 });
