@@ -71,7 +71,6 @@ export default function generatePython(program) {
     Comment(c) {},
 
     // somehow even though the export is not used, test coverage is uncovered??
-    /* c8 ignore next */
     ExportStatement(s) {
       if (s.content) {
         output.push(`${s.content.name} = ${targetName(s.content)}`)
