@@ -40,7 +40,7 @@ permalink: /examples/grader/
                 pdfjsLib.GlobalWorkerOptions.workerSrc = 
                     'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
 
-                pdfjsLib.getDocument('Scripts/grader.pdf').promise.then(pdf => {
+                pdfjsLib.getDocument('code_examples/grader.pdf').promise.then(pdf => {
                     pdf.getPage(1).then(page => {
                         const canvas = document.getElementById('pdf-canvas');
                         const viewport = page.getViewport({ scale: 1.5 });

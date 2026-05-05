@@ -4,7 +4,7 @@
   "main": "index.js",
   "type": "module",
   "description": "A simple compiler and interpreter for the InfantJS programming language",
-  "author": "Danny D, Samuel Rambo, Gabriel Garcia, Parker Jazayeri",
+  "author": "Danny Divinsky, Samuel Rambo, Gabriel Garcia, Parker Jazayeri",
   "license": "MIT",
   "repository": {
     "type": "git",
