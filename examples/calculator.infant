@@ -1,16 +1,16 @@
-playtime add(a: numba, b: numba) {
+playtime add(a: numba, b: numba): numba {
   bedtime a + b
 }
 
-playtime subtract(a: numba, b: numba) {
+playtime subtract(a: numba, b: numba): numba {
   bedtime a - b
 }
 
-playtime multiply(a: numba, b: numba) {
+playtime multiply(a: numba, b: numba): numba {
   bedtime a * b
 }
 
-playtime divide(a: numba, b: numba) {
+playtime divide(a: numba, b: numba): numba {
   peekaboo b == 0 {
     gibberish("Error: Cannot divide by zero!")
     bedtime 0

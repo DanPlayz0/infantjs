@@ -358,13 +358,13 @@ describe("The optimizer", () => {
   // ReturnStatement — value is optimized
   // ---------------------------------------------------------------------------
   it("folds constant in return value", () => {
-    const result = optimizeFrom("playtime getNum() { bedtime 2 + 3 }")
+    const result = optimizeFrom("playtime getNum(): numba { bedtime 2 + 3 }")
     const body = result.body[0].body
     assert.deepEqual(body[0].value, 5)
   })
 
   it("optimizes void return", () => {
-    const result = optimizeFrom("playtime doThing() { bedtime }")
+    const result = optimizeFrom("playtime doThing(): nada { bedtime }")
     const body = result.body[0].body
     assert.equal(body[0].kind, "ReturnStatement")
     assert.equal(body[0].value, undefined)
@@ -374,7 +374,7 @@ describe("The optimizer", () => {
   // FunctionCall — arguments are optimized
   // ---------------------------------------------------------------------------
   it("folds constants inside function call arguments", () => {
-    const result = optimizeFrom("playtime add(a: numba, b: numba) { bedtime a + b } gibberish(add(1 * 1, 2 + 0))")
+    const result = optimizeFrom("playtime add(a: numba, b: numba): numba { bedtime a + b } gibberish(add(1 * 1, 2 + 0))")
     const call = result.body[1].arguments[0]
     assert.equal(call.kind, "FunctionCall")
     assert.deepEqual(call.arguments[0], 1)
@@ -403,7 +403,7 @@ describe("The optimizer", () => {
   // Optimizations inside function bodies
   // ---------------------------------------------------------------------------
   it("folds constants inside a function body", () => {
-    const result = optimizeFrom("playtime getNum() { bedtime 2 * 1 }")
+    const result = optimizeFrom("playtime getNum(): numba { bedtime 2 * 1 }")
     const body = result.body[0].body
     assert.deepEqual(body[0].value, 2)
   })

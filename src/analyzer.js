@@ -74,8 +74,8 @@ function validateString(value, at) {
 }
 
 function resolvedType(typeName, source) {
-  validate(["numba", "squarehole", "babble"].includes(typeName), `Unknown type: ${typeName}`, source)
-  const resolvedType = { numba: "number", squarehole: "boolean", babble: "string" }[typeName]
+  validate(["numba", "squarehole", "babble", "nada"].includes(typeName), `Unknown type: ${typeName}`, source)
+  const resolvedType = { numba: "number", squarehole: "boolean", babble: "string", nada: "void" }[typeName]
   return resolvedType
 }
 
@@ -119,10 +119,10 @@ export default function translate(match, filename = undefined) {
         funContext.set(binding.name, variable, id.source)
         return variable
       })
-      const declaredReturnType = returnType.children.length === 0 ? "number" : returnType.children[0].translate()
+      const declaredReturnType = returnType.translate()
       const previousContext = context
-      const previousFunctionReturnType = currentFunctionReturnType
       context = funContext
+      const previousFunctionReturnType = currentFunctionReturnType
       currentFunctionReturnType = declaredReturnType
       const body = block.translate()
       const func = core.functionObject(id.sourceString, paramList, declaredReturnType)
@@ -192,6 +192,11 @@ export default function translate(match, filename = undefined) {
 
     ReturnStmt_void(_return) {
       validate(currentFunctionReturnType !== null, "Return statement must be inside a function", _return.source)
+      validate(
+        currentFunctionReturnType === "void",
+        `Return type mismatch: expected void, but got ${currentFunctionReturnType}`,
+        _return.source,
+      )
       return core.returnStmt()
     },
 

@@ -56,19 +56,19 @@ describe("The Python generator", () => {
   })
 
   it("generates a function declaration and call", () => {
-    const output = generateFrom("playtime add(a: numba, b: numba) { bedtime a + b } gibberish(add(1, 2))")
+    const output = generateFrom("playtime add(a: numba, b: numba): numba { bedtime a + b } gibberish(add(1, 2))")
     assert.match(output, /def/)
     assert.match(output, /return/)
   })
 
   it("generates a return statement with value", () => {
-    const output = generateFrom("playtime getNum() { bedtime 42 }")
+    const output = generateFrom("playtime getNum(): numba { bedtime 42 }")
     assert.match(output, /return/)
     assert.match(output, /42/)
   })
 
   it("generates a void return", () => {
-    const output = generateFrom("playtime doThing() { bedtime }")
+    const output = generateFrom("playtime doThing(): nada { bedtime }")
     assert.match(output, /return/)
   })
 
@@ -154,7 +154,7 @@ describe("The Python generator", () => {
   })
 
   it("handles function parameters correctly", () => {
-    const output = generateFrom("playtime test(a: numba, b: numba) { bedtime a + b }")
+    const output = generateFrom("playtime test(a: numba, b: numba): numba { bedtime a + b }")
     assert.match(output, /def/)
     assert.match(output, /a_/)
     assert.match(output, /b_/)
@@ -178,20 +178,20 @@ describe("The Python generator", () => {
   })
 
   it("generates proper indentation for function body", () => {
-    const output = generateFrom("playtime test() { gibberish(1) }")
+    const output = generateFrom("playtime test(): nada { gibberish(1) }")
     assert.match(output, /def.*:/)
   })
 
   it("generates function calls with multiple arguments", () => {
     const output = generateFrom(
-      "playtime add(a: numba, b: numba, c: numba) { bedtime a + b + c } gibberish(add(1, 2, 3))",
+      "playtime add(a: numba, b: numba, c: numba): numba { bedtime a + b + c } gibberish(add(1, 2, 3))",
     )
     assert.match(output, /add_\d+\(/)
   })
 
   it("generates nested function calls", () => {
     const output = generateFrom(
-      "playtime double(x: numba) { bedtime x * 2 } playtime quadruple(x: numba) { bedtime double(double(x)) } gibberish(quadruple(5))",
+      "playtime double(x: numba): numba { bedtime x * 2 } playtime quadruple(x: numba): numba { bedtime double(double(x)) } gibberish(quadruple(5))",
     )
     assert.match(output, /def/)
     assert.ok(output)
@@ -250,7 +250,7 @@ describe("The Python generator", () => {
   it("handles complex program with all statement types", () => {
     const output = generateFrom(
       "mine x = 5 " +
-      "playtime double(n: numba) { bedtime n * 2 } " +
+      "playtime double(n: numba): numba { bedtime n * 2 } " +
       "peekaboo x < 10 { gibberish(double(x)) } " +
       "wawawa x > 0 { x = x - 1 }",
     )
@@ -324,14 +324,14 @@ describe("The Python generator", () => {
   })
 
   it("handles cast within function parameters", () => {
-    const output = generateFrom("playtime process(x: numba) { bedtime x } gibberish(process(numba(42)))")
+    const output = generateFrom("playtime process(x: numba): numba { bedtime x } gibberish(process(numba(42)))")
     // Should handle casting within function call arguments
     assert.ok(output)
   })
 
   it("generates standalone expression statements (function calls)", () => {
     // These are expressions used as statements
-    const output = generateFrom("playtime doSomething() { gibberish(1) } doSomething()")
+    const output = generateFrom("playtime doSomething(): nada { gibberish(1) } doSomething()")
     assert.match(output, /doSomething_/)
   })
 
@@ -360,7 +360,7 @@ describe("The Python generator", () => {
   })
 
   it("handles complex nested indentation", () => {
-    const output = generateFrom("playtime outer() { " + "  peekaboo gaagaa { " + "    gibberish(1) " + "  } " + "}")
+    const output = generateFrom("playtime outer(): nada { " + "  peekaboo gaagaa { " + "    gibberish(1) " + "  } " + "}")
     assert.match(output, /def/)
     assert.match(output, /if/)
     // Verify proper indentation structure exists
@@ -421,7 +421,7 @@ describe("The Python generator", () => {
   })
 
   it("handles exported functions (no-op)", () => {
-    const out = generateFrom("spit playtime add(a: numba, b: numba) { bedtime a+b }")
+    const out = generateFrom("spit playtime add(a: numba, b: numba): numba { bedtime a+b }")
     // Python auto-exports top-level defs; ensure function is emitted
     assert.match(out, /def /)
   })

@@ -28,7 +28,7 @@ Options (Filesystem operations are only supported when a filename is provided, n
   --include <filename> compile additional files (can be used multiple times)
 `
 
-export async function compileFromFile(filename, outputType, writeFlag) {
+export async function compileFromFile(filename, outputType, writeFlag, ignoreSuccess = false) {
   try {
     const buffer = await fs.readFile(filename)
     const compiled = compile(buffer.toString(), outputType, filename)
@@ -38,6 +38,7 @@ export async function compileFromFile(filename, outputType, writeFlag) {
       console.log(`Output written to ${outputFilename}`)
       return
     }
+    if (ignoreSuccess) return;
     console.log(stringify(compiled, "kind") || compiled)
   } catch (e) {
     console.error(`\u001b[31m${e}\u001b[39m`)
@@ -46,8 +47,10 @@ export async function compileFromFile(filename, outputType, writeFlag) {
   }
 }
 
+/** @type {import("node:util").ParseArgsConfig['options']} */
 const cliOptions = {
   verbose: { type: "boolean", default: false },
+  error: { type: "boolean", default: false },
   write: { type: "boolean", default: false },
   include: { type: "string", default: [], multiple: true, short: "i" },
   help: { type: "boolean", default: false },
@@ -80,12 +83,12 @@ if (values.help || positionals.length < 2) {
 
     // Compile include files first
     for (const inc of includes) {
-      await compileFromFile(inc, outputType, values.write);
+      await compileFromFile(inc, outputType, values.write, values.error);
     }
 
     // Then compile main file(s)
     for (const file of filesToCompile) {
-      await compileFromFile(file, outputType, values.write);
+      await compileFromFile(file, outputType, values.write, values.error);
     }
   }
 }

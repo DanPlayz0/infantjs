@@ -14,7 +14,7 @@ export function functionDecl(fun, body) {
   return { kind: "FunctionDeclaration", function: fun, body, exported: false }
 }
 
-export function functionObject(name, params, returnType = "number") {
+export function functionObject(name, params, returnType = "void") {
   return { kind: "FunctionObject", name, params, returnType }
 }
 
@@ -50,7 +50,7 @@ export function randomStmt(minimum, maximum) {
   return { kind: "RandomStatement", type: "number", minimum, maximum }
 }
 
-export function returnStmt(value) {
+export function returnStmt(value = undefined) {
   return { kind: "ReturnStatement", value }
 }
 

@@ -1,4 +1,4 @@
-playtime makespaces(n: numba) {
+playtime makespaces(n: numba): babble {
   mine s = ""
   mine i = 0
   wawawa i < n {
@@ -8,7 +8,7 @@ playtime makespaces(n: numba) {
   bedtime s
 }
 
-playtime makestars(n: numba) {
+playtime makestars(n: numba): babble {
   mine s = ""
   mine i = 0
   wawawa i < n {
@@ -18,12 +18,12 @@ playtime makestars(n: numba) {
   bedtime s
 }
 
-playtime printrow(sp: numba, st: numba) {
+playtime printrow(sp: numba, st: numba): numba {
   gibberish(makespaces(sp) + makestars(st))
   bedtime 0
 }
 
-playtime square(size: numba) {
+playtime square(size: numba): numba {
   mine r = 0
   wawawa r < size {
     gibberish(makestars(size))
@@ -32,7 +32,7 @@ playtime square(size: numba) {
   bedtime 0
 }
 
-playtime triangle(size: numba) {
+playtime triangle(size: numba): numba {
   mine row = 1
   wawawa row <= size {
     printrow(size - row, row * 2 - 1)
@@ -41,7 +41,7 @@ playtime triangle(size: numba) {
   bedtime 0
 }
 
-playtime diamond(size: numba) {
+playtime diamond(size: numba): numba {
   mine row = 1
   wawawa row <= size {
     printrow(size - row, row * 2 - 1)

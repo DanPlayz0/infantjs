@@ -1,4 +1,4 @@
-playtime lettergrade(score: numba) {
+playtime lettergrade(score: numba): babble {
   peekaboo score >= 90 {
     bedtime "A"
   } nuhuh {
@@ -18,7 +18,7 @@ playtime lettergrade(score: numba) {
   }
 }
 
-playtime passfail(score: numba) {
+playtime passfail(score: numba): babble {
   peekaboo score >= 60 {
     bedtime "PASS"
   } nuhuh {

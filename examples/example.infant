@@ -10,7 +10,7 @@ wawawa googoo {
   gibberish(gaagaa)
 }
 
-playtime example(x: numba, y: squarehole) {
+playtime example(x: numba, y: squarehole): nada {
   peekaboo y {
     gibberish(x**3)
   } nuhuh {

@@ -1,4 +1,4 @@
-playtime makeline(n: numba, size: numba) {
+playtime makeline(n: numba, size: numba): babble {
   mine result = ""
   mine i = 1
   wawawa i <= size {

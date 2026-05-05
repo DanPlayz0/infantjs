@@ -47,7 +47,7 @@ describe("The generator", () => {
   })
 
   it("generates a function declaration and call", () => {
-    const output = generateFrom("playtime add(a: numba, b: numba) { bedtime a + b } gibberish(add(1, 2))")
+    const output = generateFrom("playtime add(a: numba, b: numba): numba { bedtime a + b } gibberish(add(1, 2))")
     assert.match(output, /function/)
     assert.match(output, /return/)
   })
@@ -89,13 +89,13 @@ describe("The generator", () => {
   })
 
   it("generates a return with value", () => {
-    const output = generateFrom("playtime getNum() { bedtime 42 }")
+    const output = generateFrom("playtime getNum(): numba { bedtime 42 }")
     assert.match(output, /return/)
     assert.match(output, /42/)
   })
 
   it("generates a void return", () => {
-    const output = generateFrom("playtime doThing() { bedtime }")
+    const output = generateFrom("playtime doThing(): nada { bedtime }")
     assert.match(output, /return;/)
   })
 
@@ -150,7 +150,7 @@ describe("The generator", () => {
   })
 
   it("exports a top-level function with `export` keyword", () => {
-    const out = generateFrom("spit playtime add(a: numba) { bedtime a }")
+    const out = generateFrom("spit playtime add(a: numba): numba { bedtime a }")
     assert.match(out, /export function/)
   })
 

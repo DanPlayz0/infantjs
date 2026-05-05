@@ -1,7 +1,7 @@
-playtime fibonacci(n: numba) {
+playtime fibonacci(n: numba): nada {
   peekaboo n <= 0 {
     gibberish("Enter a number greater than 0!")
-    bedtime 0
+    bedtime
   } nuhuh {
     mine a = 0
     mine b = 1
@@ -17,7 +17,7 @@ playtime fibonacci(n: numba) {
     }
 
     gibberish(line)
-    bedtime 0
+    bedtime
   }
 }
 

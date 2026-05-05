@@ -1,8 +1,10 @@
-playtime programmer(x: squarehole) {
+playtime programmer(x: squarehole): babble {
   peekaboo x {
-    gibberish("welcome to the daycare mainframe")
+    bedtime "welcome to the daycare mainframe"
+    /* gibberish("welcome to the daycare mainframe") */
   } nuhuh {
-    gibberish("you cannot access this")
+    /* gibberish("you cannot access this") */
+    bedtime "you cannot access this"
   }
 }
 
