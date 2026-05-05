@@ -158,17 +158,13 @@ describe("The optimizer", () => {
   })
 
   it("eliminates if-true with else — keeps only the consequent", () => {
-    const result = optimizeFrom(
-      "peekaboo gaagaa { gibberish(1) } nuhuh { gibberish(2) }"
-    )
+    const result = optimizeFrom("peekaboo gaagaa { gibberish(1) } nuhuh { gibberish(2) }")
     assert.equal(result.body.length, 1)
     assert.deepEqual(result.body[0].arguments[0], 1)
   })
 
   it("eliminates if-false with else — keeps only the alternate", () => {
-    const result = optimizeFrom(
-      "peekaboo googoo { gibberish(1) } nuhuh { gibberish(2) }"
-    )
+    const result = optimizeFrom("peekaboo googoo { gibberish(1) } nuhuh { gibberish(2) }")
     assert.equal(result.body.length, 1)
     assert.deepEqual(result.body[0].arguments[0], 2)
   })
@@ -247,10 +243,7 @@ describe("The optimizer", () => {
   it("removes self-assignment (x = x)", () => {
     // Build AST directly so both sides are the EXACT same object reference
     const x = core.variable("x", "number")
-    const program = core.program([
-      core.letStmt(x, 5),
-      core.assignStmt(x, x),
-    ])
+    const program = core.program([core.letStmt(x, 5), core.assignStmt(x, x)])
     const result = optimize(program)
     assert.equal(result.body.length, 1)
     assert.equal(result.body[0].kind, "LetStatement")
@@ -381,9 +374,7 @@ describe("The optimizer", () => {
   // FunctionCall — arguments are optimized
   // ---------------------------------------------------------------------------
   it("folds constants inside function call arguments", () => {
-    const result = optimizeFrom(
-      "playtime add(a: numba, b: numba) { bedtime a + b } gibberish(add(1 * 1, 2 + 0))"
-    )
+    const result = optimizeFrom("playtime add(a: numba, b: numba) { bedtime a + b } gibberish(add(1 * 1, 2 + 0))")
     const call = result.body[1].arguments[0]
     assert.equal(call.kind, "FunctionCall")
     assert.deepEqual(call.arguments[0], 1)

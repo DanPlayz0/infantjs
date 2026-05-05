@@ -63,10 +63,7 @@ describe("The compiler", () => {
   })
 
   it("while loop with variable condition is kept", () => {
-    const result = compile(
-      "mine x = 0 wawawa x < 3 { gibberish(x) x = x + 1 }",
-      "js"
-    )
+    const result = compile("mine x = 0 wawawa x < 3 { gibberish(x) x = x + 1 }", "js")
     assert.match(result, /while/)
   })
 

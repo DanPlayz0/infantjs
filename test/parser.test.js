@@ -1,18 +1,18 @@
-import { describe, it } from "node:test";
-import parse from "../src/parser.js";
-import assert from "node:assert";
+import { describe, it } from "node:test"
+import parse from "../src/parser.js"
+import assert from "node:assert"
 
 const syntaxChecks = [
-  ['gibberish(1)', "print statements"],
+  ["gibberish(1)", "print statements"],
   ["mine x = 1", "let statements"],
   ["x = 1", "assignment statements"],
   ["peekaboo x { gibberish(x) }", "if statements"],
   ["peekaboo x { gibberish(x) } mine y = 2", "multiple statements"],
   ["", "empty program"],
   ["mine count = 3 * 22 + 1", "arithmetic expressions"],
-  ["gibberish(\"hello\" + \" world\")", "string concatenation"],
+  ['gibberish("hello" + " world")', "string concatenation"],
   ["gibberish(1+((2*3)) % x ** 2 ** 5)", "parenthesed expresssions"],
-];
+]
 
 const syntaxErrors = [
   ["gibberish(1", "missing closing parenthesis"],
@@ -24,12 +24,12 @@ const syntaxErrors = [
   ["mine x = gibberish(1)", "invalid statement"],
   ["peekaboox { gibberish(x) }", "keyword should be separated from identifier"],
   ["nomnom()", "input statement missing string prompt"],
-];
+]
 
 describe("The parser", () => {
   for (const [input, scenario] of syntaxChecks) {
     it(`matches ${scenario}`, () => {
-      const match = parse(input);
+      const match = parse(input)
       assert(match.succeeded(), `Expected to parse ${input}, but got ${match.message}`)
     })
   }

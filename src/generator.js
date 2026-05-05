@@ -6,7 +6,7 @@
 // why not make output generation a bit nicer for javascript while we're at it?
 class PrivateOutput {
   constructor() {
-    this.imports = [];
+    this.imports = []
     this.output = []
     this.indentLevel = 0
   }
@@ -33,8 +33,8 @@ class PrivateOutput {
 }
 
 export default function generate(program) {
-  const output = new PrivateOutput();
-  let injectedHeaders = new Set();
+  const output = new PrivateOutput()
+  let injectedHeaders = new Set()
 
   // Each variable/function gets a unique suffix to avoid collisions
   // with JavaScript reserved words (e.g. a variable named "for" becomes "for_1")
@@ -48,14 +48,14 @@ export default function generate(program) {
   })(new Map())
 
   const gen = (node) => {
-  if (typeof node === "string") return `"${node}"`
-  if (typeof node === "boolean") return node
-  return generators[node?.kind]?.(node) ?? node
+    if (typeof node === "string") return `"${node}"`
+    if (typeof node === "boolean") return node
+    return generators[node?.kind]?.(node) ?? node
   }
 
   const generators = {
     Program(p) {
-      p.body.forEach(s => {
+      p.body.forEach((s) => {
         const result = gen(s)
         if (typeof result === "string") output.push(`${result};`)
       })
@@ -79,7 +79,7 @@ export default function generate(program) {
     },
 
     ImportStatement(s) {
-      if (typeof s.identifier === 'string') {
+      if (typeof s.identifier === "string") {
         // Unknown entity at generation time — fall back to default import
         output.import(`import ${s.identifier} from "${s.source}";`)
       } else {
@@ -165,18 +165,20 @@ export default function generate(program) {
     InputStatement(s) {
       if (!injectedHeaders.has("input")) {
         injectedHeaders.add("input")
-        output.import([
-          `import * as readline from 'node:readline/promises';`,
-          `import { stdin as input, stdout as output } from 'node:process';`,
-          ``,
-          `async function __promptInput(prompt) {`,
-          `  const rl = readline.createInterface({ input, output });`,
-          `  const answer = await rl.question(prompt);`,
-          `  rl.close();`,
-          `  return answer;`,
-          `}`,
-          ``,
-        ].join("\n"))
+        output.import(
+          [
+            `import * as readline from 'node:readline/promises';`,
+            `import { stdin as input, stdout as output } from 'node:process';`,
+            ``,
+            `async function __promptInput(prompt) {`,
+            `  const rl = readline.createInterface({ input, output });`,
+            `  const answer = await rl.question(prompt);`,
+            `  rl.close();`,
+            `  return answer;`,
+            `}`,
+            ``,
+          ].join("\n"),
+        )
       }
       return `await __promptInput(${gen(s.prompt)})`
     },

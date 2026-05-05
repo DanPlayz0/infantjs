@@ -96,20 +96,20 @@ const optimizers = {
 
     // Strength reductions on the right operand
     if (typeof y === "number") {
-      if (op === "+" && y === 0) return x   // x + 0 → x
-      if (op === "-" && y === 0) return x   // x - 0 → x
-      if (op === "*" && y === 1) return x   // x * 1 → x
-      if (op === "*" && y === 0) return 0   // x * 0 → 0
-      if (op === "/" && y === 1) return x   // x / 1 → x
-      if (op === "**" && y === 1) return x  // x ** 1 → x
-      if (op === "**" && y === 0) return 1  // x ** 0 → 1
+      if (op === "+" && y === 0) return x // x + 0 → x
+      if (op === "-" && y === 0) return x // x - 0 → x
+      if (op === "*" && y === 1) return x // x * 1 → x
+      if (op === "*" && y === 0) return 0 // x * 0 → 0
+      if (op === "/" && y === 1) return x // x / 1 → x
+      if (op === "**" && y === 1) return x // x ** 1 → x
+      if (op === "**" && y === 0) return 1 // x ** 0 → 1
     }
 
     // Strength reductions on the left operand
     if (typeof x === "number") {
-      if (op === "+" && x === 0) return y   // 0 + x → x
-      if (op === "*" && x === 1) return y   // 1 * x → x
-      if (op === "*" && x === 0) return 0   // 0 * x → 0
+      if (op === "+" && x === 0) return y // 0 + x → x
+      if (op === "*" && x === 1) return y // 1 * x → x
+      if (op === "*" && x === 0) return 0 // 0 * x → 0
     }
 
     return e

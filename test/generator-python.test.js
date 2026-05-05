@@ -145,7 +145,7 @@ describe("The Python generator", () => {
   it("handles casts and identity casts", () => {
     assert.match(generateFrom('numba("42")'), /int\(/)
     assert.doesNotMatch(generateFrom("numba(42)"), /int\(/)
-    assert.match(generateFrom('babble(42)'), /str\(/)
+    assert.match(generateFrom("babble(42)"), /str\(/)
   })
 
   it("generates a variable reference", () => {
@@ -183,12 +183,16 @@ describe("The Python generator", () => {
   })
 
   it("generates function calls with multiple arguments", () => {
-    const output = generateFrom("playtime add(a: numba, b: numba, c: numba) { bedtime a + b + c } gibberish(add(1, 2, 3))")
+    const output = generateFrom(
+      "playtime add(a: numba, b: numba, c: numba) { bedtime a + b + c } gibberish(add(1, 2, 3))",
+    )
     assert.match(output, /add_\d+\(/)
   })
 
   it("generates nested function calls", () => {
-    const output = generateFrom("playtime double(x: numba) { bedtime x * 2 } playtime quadruple(x: numba) { bedtime double(double(x)) } gibberish(quadruple(5))")
+    const output = generateFrom(
+      "playtime double(x: numba) { bedtime x * 2 } playtime quadruple(x: numba) { bedtime double(double(x)) } gibberish(quadruple(5))",
+    )
     assert.match(output, /def/)
     assert.ok(output)
   })
@@ -246,9 +250,9 @@ describe("The Python generator", () => {
   it("handles complex program with all statement types", () => {
     const output = generateFrom(
       "mine x = 5 " +
-      "playtime double(n: numba) { bedtime n * 2 } " +
-      "peekaboo x < 10 { gibberish(double(x)) } " +
-      "wawawa x > 0 { x = x - 1 }"
+        "playtime double(n: numba) { bedtime n * 2 } " +
+        "peekaboo x < 10 { gibberish(double(x)) } " +
+        "wawawa x > 0 { x = x - 1 }",
     )
     assert.match(output, /def/)
     assert.match(output, /if/)
@@ -356,13 +360,7 @@ describe("The Python generator", () => {
   })
 
   it("handles complex nested indentation", () => {
-    const output = generateFrom(
-      "playtime outer() { " +
-      "  peekaboo gaagaa { " +
-      "    gibberish(1) " +
-      "  } " +
-      "}"
-    )
+    const output = generateFrom("playtime outer() { " + "  peekaboo gaagaa { " + "    gibberish(1) " + "  } " + "}")
     assert.match(output, /def/)
     assert.match(output, /if/)
     // Verify proper indentation structure exists
@@ -373,7 +371,7 @@ describe("The Python generator", () => {
     const output = generateFromOptimized("wawawa gaagaa { gibberish(2 + 2) }")
     assert.match(output, /while/)
     assert.match(output, /True/)
-    assert.match(output, /4/)  // 2 + 2 should be optimized to 4
+    assert.match(output, /4/) // 2 + 2 should be optimized to 4
   })
 
   it("preserves variable naming with suffix", () => {
@@ -390,7 +388,7 @@ describe("The Python generator", () => {
   })
 
   it("handles export statements", () => {
-    const output = generateFrom('mine x = 5 spit x')
+    const output = generateFrom("mine x = 5 spit x")
     assert.match(output, /x = x_\d+/)
     assert.match(output, /5/)
   })
@@ -411,13 +409,15 @@ describe("The Python generator", () => {
   })
 
   it("reuses imported bindings from the same module", () => {
-    const output = generateFrom('cry greeter from "./examples/exported-function.js" cry greeter from "./examples/exported-function.js"')
+    const output = generateFrom(
+      'cry greeter from "./examples/exported-function.js" cry greeter from "./examples/exported-function.js"',
+    )
     assert.match(output, /getattr\(.*"greeter"\)/)
     assert.match(output, /greeter_\d+ = greeter_\d+/)
   })
 
   it("handles exported functions (no-op)", () => {
-    const out = generateFrom('spit playtime add(a: numba, b: numba) { bedtime a+b }')
+    const out = generateFrom("spit playtime add(a: numba, b: numba) { bedtime a+b }")
     // Python auto-exports top-level defs; ensure function is emitted
     assert.match(out, /def /)
   })

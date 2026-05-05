@@ -49,11 +49,7 @@ function validate(condition, message, at) {
 }
 
 function validateBoolean(value, at) {
-  validate(
-    typeOf(value) === "boolean",
-    `Expected a boolean, but got ${typeOf(value)}`,
-    at,
-  )
+  validate(typeOf(value) === "boolean", `Expected a boolean, but got ${typeOf(value)}`, at)
 }
 
 function validateNumber(expression, at) {
@@ -62,47 +58,26 @@ function validateNumber(expression, at) {
 }
 
 function validateSameType(target, source, at) {
-  validate(
-    typeOf(target) === typeOf(source),
-    `Type mismatch: cannot assign ${typeOf(source)} to ${typeOf(target)}`,
-    at,
-  )
+  validate(typeOf(target) === typeOf(source), `Type mismatch: cannot assign ${typeOf(source)} to ${typeOf(target)}`, at)
 }
 
 function validateFunction(value, at) {
-  validate(
-    value.kind === "FunctionObject",
-    `Expected a function, but got ${value.kind}`,
-    at,
-  )
+  validate(value.kind === "FunctionObject", `Expected a function, but got ${value.kind}`, at)
 }
 
 function validateVariable(value, at) {
-  validate(
-    value.kind === "Variable",
-    `Expected a variable, but got ${value.kind}`,
-    at,
-  )
+  validate(value.kind === "Variable", `Expected a variable, but got ${value.kind}`, at)
 }
 
 function validateString(value, at) {
-  validate(
-    typeOf(value) === "string",
-    `Expected a string, but got ${typeOf(value)}`,
-    at,
-  )
+  validate(typeOf(value) === "string", `Expected a string, but got ${typeOf(value)}`, at)
 }
 
 function resolvedType(typeName, source) {
-  validate(
-    ["numba", "squarehole", "babble"].includes(typeName),
-    `Unknown type: ${typeName}`,
-    source,
-  )
-  const resolvedType = { numba: "number", squarehole: "boolean", babble: "string" }[typeName];
+  validate(["numba", "squarehole", "babble"].includes(typeName), `Unknown type: ${typeName}`, source)
+  const resolvedType = { numba: "number", squarehole: "boolean", babble: "string" }[typeName]
   return resolvedType
 }
-
 
 /** @param {import('ohm-js').MatchResult} match */
 export default function translate(match, filename = undefined) {
@@ -187,8 +162,8 @@ export default function translate(match, filename = undefined) {
     },
 
     RandomStmt(_random, _open, num1, _comma, num2, _close) {
-      const min = num1.translate();
-      const max = num2.translate();
+      const min = num1.translate()
+      const max = num2.translate()
       validateNumber(min, num1.source)
       validateNumber(max, num2.source)
       return core.randomStmt(min, max)
@@ -206,13 +181,13 @@ export default function translate(match, filename = undefined) {
     SleepStmt(_sleep, _open, expression, _close) {
       const duration = expression.translate()
       validateNumber(duration, expression.source)
-      validate(duration > 0, "Expected a positive number", expression.source);
+      validate(duration > 0, "Expected a positive number", expression.source)
       return core.sleepStmt(duration)
     },
 
     InputStmt(_input, _open, prompt, _close) {
       const promptValue = prompt.translate()
-      validateString(promptValue, prompt.source);
+      validateString(promptValue, prompt.source)
       return core.inputStmt(promptValue)
     },
 
@@ -261,18 +236,26 @@ export default function translate(match, filename = undefined) {
           const content = stmt.content
           if (content) {
             /* c8 ignore next */
-            try { context.set(content.name, content, id.source) } catch (e) {}
+            try {
+              context.set(content.name, content, id.source)
+            } catch (e) {}
             if (content.name === importName) importedEntity = content
             // also support importing under a different local name
-            try { context.set(importName, content, id.source) } catch (e) {}
+            try {
+              context.set(importName, content, id.source)
+            } catch (e) {}
             if (!importedEntity) importedEntity = content
           }
         } else if (stmt.kind === "FunctionDeclaration" && stmt.exported) {
           const funObj = stmt.function
           if (funObj) {
-            try { context.set(funObj.name, funObj, id.source) } catch (e) {}
+            try {
+              context.set(funObj.name, funObj, id.source)
+            } catch (e) {}
             if (funObj.name === importName) importedEntity = funObj
-            try { context.set(importName, funObj, id.source) } catch (e) {}
+            try {
+              context.set(importName, funObj, id.source)
+            } catch (e) {}
             if (!importedEntity) importedEntity = funObj
           }
         }
@@ -305,12 +288,12 @@ export default function translate(match, filename = undefined) {
         // bool -> number
         ["boolean", "number"], // true -> 1, false -> 0
         // ["number", "boolean"], // 0 -> false, >= 0 -> true
-      ];
+      ]
       validate(
         allowedCasts.some(([from, to]) => from === valueType && to === targetType),
         `Cannot cast ${valueType} to ${targetType}`,
         type.source,
-      );
+      )
       return core.castStmt(value, targetType)
     },
 
@@ -325,7 +308,7 @@ export default function translate(match, filename = undefined) {
       validateNumber(value, expression.source)
       return core.ceilStmt(value)
     },
-    
+
     RoundStmt(_round, _open, expression, _close) {
       const value = expression.translate()
       validateNumber(value, expression.source)
@@ -337,8 +320,7 @@ export default function translate(match, filename = undefined) {
       const y = right.translate()
       validateNumber(x, left.source)
       validateNumber(y, right.source)
-      const operator =
-        { "==": "===", "!=": "!==" }[op.sourceString] ?? op.sourceString
+      const operator = { "==": "===", "!=": "!==" }[op.sourceString] ?? op.sourceString
       return core.binaryExp(x, operator, y, "boolean")
     },
 
@@ -351,11 +333,7 @@ export default function translate(match, filename = undefined) {
           `Unsupported operator ${op.sourceString} found with string, expected +`,
           op.source,
         )
-        validate(
-          typeOf(x) === typeOf(y),
-          `Type mismatch: cannot concatenate ${typeOf(y)} with ${typeOf(x)}`,
-          op.source,
-        )
+        validate(typeOf(x) === typeOf(y), `Type mismatch: cannot concatenate ${typeOf(y)} with ${typeOf(x)}`, op.source)
         return core.binaryExp(x, "+", y, "string")
       }
       validateNumber(x, left.source)
@@ -400,14 +378,9 @@ export default function translate(match, filename = undefined) {
     FunCall(id, _open, args, _close) {
       const func = context.get(id.sourceString, id.source)
       validateFunction(func, id.source)
-      const argValues = args
-        .asIteration()
-        .children.map((arg) => arg.translate())
+      const argValues = args.asIteration().children.map((arg) => arg.translate())
       if (argValues.length !== func.params.length) {
-        error(
-          `Expected ${func.params.length} arguments, but got ${argValues.length}`,
-          id.source,
-        )
+        error(`Expected ${func.params.length} arguments, but got ${argValues.length}`, id.source)
       }
       for (let i = 0; i < argValues.length; i++) {
         const expectedType = func.params[i].type

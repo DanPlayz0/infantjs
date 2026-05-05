@@ -32,8 +32,8 @@ class PrivateOutput {
 }
 
 export default function generatePython(program) {
-  const output = new PrivateOutput();
-  let injectedHeaders = new Set();
+  const output = new PrivateOutput()
+  let injectedHeaders = new Set()
 
   // Each variable/function gets a unique suffix to avoid collisions
   // with JavaScript reserved words (e.g. a variable named "for" becomes "for_1")
@@ -58,7 +58,7 @@ export default function generatePython(program) {
 
   const generators = {
     Program(p) {
-      p.body.forEach(s => {
+      p.body.forEach((s) => {
         const result = gen(s)
         // Statement generators push to output themselves and return undefined.
         // Expression generators (Random, Cast, Sleep, etc.) return a string —
@@ -89,7 +89,7 @@ export default function generatePython(program) {
     ImportStatement(s) {
       // Use importlib to load modules by file path (supports hyphenated filenames)
       const modPath = s.source
-      const sanitized = modPath.replace(/[^A-Za-z0-9]/g, '_')
+      const sanitized = modPath.replace(/[^A-Za-z0-9]/g, "_")
       const modVar = moduleVars.get(modPath) ?? `__mod_${sanitized}`
       moduleVars.set(modPath, modVar)
       const headerKey = `importlib_${sanitized}`
@@ -97,17 +97,17 @@ export default function generatePython(program) {
         injectedHeaders.add(headerKey)
         output.import(`import importlib.util`)
         // ensure os is available for resolving relative paths at runtime
-        if (!injectedHeaders.has('os')) {
-          injectedHeaders.add('os')
+        if (!injectedHeaders.has("os")) {
+          injectedHeaders.add("os")
           output.import(`import os`)
         }
         let pyPathExpr
-        if (modPath.startsWith('.') && modPath.endsWith('.infant')) {
-          const pyRel = modPath.replace(/\.infant$/, '.py')
+        if (modPath.startsWith(".") && modPath.endsWith(".infant")) {
+          const pyRel = modPath.replace(/\.infant$/, ".py")
           const pyExpr = `os.path.normpath(os.path.join(os.path.dirname(__file__), ${JSON.stringify(pyRel)}))`
           const infExpr = `os.path.normpath(os.path.join(os.path.dirname(__file__), ${JSON.stringify(modPath)}))`
           pyPathExpr = `(${pyExpr} if os.path.exists(${pyExpr}) else ${infExpr})`
-        } else if (modPath.startsWith('.')) {
+        } else if (modPath.startsWith(".")) {
           pyPathExpr = `os.path.normpath(os.path.join(os.path.dirname(__file__), ${JSON.stringify(modPath)}))`
         } else {
           pyPathExpr = JSON.stringify(modPath)
@@ -120,7 +120,7 @@ export default function generatePython(program) {
       }
       // Determine exported name and requested local name
       let exportedName, requestedLocal
-      if (typeof s.identifier === 'string') {
+      if (typeof s.identifier === "string") {
         exportedName = s.identifier
         requestedLocal = s.identifier
       } else {
@@ -197,8 +197,8 @@ export default function generatePython(program) {
     BinaryExpression(e) {
       // Map JavaScript operators to Python equivalents
       const operatorMap = {
-        '===': '==',
-        '!==': '!=',
+        "===": "==",
+        "!==": "!=",
       }
       const operator = operatorMap[e.operator] ?? e.operator
       return `(${gen(e.left)} ${operator} ${gen(e.right)})`
@@ -262,8 +262,6 @@ export default function generatePython(program) {
       }
       return `round(${gen(s.value)})`
     },
-
-    
   }
 
   gen(program)
