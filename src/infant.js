@@ -28,7 +28,7 @@ Options (Filesystem operations are only supported when a filename is provided, n
   --include <filename> compile additional files (can be used multiple times)
 `
 
-async function compileFromFile(filename, outputType, writeFlag) {
+export async function compileFromFile(filename, outputType, writeFlag) {
   try {
     const buffer = await fs.readFile(filename)
     const compiled = compile(buffer.toString(), outputType, filename)
@@ -62,14 +62,14 @@ if (values.help || positionals.length < 2) {
 } else {
   const [filePattern, outputType] = positionals;
   const includes = Array.isArray(values.include) ? values.include : (values.include ? [values.include] : []);
-  
+
   if (filePattern === "repl") {
     await startRepl(outputType)
   } else {
     // Check if filePattern contains glob characters
     const hasGlobChars = /[*?[\]]/.test(filePattern);
     let filesToCompile = [];
-    
+
     if (hasGlobChars) {
       // Expand glob pattern
       filesToCompile = await glob(filePattern);
@@ -77,12 +77,12 @@ if (values.help || positionals.length < 2) {
       // Single file
       filesToCompile = [filePattern];
     }
-    
+
     // Compile include files first
     for (const inc of includes) {
       await compileFromFile(inc, outputType, values.write);
     }
-    
+
     // Then compile main file(s)
     for (const file of filesToCompile) {
       await compileFromFile(file, outputType, values.write);

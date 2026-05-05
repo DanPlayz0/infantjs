@@ -151,7 +151,7 @@ describe("The analyzer", () => {
     })
   }
   it("throws on missing imported module", () => {
-    assert.throws(() => analyze(parse('cry foo from "missing-module"')), /Cannot load module missing-module/)
+    assert.throws(() => analyze(parse('cry foo from "missing-module"')), /Module name must end with \.infant or \.infantjs/)
   })
   it("resolves imports inside imported modules", () => {
     assert.ok(analyze(parse('cry helper from "./examples/class-import.infant"')))
@@ -165,9 +165,14 @@ describe("The analyzer", () => {
     assert.ok(analyze(parse('cry helper from "./examples/exported-variable.infant"')))
   })
 
-  it("imports an exported function under an alias", () => {
-    assert.ok(analyze(parse('cry helper from "./examples/exported-function.js"')))
+  it("imports an empty file", () => {
+    assert.throws(() => analyze(parse('cry helper from "./examples/empty-example.infant"')))
   })
+
+  it("imports an exported function", () => {
+    assert.ok(analyze(parse('cry add from "./examples/exported-function.infant"')))
+  })
+
   it("produces the expected representation for a trivial program", () => {
     assert.deepEqual(analyze(parse("mine x = 1")), core.program([core.letStmt(core.variable("x", "number"), 1)]))
   })

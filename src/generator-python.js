@@ -107,8 +107,6 @@ export default function generatePython(program) {
           const pyExpr = `os.path.normpath(os.path.join(os.path.dirname(__file__), ${JSON.stringify(pyRel)}))`
           const infExpr = `os.path.normpath(os.path.join(os.path.dirname(__file__), ${JSON.stringify(modPath)}))`
           pyPathExpr = `(${pyExpr} if os.path.exists(${pyExpr}) else ${infExpr})`
-        } else if (modPath.startsWith(".")) {
-          pyPathExpr = `os.path.normpath(os.path.join(os.path.dirname(__file__), ${JSON.stringify(modPath)}))`
         } else {
           pyPathExpr = JSON.stringify(modPath)
         }

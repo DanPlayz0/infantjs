@@ -250,9 +250,9 @@ describe("The Python generator", () => {
   it("handles complex program with all statement types", () => {
     const output = generateFrom(
       "mine x = 5 " +
-        "playtime double(n: numba) { bedtime n * 2 } " +
-        "peekaboo x < 10 { gibberish(double(x)) } " +
-        "wawawa x > 0 { x = x - 1 }",
+      "playtime double(n: numba) { bedtime n * 2 } " +
+      "peekaboo x < 10 { gibberish(double(x)) } " +
+      "wawawa x > 0 { x = x - 1 }",
     )
     assert.match(output, /def/)
     assert.match(output, /if/)
@@ -410,10 +410,14 @@ describe("The Python generator", () => {
 
   it("reuses imported bindings from the same module", () => {
     const output = generateFrom(
-      'cry greeter from "./examples/exported-function.js" cry greeter from "./examples/exported-function.js"',
+      'cry greeter from "./examples/exported-function.infant" cry greeter from "./examples/exported-function.infant"',
     )
     assert.match(output, /getattr\(.*"greeter"\)/)
     assert.match(output, /greeter_\d+ = greeter_\d+/)
+  })
+
+  it("cannot import non-.infant files", () => {
+    assert.throws(() => generateFrom('cry greeter from "./test/test.json"'))
   })
 
   it("handles exported functions (no-op)", () => {

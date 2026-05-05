@@ -205,8 +205,14 @@ export default function translate(match, filename = undefined) {
     },
 
     ImportStmt(_import, id, _from, source) {
-      const moduleName = source.translate()
+      let moduleName = source.translate()
       validateString(moduleName, source.source)
+      // Enforce .infant extension
+      validate(
+        moduleName.endsWith(".infant") || moduleName.endsWith(".infantjs"),
+        `Module name must end with .infant or .infantjs`,
+        source.source,
+      )
       const importName = id.sourceString
       // Resolve module file path (try relative to current file, then cwd)
       const candidates = []
@@ -216,12 +222,10 @@ export default function translate(match, filename = undefined) {
       let moduleContent = null
       let modulePath = null
       for (const p of candidates) {
-        try {
+        if (fs.existsSync(p) && fs.statSync(p).isFile()) {
           moduleContent = fs.readFileSync(p, "utf-8")
           modulePath = p
           break
-        } catch (e) {
-          // try next
         }
       }
       if (!moduleContent) {
@@ -235,27 +239,18 @@ export default function translate(match, filename = undefined) {
         if (stmt.kind === "ExportStatement") {
           const content = stmt.content
           if (content) {
-            /* c8 ignore next */
-            try {
-              context.set(content.name, content, id.source)
-            } catch (e) {}
+            if (!context.bindings.has(content.name)) context.set(content.name, content, id.source)
             if (content.name === importName) importedEntity = content
             // also support importing under a different local name
-            try {
-              context.set(importName, content, id.source)
-            } catch (e) {}
+            if (!context.bindings.has(importName)) context.set(importName, content, id.source)
             if (!importedEntity) importedEntity = content
           }
         } else if (stmt.kind === "FunctionDeclaration" && stmt.exported) {
           const funObj = stmt.function
           if (funObj) {
-            try {
-              context.set(funObj.name, funObj, id.source)
-            } catch (e) {}
+            if (!context.bindings.has(funObj.name)) context.set(funObj.name, funObj, id.source)
             if (funObj.name === importName) importedEntity = funObj
-            try {
-              context.set(importName, funObj, id.source)
-            } catch (e) {}
+            if (!context.bindings.has(importName)) context.set(importName, funObj, id.source)
             if (!importedEntity) importedEntity = funObj
           }
         }

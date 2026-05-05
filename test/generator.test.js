@@ -145,8 +145,8 @@ describe("The generator", () => {
   })
 
   it("emits ES module named import statements", () => {
-    const out = generateFrom('cry greeter from "./examples/exported-function.js"')
-    assert.match(out, /import \{ greeter as greeter_\d+ \} from "\.\/examples\/exported-function\.js"/)
+    const out = generateFrom('cry greeter from "./examples/exported-function.infant"')
+    assert.match(out, /import \{ greeter as greeter_\d+ \} from "\.\/examples\/exported-function\.infant"/)
   })
 
   it("exports a top-level function with `export` keyword", () => {
